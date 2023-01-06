@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -41,6 +42,7 @@ public class SportsFragment extends Fragment {
     ArrayList<ChannelsModel> channelsList;
     ArrayList<StreamLinksModel> streamLinks;
     ChannelsAdapter adapter;
+    int MY_SOCKET_TIMEOUT_MS = 10000;
 
     public SportsFragment() {
         // Required empty public constructor
@@ -132,6 +134,11 @@ public class SportsFragment extends Fragment {
                     Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
                 }
         );
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(jsonObjectRequest);
     }
