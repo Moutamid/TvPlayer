@@ -1,11 +1,13 @@
 package com.moutamid.tvplayer.fragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -64,7 +68,56 @@ public class SportsFragment extends Fragment {
 
         fetchData();
 
+        fetchDataByMoutamid();
+
         return view;
+    }
+
+    private void fetchDataByMoutamid() {
+        new Thread(() -> {
+            URL google = null;
+            try {
+                google = new URL("http://95.217.210.178/api/v1/channel/");
+            } catch (final MalformedURLException e) {
+                e.printStackTrace();
+            }
+            BufferedReader in = null;
+            try {
+                in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
+            } catch (final IOException e) {
+                Log.d("TAG", "compress: ERROR: "+e.toString());
+                e.printStackTrace();
+            }
+            String input = null;
+            StringBuffer stringBuffer = new StringBuffer();
+            while (true) {
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if ((input = in != null ? in.readLine() : null) == null) break;
+                    }
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+                stringBuffer.append(input);
+            }
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+            String htmlData = stringBuffer.toString();
+
+            Log.d("TAG", "compress: "+htmlData);
+
+            requireActivity().runOnUiThread(() -> {
+                Toast.makeText(requireContext(), ""+htmlData, Toast.LENGTH_SHORT).show();
+            });
+
+//                JSONObject jsonObject = new JSONObject(htmlData);
+
+        }).start();
     }
 
     private void fetchData() {
@@ -123,7 +176,8 @@ public class SportsFragment extends Fragment {
 
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(context, "eee : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        // MENE YE TOAST REMOVE KAR DIA HE QK YE METHOD SAI HE :)
+                        //Toast.makeText(context, "eee : " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
                     adapter = new ChannelsAdapter(context, channelsList);
