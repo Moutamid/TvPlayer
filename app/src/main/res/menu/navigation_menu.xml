@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_menu_view"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/nav_channels"
+            android:icon="@drawable/ic_live_tv"
+            android:title="All Channels" />
+
+        <!--<item android:id="@+id/nav_favourites"
+            android:icon="@drawable/ic_favorite"
+            android:title="Favourites" />-->
+
+        <item android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_side"
+            android:title="Settings" />
+        <item android:id="@+id/nav_privacy"
+            android:icon="@drawable/ic_privacy_tip"
+            android:title="Privacy Policy" />
+    </group>
+
+    <item android:title="Communications">
+        <menu>
+            <item android:id="@+id/nav_feedback"
+                android:icon="@drawable/ic_feedback"
+                android:title="Feedback" />
+
+            <item android:id="@+id/nav_share"
+                android:icon="@drawable/ic_share"
+                android:title="Share" />
+
+            <item android:id="@+id/nav_website"
+                android:icon="@drawable/click"
+                android:title="Website" />
+
+            <item android:id="@+id/nav_telegram"
+                android:icon="@drawable/telegram"
+                android:title="Telegram" />
+        </menu>
+    </item>
+
+    <item android:title="@string/version" android:enabled="false"></item>
+</menu>
