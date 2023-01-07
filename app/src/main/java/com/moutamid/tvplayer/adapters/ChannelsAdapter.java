@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.models.ChannelsModel;
 
@@ -20,10 +21,15 @@ import java.util.ArrayList;
 public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.ChannelVH> {
     Context context;
     ArrayList<ChannelsModel> list;
+    ArrayList<String> favrtList;
 
     public ChannelsAdapter(Context context, ArrayList<ChannelsModel> list) {
         this.context = context;
         this.list = list;
+        favrtList = Stash.getArrayList("favrtList", String.class);
+        if (favrtList == null){
+            favrtList = new ArrayList<>();
+        }
     }
 
     @NonNull
@@ -37,8 +43,29 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
     public void onBindViewHolder(@NonNull ChannelVH holder, int position) {
         ChannelsModel model = list.get(holder.getAdapterPosition());
 
-        Glide.with(context).load(model.getImage()).into(holder.image);
+        Glide.with(context).load(model.getImageUrl()).into(holder.image);
         holder.name.setText(model.getName());
+
+        for (String id : favrtList){
+            if (model.get_id().equals(id)){
+                holder.favrt.setImageResource(R.drawable.ic_favorite);
+                holder.isfvrt = true;
+            }
+        }
+
+        holder.favrt.setOnClickListener(v -> {
+            if (!holder.isfvrt) {
+                holder.favrt.setImageResource(R.drawable.ic_favorite);
+                holder.isfvrt = true;
+                favrtList.add(model.get_id());
+                Stash.put("favrtList", favrtList);
+            } else {
+                favrtList.remove(favrtList.indexOf(model.get_id()));
+                Stash.put("favrtList", favrtList);
+                holder.favrt.setImageResource(R.drawable.ic_favorite_border);
+                holder.isfvrt = false;
+            }
+        });
 
         holder.itemView.setOnClickListener(v -> {
             Toast.makeText(context, model.getName(), Toast.LENGTH_SHORT).show();
@@ -52,11 +79,14 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
     }
 
     public class ChannelVH extends RecyclerView.ViewHolder {
-        ImageView image;
+        ImageView image, favrt;
         TextView name;
+        boolean isfvrt = false;
+
         public ChannelVH(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
+            favrt = itemView.findViewById(R.id.favrt);
             name = itemView.findViewById(R.id.name);
         }
     }

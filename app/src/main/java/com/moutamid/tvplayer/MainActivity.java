@@ -3,10 +3,12 @@ package com.moutamid.tvplayer;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.moutamid.tvplayer.databinding.ActivityMainBinding;
 import com.moutamid.tvplayer.fragments.AllChannelsFragment;
 
@@ -46,11 +49,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getMenuInflater().inflate(R.menu.navigation_setting, menu);
 
         MenuItem menuSetting = menu.findItem(R.id.nav_settings_top);
+        MenuItem menuSearch = menu.findItem(R.id.action_search);
 
-        menuSetting.setOnMenuItemClickListener(item -> {
-            Toast.makeText(MainActivity.this, "Yess", Toast.LENGTH_SHORT).show();
+        View view = MenuItemCompat.getActionView(menuSearch);
+
+        MaterialAutoCompleteTextView searchView = view.findViewById(R.id.action_search);
+
+        menuSearch.setOnMenuItemClickListener(item -> {
+            searchView.findFocus();
             return true;
         });
+
+        menuSetting.setOnMenuItemClickListener(item -> {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            return true;
+        });
+
+
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -59,13 +74,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_channels:
-                binding.navView.setCheckedItem(R.id.nav_channels);
+                // binding.navView.setCheckedItem(R.id.nav_channels);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
                 break;
-            /*case R.id.nav_notification:
-                binding.toolbar.setTitle("Notification!");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationFragment()).commit();
-                break;*/
+            case R.id.nav_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                break;
+            case R.id.nav_privacy:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com")));
+                break;
 
             default:
                 break;

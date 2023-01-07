@@ -6,20 +6,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.NewsFragment">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_height="?attr/actionBarSize"
-        app:queryHint="Search Channels..."
-        app:iconifiedByDefault="false"
-        android:background="@drawable/search_bg"
-        android:layout_margin="16dp"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/search_view" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

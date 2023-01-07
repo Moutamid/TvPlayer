@@ -14,12 +14,17 @@ import android.view.ViewGroup;
 
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.databinding.FragmentAllChannelsBinding;
+import com.moutamid.tvplayer.models.TabsModel;
+
+import java.util.ArrayList;
 
 public class AllChannelsFragment extends Fragment {
 
     FragmentAllChannelsBinding binding;
     Context context;
     ViewPagerAdapter viewPagerAdapter;
+    ArrayList<TabsModel> tabs;
+    TabsModel tabsModel;
 
     public AllChannelsFragment() {
         // Required empty public constructor
@@ -31,12 +36,30 @@ public class AllChannelsFragment extends Fragment {
         View view = binding.getRoot();
         context = view.getContext();
 
+        tabs = new ArrayList<>();
+
+        addTabs();
+
         viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         binding.viewpager.setAdapter(viewPagerAdapter);
 
         binding.tablayout.setupWithViewPager(binding.viewpager);
 
         return view;
+    }
+
+    private void addTabs() {
+        tabsModel = new TabsModel("Sports", new SportsFragment());
+        tabs.add(tabsModel);
+
+        tabsModel = new TabsModel("News", new NewsFragment());
+        tabs.add(tabsModel);
+
+        tabsModel = new TabsModel("Events", new EventsFragment());
+        tabs.add(tabsModel);
+
+        tabsModel = new TabsModel("Favourites", new FavouritesFragment());
+        tabs.add(tabsModel);
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -48,35 +71,18 @@ public class AllChannelsFragment extends Fragment {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
-            if (position == 0)
-                fragment = new SportsFragment();
-            else if (position == 1)
-                fragment = new NewsFragment();
-            if (position == 2)
-                fragment = new EventsFragment();
-            else if (position == 3)
-                fragment = new FavouritesFragment();
-
+            Fragment fragment = tabs.get(position).getFragment();
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 4;
+            return tabs.size();
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            String title = null;
-            if (position == 0)
-                title = "Sports";
-            else if (position == 1)
-                title = "News";
-            if (position == 2)
-                title = "Events";
-            else if (position == 3)
-                title = "Favourites";
+            String title = tabs.get(position).getTitle();
             return title;
         }
     }

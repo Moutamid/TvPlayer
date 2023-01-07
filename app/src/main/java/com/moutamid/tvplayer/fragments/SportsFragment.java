@@ -61,12 +61,12 @@ public class SportsFragment extends Fragment {
         channelsList = new ArrayList<>();
         streamLinks = new ArrayList<>();
 
-        binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
+
         binding.recycler.setHasFixedSize(false);
 
         requestQueue = VolleySingleton.getmInstance(context).getRequestQueue();
 
-        fetchData();
+        // fetchData();
 
         fetchDataByMoutamid();
 
@@ -85,7 +85,7 @@ public class SportsFragment extends Fragment {
             try {
                 in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
             } catch (final IOException e) {
-                Log.d("TAG", "compress: ERROR: "+e.toString());
+                Log.d("TAG", "compress: ERROR: " + e.toString());
                 e.printStackTrace();
             }
             String input = null;
@@ -109,14 +109,61 @@ public class SportsFragment extends Fragment {
             }
             String htmlData = stringBuffer.toString();
 
-            Log.d("TAG", "compress: "+htmlData);
+            Log.d("TAG", "compress: " + htmlData);
 
             requireActivity().runOnUiThread(() -> {
-                Toast.makeText(requireContext(), ""+htmlData, Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject jsonObject = new JSONObject(htmlData);
+                    JSONObject data = jsonObject.getJSONObject("data");
+
+                    JSONArray sports = data.getJSONArray("sports");
+
+                    for (int i = 0; i < sports.length(); i++) {
+                        JSONObject obj = sports.getJSONObject(i);
+                        ChannelsModel channelsModel = new ChannelsModel();
+                        channelsModel.set_id(obj.getString("_id"));
+                        channelsModel.setName(obj.getString("name"));
+                        channelsModel.setCategory(obj.getString("category"));
+                        channelsModel.setImage(obj.getString("image"));
+                        channelsModel.setImageUrl(obj.getString("imageUrl"));
+                        channelsModel.setHide(obj.getBoolean("hide"));
+                        channelsModel.setCountry(obj.getString("country"));
+                        channelsModel.setID(obj.getInt("ID"));
+                        channelsModel.set__v(obj.getInt("__v"));
+
+                        JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
+
+                        for (int j = 0; j < streamingLinks.length(); j++) {
+                            JSONObject stream = streamingLinks.getJSONObject(j);
+                            StreamLinksModel model1 = new StreamLinksModel();
+                            model1.set_id(stream.getString("_id"));
+                            model1.setName(stream.getString("name"));
+                            model1.setToken(stream.getString("token"));
+                            model1.setPriority(stream.getInt("priority"));
+                            model1.setRequest_header(stream.getString("request_header"));
+                            model1.setPlayer_header(stream.getString("player_header"));
+                            streamLinks.add(model1);
+                        }
+
+                        channelsModel.setStreamingLinks(streamLinks);
+
+                        channelsList.add(channelsModel);
+
+                    }
+                    if(channelsList.size() == 1){
+                        binding.recycler.setLayoutManager(new GridLayoutManager(context, 1));
+                    } else if(channelsList.size() == 2){
+                        binding.recycler.setLayoutManager(new GridLayoutManager(context, 2));
+                    } else {
+                        binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
+                    }
+                    adapter = new ChannelsAdapter(context, channelsList);
+                    binding.recycler.setAdapter(adapter);
+
+                } catch (JSONException error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                }
             });
-
-//                JSONObject jsonObject = new JSONObject(htmlData);
-
         }).start();
     }
 
@@ -140,7 +187,7 @@ public class SportsFragment extends Fragment {
 
                         JSONArray sports = data.getJSONArray("sports");
 
-                        for (int i =0; i<sports.length(); i++) {
+                        for (int i = 0; i < sports.length(); i++) {
                             Toast.makeText(context, "FOR", Toast.LENGTH_LONG).show();
                             JSONObject obj = sports.getJSONObject(i);
                             ChannelsModel channelsModel = new ChannelsModel();
@@ -156,7 +203,7 @@ public class SportsFragment extends Fragment {
 
                             JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
 
-                            for (int j =0; j < streamingLinks.length(); j++) {
+                            for (int j = 0; j < streamingLinks.length(); j++) {
                                 JSONObject stream = streamingLinks.getJSONObject(j);
                                 StreamLinksModel model1 = new StreamLinksModel();
                                 model1.set_id(stream.getString("_id"));

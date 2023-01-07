@@ -11,7 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         android:padding="12sp">
+
+        <ImageView
+            android:id="@+id/favrt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_favorite_border"
+            app:tint="@color/orange" />
 
         <ImageView
             android:id="@+id/image"
@@ -27,6 +37,7 @@
             android:layout_margin="8sp"
             android:gravity="center"
             android:textSize="16sp"
+            android:layout_weight="1"
             android:textColor="@color/black"
             android:text="Hello World" />
 
