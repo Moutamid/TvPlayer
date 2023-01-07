@@ -81,7 +81,7 @@ public class AllChannelsFragment extends Fragment {
             }
         });
 
-        binding.tablayout.setupWithViewPager(binding.viewpager);
+        // binding.tablayout.setupWithViewPager(binding.viewpager);
 
         return view;
     }
@@ -151,13 +151,11 @@ public class AllChannelsFragment extends Fragment {
         @NonNull
         @Override
         public Fragment getItem(int position) {
-            for (int i = 0; i < mNumOfTabs ; i++) {
-                if (i == position) {
-                    fragment = new CommonFragment(getPageTitle(i).toString().toUpperCase(Locale.ROOT));
-                    break;
-                }
-            }
-            return fragment;
+            Bundle b = new Bundle();
+            b.putString("position", getPageTitle(position).toString().toUpperCase(Locale.ROOT));
+            Fragment frag = CommonFragment.newInstance();
+            frag.setArguments(b);
+            return frag;
         }
 
         @Override

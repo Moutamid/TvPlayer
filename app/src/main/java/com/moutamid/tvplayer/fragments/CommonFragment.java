@@ -3,6 +3,7 @@ package com.moutamid.tvplayer.fragments;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -24,12 +25,27 @@ public class CommonFragment extends Fragment {
     ArrayList<StreamLinksModel> streamLinks;
     ChannelsAdapter adapter;
 
-    public CommonFragment() {
-        // Required empty public constructor
+    public static CommonFragment newInstance() {
+        return new CommonFragment();
     }
 
-    public CommonFragment(String title) {
-        this.title = title;
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    public CommonFragment() {
+        // Required empty public constructor
     }
 
     @Override
