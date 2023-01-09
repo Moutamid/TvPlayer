@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.moutamid.tvplayer.Clicklistners;
 import  com.moutamid.tvplayer.databinding.FragmentCommonBinding;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
@@ -95,9 +97,16 @@ public class CommonFragment extends Fragment {
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
         }
 
-        adapter = new ChannelsAdapter(context, channelsList);
+        adapter = new ChannelsAdapter(context, channelsList,clicklistners );
         binding.recycler.setAdapter(adapter);
 
         return view;
     }
+
+    Clicklistners clicklistners = new Clicklistners() {
+        @Override
+        public void click(ChannelsModel model) {
+
+        }
+    };
 }

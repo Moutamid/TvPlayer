@@ -56,12 +56,12 @@ public class NewsFragment extends Fragment {
 
         requestQueue = VolleySingleton.getmInstance(context).getRequestQueue();
 
-        fetchDataByMoutamid();
+        //fetchDataByMoutamid();
 
         return view;
     }
 
-    private void fetchDataByMoutamid() {
+   /* private void fetchDataByMoutamid() {
         new Thread(() -> {
             URL google = null;
             try {
@@ -155,6 +155,6 @@ public class NewsFragment extends Fragment {
                 }
             });
         }).start();
-    }
+    }*/
 
 }

@@ -62,8 +62,8 @@ public class FavouritesFragment extends Fragment {
         if (!favrtList.isEmpty()){
             binding.recycler.setVisibility(View.VISIBLE);
             binding.text.setVisibility(View.GONE);
-            fetchChannels();
-            fetchEvents();
+/*            fetchChannels();
+            fetchEvents();*/
         } else {
             binding.recycler.setVisibility(View.GONE);
             binding.text.setVisibility(View.VISIBLE);
@@ -72,7 +72,7 @@ public class FavouritesFragment extends Fragment {
         return view;
     }
 
-    private void fetchEvents() {
+/*    private void fetchEvents() {
         new Thread(() -> {
             URL google = null;
             try {
@@ -342,5 +342,5 @@ public class FavouritesFragment extends Fragment {
                 }
             });
         }).start();
-    }
+    }*/
 }

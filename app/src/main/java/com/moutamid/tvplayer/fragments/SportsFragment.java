@@ -68,12 +68,12 @@ public class SportsFragment extends Fragment {
 
         // fetchData();
 
-        fetchDataByMoutamid();
+        //fetchDataByMoutamid();
 
         return view;
     }
 
-    private void fetchDataByMoutamid() {
+   /* private void fetchDataByMoutamid() {
         new Thread(() -> {
             URL google = null;
             try {
@@ -170,14 +170,14 @@ public class SportsFragment extends Fragment {
     private void fetchData() {
         String url = Constants.channel;
 
-        /*try {
+        *//*try {
             URL url = new URL(Constants.channel);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             Toast.makeText(context, urlConnection.getResponseMessage(), Toast.LENGTH_SHORT).show();
         }catch (IOException e) {
             Toast.makeText(context, "ee : " + e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
-        }*/
+        }*//*
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
@@ -242,5 +242,5 @@ public class SportsFragment extends Fragment {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(jsonObjectRequest);
-    }
+    }*/
 }

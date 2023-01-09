@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
+import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.models.ChannelsModel;
 
@@ -22,10 +23,12 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
     Context context;
     ArrayList<ChannelsModel> list;
     ArrayList<String> favrtList;
+    Clicklistners clicklistners;
 
-    public ChannelsAdapter(Context context, ArrayList<ChannelsModel> list) {
+    public ChannelsAdapter(Context context, ArrayList<ChannelsModel> list, Clicklistners clicklistners) {
         this.context = context;
         this.list = list;
+        this.clicklistners = clicklistners;
         favrtList = Stash.getArrayList("favrtList", String.class);
         if (favrtList == null){
             favrtList = new ArrayList<>();
@@ -68,7 +71,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         });
 
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(context, model.getName(), Toast.LENGTH_SHORT).show();
+
         });
 
     }
