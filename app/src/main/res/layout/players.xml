@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_margin="12sp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12sp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Video Player"
+            android:textColor="@color/black"
+            android:padding="12sp"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/alwaysAsk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tAlways Ask"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tMX Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tXYZ Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tVLC Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tAndroid Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tVideo Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tWuffy Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tWeb Video Cast Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tBubbleUpnP Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="\t\tLocalCast Player"
+                app:buttonTint="@color/orange"
+                android:textSize="16sp" />
+
+        </RadioGroup>
+
+
+
+        <Button
+            android:id="@+id/cancel"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textColor="@color/orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:gravity="start"
+            android:layout_gravity="end"
+            android:text="CANCEL" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

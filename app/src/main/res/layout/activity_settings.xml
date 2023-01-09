@@ -317,6 +317,7 @@
             android:text="Player" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/videoPlayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"

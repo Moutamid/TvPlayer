@@ -115,7 +115,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
                 break;
             case R.id.nav_settings:
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                boolean isLock = Stash.getBoolean("lockState", false);
+                if (isLock){
+                    Dialog();
+                } else {
+                    startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                }
                 break;
             case R.id.nav_privacy:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com")));

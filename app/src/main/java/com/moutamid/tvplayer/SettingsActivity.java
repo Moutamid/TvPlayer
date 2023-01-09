@@ -54,19 +54,36 @@ public class SettingsActivity extends AppCompatActivity {
 
         binding.lockCheck.setOnClickListener(v -> {
             if (binding.lockCheck.isChecked()) {
-                Stash.put("lockState", false);
-            } else {
                 Stash.put("lockState", true);
                 String s = Stash.getString("password", "");
                 if (s.isEmpty()){
                     Stash.put("password", "1234");
                 }
+            } else {
+                Stash.put("lockState", false);
             }
         });
+
+        binding.videoPlayer.setOnClickListener(v -> player());
 
         binding.password.setOnClickListener(v -> {
             Dialog();
         });
+    }
+
+    private void player() {
+        final Dialog players = new Dialog(this);
+        players.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        players.setContentView(R.layout.players);
+
+        Button cancel = players.findViewById(R.id.cancel);
+
+        cancel.setOnClickListener(v -> players.dismiss());
+
+        players.show();
+        players.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        players.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        players.getWindow().setGravity(Gravity.CENTER);
     }
 
     private void Dialog() {
