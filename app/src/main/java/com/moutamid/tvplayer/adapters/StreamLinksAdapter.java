@@ -2,9 +2,13 @@ package com.moutamid.tvplayer.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.moutamid.tvplayer.R;
+import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
 
 import java.util.ArrayList;
@@ -40,9 +45,22 @@ public class StreamLinksAdapter extends RecyclerView.Adapter<StreamLinksAdapter.
         holder.txt.setText(model.getName());
 
         holder.itemView.setOnClickListener(v -> {
-            Toast.makeText(context, model.getName(), Toast.LENGTH_SHORT).show();
+            videoPlayerDialog(list.get(holder.getAdapterPosition()));
             dialog.dismiss();
         });
+    }
+
+    private void videoPlayerDialog(StreamLinksModel model) {
+        final Dialog videoPlayers = new Dialog(context);
+        videoPlayers.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        videoPlayers.setContentView(R.layout.video_players);
+
+
+
+        videoPlayers.show();
+        videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        videoPlayers.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        videoPlayers.getWindow().setGravity(Gravity.CENTER);
     }
 
     @Override

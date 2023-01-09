@@ -7,14 +7,23 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import com.fxn.stash.Stash;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.moutamid.tvplayer.databinding.ActivityMainBinding;
@@ -44,6 +53,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void Dialog() {
+        final Dialog password = new Dialog(this);
+        password.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        password.setContentView(R.layout.password_layout);
+
+        EditText pasw = password.findViewById(R.id.et_password);
+        Button ok = password.findViewById(R.id.ok);
+        Button cancel = password.findViewById(R.id.cancel);
+
+        cancel.setOnClickListener(v -> password.dismiss());
+
+        ok.setOnClickListener(v -> {
+            String s = Stash.getString("password", "");
+            if (pasw.getText().toString().equals(s)){
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                password.dismiss();
+            }
+        });
+
+        password.show();
+        password.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        password.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        password.getWindow().setGravity(Gravity.CENTER);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.navigation_setting, menu);
@@ -57,8 +91,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         menuSetting.setOnMenuItemClickListener(item -> {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-            return true;
+            boolean isLock = Stash.getBoolean("lockState", false);
+
+            if (isLock){
+                Dialog();
+            } else {
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            }
+
+            return  true;
         });
 
 

@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.moutamid.tvplayer.Clicklistners;
@@ -117,33 +118,59 @@ public class CommonFragment extends Fragment {
         return view;
     }
 
+    public void linkDialog(ChannelsModel model){
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.stream_links);
+
+        ArrayList<StreamLinksModel> list = new ArrayList<>();
+
+        TextView title = dialog.findViewById(R.id.title);
+        RecyclerView rc = dialog.findViewById(R.id.links);
+        rc.setLayoutManager(new LinearLayoutManager(context));
+        rc.setHasFixedSize(false);
+        String s = "We have got multiple link for " + model.getName() + ". Please Select one";
+        title.setText(s);
+
+        for (StreamLinksModel streamLinksModel : model.getStreamingLinks()){
+            list.add(streamLinksModel);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Collections.sort(list, Comparator.comparing(StreamLinksModel::getPriority));
+        }
+
+        StreamLinksAdapter adapter = new StreamLinksAdapter(context, list, dialog);
+        rc.setAdapter(adapter);
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setGravity(Gravity.CENTER);
+
+    }
+
+    private void videoPlayerDialog(ChannelsModel model) {
+        final Dialog videoPlayers = new Dialog(context);
+        videoPlayers.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        videoPlayers.setContentView(R.layout.video_players);
+
+
+
+        videoPlayers.show();
+        videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        videoPlayers.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        videoPlayers.getWindow().setGravity(Gravity.CENTER);
+    }
+
     Clicklistners clicklistners = new Clicklistners() {
         @Override
         public void click(ChannelsModel model) {
-            final Dialog dialog = new Dialog(context);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.stream_links);
-            ArrayList<StreamLinksModel> list = new ArrayList<>();
-
-            RecyclerView rc = dialog.findViewById(R.id.links);
-            rc.setLayoutManager(new LinearLayoutManager(context));
-            rc.setHasFixedSize(false);
-
-            for (StreamLinksModel streamLinksModel : model.getStreamingLinks()){
-                list.add(streamLinksModel);
+            if (model.getStreamingLinks().size()>1){
+                linkDialog(model);
+            } else {
+                videoPlayerDialog(model);
             }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Collections.sort(list, Comparator.comparing(StreamLinksModel::getPriority));
-            }
-
-            StreamLinksAdapter adapter = new StreamLinksAdapter(context, list, dialog);
-            rc.setAdapter(adapter);
-
-            dialog.show();
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.getWindow().setGravity(Gravity.CENTER);
         }
     };
 }
