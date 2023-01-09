@@ -49,6 +49,7 @@ public class AllChannelsFragment extends Fragment {
     private ProgressDialog progressDialog;
     ArrayList<TabsModel> tabs;
     TabsModel tabsModel;
+    ArrayList<TabsModel> list = new ArrayList<>();
 
     public AllChannelsFragment() {
         // Required empty public constructor
@@ -68,14 +69,28 @@ public class AllChannelsFragment extends Fragment {
 
         /*requireContext().setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
-        progressDialog.show();
 
         JSONObject data = (JSONObject) Stash.getObject("data", JSONObject.class);
 
         if (data == null){
+            progressDialog.show();
             getData();
         } else {
-
+            ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
+                    .getSupportFragmentManager());
+            list = Stash.getArrayList("tabs", TabsModel.class);
+            for (TabsModel s : list) {
+                /*JSONArray channelsArray = null;
+                try {
+                    channelsArray = data.getJSONArray(s);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*/
+                CommonFragment fragment = new CommonFragment(s.getObject());
+                adapter.addFrag(fragment, s.getTitle());
+            }
+            binding.viewpager.setAdapter(adapter);
+            binding.tablayout.setupWithViewPager(binding.viewpager);
         }
 
         return view;
@@ -132,6 +147,9 @@ public class AllChannelsFragment extends Fragment {
                             JSONArray channelsArray = data.getJSONArray(s);
                             CommonFragment fragment = new CommonFragment(channelsArray.toString());
                             adapter.addFrag(fragment, s);
+                            TabsModel model = new TabsModel(s, channelsArray.toString());
+                            list.add(model);
+                            Stash.put("tabs", list);
                         }
                         binding.viewpager.setAdapter(adapter);
                         binding.tablayout.setupWithViewPager(binding.viewpager);

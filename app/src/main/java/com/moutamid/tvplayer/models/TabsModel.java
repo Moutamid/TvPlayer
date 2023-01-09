@@ -4,11 +4,15 @@ import androidx.fragment.app.Fragment;
 
 public class TabsModel {
     String title;
-    Fragment fragment;
+    String object;
 
-    public TabsModel(String title, Fragment fragment) {
+    public TabsModel(String title, String object) {
         this.title = title;
-        this.fragment = fragment;
+        this.object = object;
+    }
+
+    public TabsModel(String title) {
+        this.title = title;
     }
 
     public String getTitle() {
@@ -19,11 +23,11 @@ public class TabsModel {
         this.title = title;
     }
 
-    public Fragment getFragment() {
-        return fragment;
+    public String getObject() {
+        return object;
     }
 
-    public void setFragment(Fragment fragment) {
-        this.fragment = fragment;
+    public void setObject(String object) {
+        this.object = object;
     }
 }
