@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.fxn.stash.Stash;
 import com.google.android.material.tabs.TabLayout;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
@@ -69,6 +70,18 @@ public class AllChannelsFragment extends Fragment {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         progressDialog.show();
 
+        JSONObject data = (JSONObject) Stash.getObject("data", JSONObject.class);
+
+        if (data == null){
+            getData();
+        } else {
+
+        }
+
+        return view;
+    }
+
+    private void getData() {
         new Thread(() -> {
             URL google = null;
             try {
@@ -111,17 +124,14 @@ public class AllChannelsFragment extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
-
+                        Stash.put("data", data);
                         ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
                                 .getSupportFragmentManager());
 
                         for (String s : iterate(data.keys())) {
                             JSONArray channelsArray = data.getJSONArray(s);
-
                             CommonFragment fragment = new CommonFragment(channelsArray.toString());
-
                             adapter.addFrag(fragment, s);
-
                         }
                         binding.viewpager.setAdapter(adapter);
                         binding.tablayout.setupWithViewPager(binding.viewpager);
@@ -133,8 +143,6 @@ public class AllChannelsFragment extends Fragment {
                 });
             }
         }).start();
-
-        return view;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

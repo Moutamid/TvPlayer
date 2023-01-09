@@ -51,12 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuItem menuSetting = menu.findItem(R.id.nav_settings_top);
         MenuItem menuSearch = menu.findItem(R.id.action_search);
 
-        View view = MenuItemCompat.getActionView(menuSearch);
-
-        MaterialAutoCompleteTextView searchView = view.findViewById(R.id.action_search);
-
         menuSearch.setOnMenuItemClickListener(item -> {
-            searchView.findFocus();
+            startActivity(new Intent(MainActivity.this, SearchActivity.class));
             return true;
         });
 

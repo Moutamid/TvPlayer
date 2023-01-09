@@ -11,13 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:tabIndicatorColor="@color/orange"
-        app:tabIndicatorFullWidth="true"
-        app:tabIndicatorGravity="stretch"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorGravity="bottom"
         app:tabIndicator="@drawable/tab_bg"
         android:padding="10dp"
-        app:tabSelectedTextColor="@color/white"
+        app:tabSelectedTextColor="@color/orange"
         app:tabMode="auto"
-        android:layout_marginTop="10dp"
+        app:tabIndicatorHeight="3sp"
+        android:background="#e5e5e5"
         android:layout_marginBottom="10dp"
         app:tabIndicatorAnimationMode="elastic">
 

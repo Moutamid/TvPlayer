@@ -71,7 +71,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         });
 
         holder.itemView.setOnClickListener(v -> {
-
+            clicklistners.click(list.get(holder.getAdapterPosition()));
         });
 
     }

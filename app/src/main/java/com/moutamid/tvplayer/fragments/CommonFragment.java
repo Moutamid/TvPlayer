@@ -1,17 +1,28 @@
 package com.moutamid.tvplayer.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Toast;
 
 import com.moutamid.tvplayer.Clicklistners;
+import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import  com.moutamid.tvplayer.databinding.FragmentCommonBinding;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
@@ -22,6 +33,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class CommonFragment extends Fragment {
 
@@ -51,10 +65,10 @@ public class CommonFragment extends Fragment {
         binding.recycler.setHasFixedSize(false);
 
         try {
-            JSONArray sports = new JSONArray(title);
+            JSONArray jsonArray = new JSONArray(title);
 
-            for (int i = 0; i < sports.length(); i++) {
-                JSONObject obj = sports.getJSONObject(i);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject obj = jsonArray.getJSONObject(i);
                 ChannelsModel channelsModel = new ChannelsModel();
                 channelsModel.set_id(obj.getString("_id"));
                 channelsModel.setName(obj.getString("name"));
@@ -106,7 +120,30 @@ public class CommonFragment extends Fragment {
     Clicklistners clicklistners = new Clicklistners() {
         @Override
         public void click(ChannelsModel model) {
+            final Dialog dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.stream_links);
+            ArrayList<StreamLinksModel> list = new ArrayList<>();
 
+            RecyclerView rc = dialog.findViewById(R.id.links);
+            rc.setLayoutManager(new LinearLayoutManager(context));
+            rc.setHasFixedSize(false);
+
+            for (StreamLinksModel streamLinksModel : model.getStreamingLinks()){
+                list.add(streamLinksModel);
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Collections.sort(list, Comparator.comparing(StreamLinksModel::getPriority));
+            }
+
+            StreamLinksAdapter adapter = new StreamLinksAdapter(context, list, dialog);
+            rc.setAdapter(adapter);
+
+            dialog.show();
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().setGravity(Gravity.CENTER);
         }
     };
 }

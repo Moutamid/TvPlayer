@@ -5,8 +5,7 @@
     <item android:id="@+id/action_search"
         android:title="Search"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always|collapseActionView"
-        app:actionViewClass="com.google.android.material.textfield.MaterialAutoCompleteTextView" />
+        app:showAsAction="always|collapseActionView" />
 
     <item android:icon="@drawable/ic_settings"
         android:title="Setting"
