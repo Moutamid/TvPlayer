@@ -1,5 +1,6 @@
 package com.moutamid.tvplayer.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,13 +38,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 public class AllChannelsFragment extends Fragment {
 
     FragmentAllChannelsBinding binding;
     Context context;
-    ViewPagerAdapter viewPagerAdapter;
+    private ProgressDialog progressDialog;
     ArrayList<TabsModel> tabs;
     TabsModel tabsModel;
 
@@ -59,34 +61,14 @@ public class AllChannelsFragment extends Fragment {
 
         tabs = new ArrayList<>();
 
-        addTabs();
+        progressDialog = new ProgressDialog(requireActivity());
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage("Loading...");
 
-        viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), binding.tablayout.getTabCount());
-        binding.viewpager.setAdapter(viewPagerAdapter);
+        /*requireContext().setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+        progressDialog.show();
 
-        binding.tablayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                binding.viewpager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        // binding.tablayout.setupWithViewPager(binding.viewpager);
-
-        return view;
-    }
-
-    private void addTabs() {
         new Thread(() -> {
             URL google = null;
             try {
@@ -122,52 +104,66 @@ public class AllChannelsFragment extends Fragment {
             }
             String htmlData = stringBuffer.toString();
 
-            Log.d("TAG", "compress: " + htmlData);
+            Log.d("TAG", "data: " + htmlData);
 
-            requireActivity().runOnUiThread(() -> {
-                try {
-                    JSONObject jsonObject = new JSONObject(htmlData);
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    for (String s : iterate(data.keys())) {
-                        binding.tablayout.addTab(binding.tablayout.newTab().setText(s.toUpperCase(Locale.ROOT)));
+            if (isAdded()) {
+                requireActivity().runOnUiThread(() -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(htmlData);
+                        JSONObject data = jsonObject.getJSONObject("data");
+
+                        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
+                                .getSupportFragmentManager());
+
+                        for (String s : iterate(data.keys())) {
+                            JSONArray channelsArray = data.getJSONArray(s);
+
+                            CommonFragment fragment = new CommonFragment(channelsArray.toString());
+
+                            adapter.addFrag(fragment, s);
+
+                        }
+                        binding.viewpager.setAdapter(adapter);
+                        binding.tablayout.setupWithViewPager(binding.viewpager);
+                        progressDialog.dismiss();
+
+                    } catch (JSONException error) {
+                        Toast.makeText(requireActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
                     }
-
-                } catch (JSONException error) {
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+                });
+            }
         }).start();
+
+        return view;
     }
 
-    public class ViewPagerAdapter extends FragmentStatePagerAdapter {
-        int mNumOfTabs;
-        Fragment fragment = null;
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
 
-        public ViewPagerAdapter(@NonNull FragmentManager fm, int mNumOfTabs) {
-            super(fm);
-            this.mNumOfTabs = mNumOfTabs;
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
         }
 
-        @NonNull
         @Override
         public Fragment getItem(int position) {
-            Bundle b = new Bundle();
-            b.putString("position", getPageTitle(position).toString().toUpperCase(Locale.ROOT));
-            Fragment frag = CommonFragment.newInstance();
-            frag.setArguments(b);
-            return frag;
+            return mFragmentList.get(position);
         }
 
         @Override
         public int getCount() {
-            return mNumOfTabs;
+            return mFragmentList.size();
+        }
+
+        public void addFrag(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return super.getPageTitle(position);
+            return mFragmentTitleList.get(position);
         }
-
     }
 
     private <T> Iterable<T> iterate(final Iterator<T> i) {

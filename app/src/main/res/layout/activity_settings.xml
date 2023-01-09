@@ -13,6 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/orange"
         app:titleTextColor="@color/white"
+        app:navigationIconTint="@color/white"
         app:title="Setting" />
 
     <com.google.android.material.card.MaterialCardView
