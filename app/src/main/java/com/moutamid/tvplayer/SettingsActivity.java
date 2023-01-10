@@ -32,6 +32,7 @@ import com.moutamid.tvplayer.models.StreamLinksModel;
 import com.moutamid.tvplayer.models.TabsModel;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     ActivitySettingsBinding binding;
@@ -117,14 +118,11 @@ public class SettingsActivity extends AppCompatActivity {
         // Create Checkbox Dynamically
         for (TabsModel s : list) {
             CheckBox checkBox = new CheckBox(this);
-            checkBox.setText(s.getTitle());
+            checkBox.setText(s.getTitle().toUpperCase(Locale.ROOT));
             checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
-                    Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
-                }
+            checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
+                Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
             });
 
             // Add Checkbox to LinearLayout
