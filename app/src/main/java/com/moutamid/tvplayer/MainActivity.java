@@ -9,9 +9,11 @@ import androidx.core.view.MenuItemCompat;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -28,6 +30,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.moutamid.tvplayer.databinding.ActivityMainBinding;
 import com.moutamid.tvplayer.fragments.AllChannelsFragment;
+import com.moutamid.tvplayer.fragments.EventsFragment;
 import com.moutamid.tvplayer.fragments.FavouritesFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,6 +54,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
         binding.navView.setCheckedItem(R.id.nav_channels);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
+        }
 
     }
 
@@ -112,12 +118,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_channels:
-                // binding.navView.setCheckedItem(R.id.nav_channels);
+                /*binding.navView.setCheckedItem(R.id.nav_channels);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    binding.navView.setItemIconTintList(null);
+                    binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
+                }*/
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
                 break;
             case R.id.nav_favourites:
-                // binding.navView.setCheckedItem(R.id.nav_channels);
+                /*binding.navView.setCheckedItem(R.id.nav_favourites);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    binding.navView.setItemIconTintList(null);
+                    binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
+                }*/
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();
+                break;
+            case R.id.nav_events:
+                /*binding.navView.setCheckedItem(R.id.nav_favourites);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    binding.navView.setItemIconTintList(null);
+                    binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
+                }*/
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EventsFragment()).commit();
                 break;
             case R.id.nav_settings:
                 boolean isLock = Stash.getBoolean("lockState", false);

@@ -12,10 +12,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
@@ -37,6 +39,10 @@ public class SettingsActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         boolean lc = Stash.getBoolean("lockState", false);
+        String player = Stash.getString("buttonTXT", "Always Ask");
+
+        binding.playername.setText(player);
+
 
         if (lc){
             binding.lockCheck.setChecked(true);
@@ -81,6 +87,30 @@ public class SettingsActivity extends AppCompatActivity {
         final Dialog players = new Dialog(this);
         players.requestWindowFeature(Window.FEATURE_NO_TITLE);
         players.setContentView(R.layout.players);
+
+        RadioGroup radioGroup = players.findViewById(R.id.radiogroup);
+
+        int id = Stash.getInt("buttonID", R.id.alwaysAsk);
+
+        radioGroup.check(id);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup rGroup, int checkedId) {
+                int radioButtonID = radioGroup.getCheckedRadioButtonId();
+                Stash.put("buttonID", radioButtonID);
+                View radioButton = radioGroup.findViewById(radioButtonID);
+                int idx = radioGroup.indexOfChild(radioButton);
+                MaterialRadioButton r = (MaterialRadioButton) radioGroup.getChildAt(idx);
+                String selectedText = r.getText().toString();
+                selectedText = selectedText.replace("\t\t", "");
+                Stash.put("buttonIDX", idx);
+                Stash.put("buttonTXT", selectedText);
+                binding.playername.setText(selectedText);
+                players.dismiss();
+            }
+        });
+
 
 
         Button cancel = players.findViewById(R.id.cancel);
