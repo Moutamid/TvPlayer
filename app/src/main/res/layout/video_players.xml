@@ -29,7 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp"
                 >
 
@@ -41,8 +42,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:src="@drawable/mx_player_icon" />
 
                     <TextView
@@ -61,7 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp"
                 >
 
@@ -73,8 +75,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:src="@drawable/xyz_icon" />
 
                     <TextView
@@ -93,7 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp"
                 >
 
@@ -105,8 +108,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:src="@drawable/vlc_icon" />
 
                     <TextView
@@ -134,7 +137,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp"
                 >
 
@@ -146,8 +150,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:src="@drawable/local_cast_icon" />
 
                     <TextView
@@ -166,7 +170,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp"
                 >
 
@@ -178,8 +183,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:src="@drawable/video_player_icon" />
 
                     <TextView
@@ -198,7 +203,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp"
                 >
 
@@ -210,8 +216,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:src="@drawable/wuffy_icon" />
 
                     <TextView
@@ -239,7 +245,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp">
 
                 <LinearLayout
@@ -250,8 +257,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:src="@drawable/android_icon" />
 
                     <TextView
@@ -270,7 +277,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp"
                 >
 
@@ -288,8 +296,8 @@
                         app:cardCornerRadius="50dp">
 
                         <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
+                            android:layout_width="42dp"
+                            android:layout_height="42dp"
                             android:src="@drawable/web_cast_icon" />
 
                     </androidx.cardview.widget.CardView>
@@ -310,7 +318,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:cardElevation="3dp"
+                app:cardElevation="0dp"
+                android:clickable="true"
                 android:layout_margin="8dp"
                 >
 
@@ -322,8 +331,8 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
                         android:src="@drawable/bubble_player_icon" />
 
                     <TextView

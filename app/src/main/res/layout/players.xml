@@ -33,18 +33,21 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/mxplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tMX Player"
                 app:buttonTint="@color/orange"
                 android:textSize="16sp" />
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/xyzplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tXYZ Player"
                 app:buttonTint="@color/orange"
                 android:textSize="16sp" />
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/vlcplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tVLC Player"
@@ -52,18 +55,21 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/androidplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tAndroid Player"
                 app:buttonTint="@color/orange"
                 android:textSize="16sp" />
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/videoplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tVideo Player"
                 app:buttonTint="@color/orange"
                 android:textSize="16sp" />
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/wuffyplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tWuffy Player"
@@ -71,18 +77,21 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/webplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tWeb Video Cast Player"
                 app:buttonTint="@color/orange"
                 android:textSize="16sp" />
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/bubbleplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tBubbleUpnP Player"
                 app:buttonTint="@color/orange"
                 android:textSize="16sp" />
             <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/localplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="\t\tLocalCast Player"
@@ -90,8 +99,6 @@
                 android:textSize="16sp" />
 
         </RadioGroup>
-
-
 
         <Button
             android:id="@+id/cancel"

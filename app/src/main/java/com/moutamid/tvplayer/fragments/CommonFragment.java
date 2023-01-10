@@ -129,7 +129,7 @@ public class CommonFragment extends Fragment {
         RecyclerView rc = dialog.findViewById(R.id.links);
         rc.setLayoutManager(new LinearLayoutManager(context));
         rc.setHasFixedSize(false);
-        String s = "We have got multiple link for " + model.getName() + ". Please Select one";
+        String s = "We have got multiple links for " + model.getName() + ". Please Select one";
         title.setText(s);
 
         for (StreamLinksModel streamLinksModel : model.getStreamingLinks()){

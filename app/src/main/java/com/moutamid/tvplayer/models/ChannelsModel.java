@@ -1,8 +1,9 @@
 package com.moutamid.tvplayer.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ChannelsModel {
+public class ChannelsModel implements Serializable {
 
     String _id, name, category, image, imageUrl;
     boolean hide;

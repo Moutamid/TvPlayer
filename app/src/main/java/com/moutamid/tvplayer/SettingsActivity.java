@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.moutamid.tvplayer.databinding.ActivityAdjustTabsBinding;
 import com.moutamid.tvplayer.databinding.ActivitySettingsBinding;
 import com.moutamid.tvplayer.models.StreamLinksModel;
 
@@ -64,6 +66,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        binding.adjust.setOnClickListener(v -> {
+            startActivity(new Intent(this, AdjustTabsActivity.class));
+        });
+
         binding.videoPlayer.setOnClickListener(v -> player());
 
         binding.password.setOnClickListener(v -> {
@@ -75,6 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
         final Dialog players = new Dialog(this);
         players.requestWindowFeature(Window.FEATURE_NO_TITLE);
         players.setContentView(R.layout.players);
+
 
         Button cancel = players.findViewById(R.id.cancel);
 

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,7 +70,7 @@ public class StreamLinksAdapter extends RecyclerView.Adapter<StreamLinksAdapter.
     }
 
     public class LinkVH extends RecyclerView.ViewHolder{
-        TextView txt;
+        Button txt;
 
         public LinkVH(@NonNull View itemView) {
             super(itemView);
