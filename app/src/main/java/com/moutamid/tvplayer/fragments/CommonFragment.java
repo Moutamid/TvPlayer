@@ -169,6 +169,41 @@ public class CommonFragment extends Fragment {
         MaterialCardView webPlayer = videoPlayers.findViewById(R.id.webPlayer);
         MaterialCardView bubblePlayer = videoPlayers.findViewById(R.id.bubblePlayer);
 
+        mxPlayer.setOnClickListener(v -> {
+            mxPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
+
+        xyzPlayer.setOnClickListener(v -> {
+            xyzPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
+
+        vlcPlayer.setOnClickListener(v -> {
+            vlcPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
+
+        localPlayer.setOnClickListener(v -> {
+            localPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
+
+        videoPlayer.setOnClickListener(v -> {
+            videoPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
+
+        wuffyPlayer.setOnClickListener(v -> {
+            wuffyPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
+
+        androidPlayer.setOnClickListener(v -> {
+            androidPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
+
+        webPlayer.setOnClickListener(v -> {
+            webPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
+
+        bubblePlayer.setOnClickListener(v -> {
+            bubblePlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
+        });
 
         videoPlayers.show();
         videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
