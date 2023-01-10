@@ -16,7 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -26,9 +29,13 @@ import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.moutamid.tvplayer.databinding.ActivityAdjustTabsBinding;
 import com.moutamid.tvplayer.databinding.ActivitySettingsBinding;
 import com.moutamid.tvplayer.models.StreamLinksModel;
+import com.moutamid.tvplayer.models.TabsModel;
+
+import java.util.ArrayList;
 
 public class SettingsActivity extends AppCompatActivity {
     ActivitySettingsBinding binding;
+    ArrayList<TabsModel> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        binding.hideCategory.setOnClickListener(v -> {
+            hideCategory();
+        });
+
         binding.lockCheck.setOnClickListener(v -> {
             if (binding.lockCheck.isChecked()) {
                 Stash.put("lockState", true);
@@ -81,6 +92,52 @@ public class SettingsActivity extends AppCompatActivity {
         binding.password.setOnClickListener(v -> {
             Dialog();
         });
+    }
+
+    private void hideCategory() {
+        final Dialog hide = new Dialog(this);
+        hide.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        hide.setContentView(R.layout.hide_category_layout);
+
+        Button cancel = hide.findViewById(R.id.cancel);
+        Button ok = hide.findViewById(R.id.ok);
+
+        cancel.setOnClickListener(v -> {
+            hide.dismiss();
+        });
+
+        ok.setOnClickListener(v -> {
+            hide.dismiss();
+        });
+
+        list = Stash.getArrayList("tabs", TabsModel.class);
+
+        LinearLayout linearLayout = hide.findViewById(R.id.layout);
+
+        // Create Checkbox Dynamically
+        for (TabsModel s : list) {
+            CheckBox checkBox = new CheckBox(this);
+            checkBox.setText(s.getTitle());
+            checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
+                    Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            // Add Checkbox to LinearLayout
+            if (linearLayout != null) {
+                linearLayout.addView(checkBox);
+            }
+        }
+
+        hide.show();
+        hide.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        hide.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        hide.getWindow().setGravity(Gravity.CENTER);
+
     }
 
     private void player() {

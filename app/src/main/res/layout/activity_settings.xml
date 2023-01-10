@@ -182,6 +182,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
+            android:visibility="gone"
             app:cardCornerRadius="0dp">
 
             <LinearLayout
@@ -200,7 +201,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hide Categories"
+                        android:text="Hide Countries"
                         android:textSize="18sp"
                         android:textColor="@color/black"/>
                     <TextView
@@ -222,6 +223,7 @@
             android:background="#e5e5e5" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/hideCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
