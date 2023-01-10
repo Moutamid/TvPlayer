@@ -10,9 +10,13 @@
             android:icon="@drawable/ic_live_tv"
             android:title="All Channels" />
 
-        <!--<item android:id="@+id/nav_favourites"
+        <item android:id="@+id/nav_favourites"
             android:icon="@drawable/ic_favorite"
-            android:title="Favourites" />-->
+            android:title="Favourites" />
+
+        <item android:id="@+id/nav_events"
+            android:icon="@drawable/ic_event"
+            android:title="Events" />
 
         <item android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings_side"

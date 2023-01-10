@@ -28,6 +28,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.moutamid.tvplayer.databinding.ActivityMainBinding;
 import com.moutamid.tvplayer.fragments.AllChannelsFragment;
+import com.moutamid.tvplayer.fragments.FavouritesFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ActivityMainBinding binding;
@@ -113,6 +114,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_channels:
                 // binding.navView.setCheckedItem(R.id.nav_channels);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
+                break;
+            case R.id.nav_favourites:
+                // binding.navView.setCheckedItem(R.id.nav_channels);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();
                 break;
             case R.id.nav_settings:
                 boolean isLock = Stash.getBoolean("lockState", false);
