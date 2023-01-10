@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.fxn.stash.Stash;
 import com.google.android.material.tabs.TabLayout;
+import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
 import com.moutamid.tvplayer.databinding.FragmentAllChannelsBinding;
@@ -100,7 +101,7 @@ public class AllChannelsFragment extends Fragment {
         new Thread(() -> {
             URL google = null;
             try {
-                google = new URL("http://95.217.210.178/api/v1/channel/");
+                google = new URL(Constants.channel);
             } catch (final MalformedURLException e) {
                 e.printStackTrace();
             }

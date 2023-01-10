@@ -6,9 +6,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.EventsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tablayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="?attr/actionBarSize"
+        app:tabIndicatorColor="@color/orange"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorGravity="bottom"
+        app:tabIndicator="@drawable/tab_bg"
+        android:padding="10dp"
+        app:tabSelectedTextColor="@color/orange"
+        app:tabMode="auto"
+        app:tabIndicatorHeight="3sp"
+        android:background="#e5e5e5"
+        android:layout_marginBottom="10dp"
+        app:tabIndicatorAnimationMode="elastic">
+
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tablayout" />
 
 </RelativeLayout>
