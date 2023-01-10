@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
+import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import com.moutamid.tvplayer.databinding.ActivitySearchResultBinding;
 import com.moutamid.tvplayer.models.ChannelsModel;
@@ -94,7 +95,17 @@ public class SearchResultActivity extends AppCompatActivity {
         videoPlayers.requestWindowFeature(Window.FEATURE_NO_TITLE);
         videoPlayers.setContentView(R.layout.video_players);
 
+        MaterialCardView mxPlayer = videoPlayers.findViewById(R.id.mxPlayer);
+        MaterialCardView xyzPlayer = videoPlayers.findViewById(R.id.xyzPlayer);
+        MaterialCardView vlcPlayer = videoPlayers.findViewById(R.id.vlcPlayer);
 
+        MaterialCardView localPlayer = videoPlayers.findViewById(R.id.localPlayer);
+        MaterialCardView videoPlayer = videoPlayers.findViewById(R.id.videoPlayer);
+        MaterialCardView wuffyPlayer = videoPlayers.findViewById(R.id.wuffyPlayer);
+
+        MaterialCardView androidPlayer = videoPlayers.findViewById(R.id.androidPlayer);
+        MaterialCardView webPlayer = videoPlayers.findViewById(R.id.webPlayer);
+        MaterialCardView bubblePlayer = videoPlayers.findViewById(R.id.bubblePlayer);
 
         videoPlayers.show();
         videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

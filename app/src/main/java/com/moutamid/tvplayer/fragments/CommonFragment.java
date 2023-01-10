@@ -22,6 +22,8 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fxn.stash.Stash;
+import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import  com.moutamid.tvplayer.databinding.FragmentCommonBinding;
@@ -155,6 +157,17 @@ public class CommonFragment extends Fragment {
         videoPlayers.requestWindowFeature(Window.FEATURE_NO_TITLE);
         videoPlayers.setContentView(R.layout.video_players);
 
+        MaterialCardView mxPlayer = videoPlayers.findViewById(R.id.mxPlayer);
+        MaterialCardView xyzPlayer = videoPlayers.findViewById(R.id.xyzPlayer);
+        MaterialCardView vlcPlayer = videoPlayers.findViewById(R.id.vlcPlayer);
+
+        MaterialCardView localPlayer = videoPlayers.findViewById(R.id.localPlayer);
+        MaterialCardView videoPlayer = videoPlayers.findViewById(R.id.videoPlayer);
+        MaterialCardView wuffyPlayer = videoPlayers.findViewById(R.id.wuffyPlayer);
+
+        MaterialCardView androidPlayer = videoPlayers.findViewById(R.id.androidPlayer);
+        MaterialCardView webPlayer = videoPlayers.findViewById(R.id.webPlayer);
+        MaterialCardView bubblePlayer = videoPlayers.findViewById(R.id.bubblePlayer);
 
 
         videoPlayers.show();
@@ -169,7 +182,10 @@ public class CommonFragment extends Fragment {
             if (model.getStreamingLinks().size()>1){
                 linkDialog(model);
             } else {
-                videoPlayerDialog(model);
+                int idx = Stash.getInt("buttonIDX", 0);
+                if (idx == 0) {
+                    videoPlayerDialog(model);
+                }
             }
         }
     };

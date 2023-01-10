@@ -16,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.fxn.stash.Stash;
+import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
@@ -45,8 +47,10 @@ public class StreamLinksAdapter extends RecyclerView.Adapter<StreamLinksAdapter.
         StreamLinksModel model = list.get(holder.getAdapterPosition());
         holder.txt.setText(model.getName());
 
-        holder.itemView.setOnClickListener(v -> {
-            videoPlayerDialog(list.get(holder.getAdapterPosition()));
+        holder.itemView.setOnClickListener(v -> {int idx = Stash.getInt("buttonIDX", 0);
+            if (idx == 0) {
+                videoPlayerDialog(list.get(holder.getAdapterPosition()));
+            }
             dialog.dismiss();
         });
     }
@@ -56,7 +60,17 @@ public class StreamLinksAdapter extends RecyclerView.Adapter<StreamLinksAdapter.
         videoPlayers.requestWindowFeature(Window.FEATURE_NO_TITLE);
         videoPlayers.setContentView(R.layout.video_players);
 
+        MaterialCardView mxPlayer = videoPlayers.findViewById(R.id.mxPlayer);
+        MaterialCardView xyzPlayer = videoPlayers.findViewById(R.id.xyzPlayer);
+        MaterialCardView vlcPlayer = videoPlayers.findViewById(R.id.vlcPlayer);
 
+        MaterialCardView localPlayer = videoPlayers.findViewById(R.id.localPlayer);
+        MaterialCardView videoPlayer = videoPlayers.findViewById(R.id.videoPlayer);
+        MaterialCardView wuffyPlayer = videoPlayers.findViewById(R.id.wuffyPlayer);
+
+        MaterialCardView androidPlayer = videoPlayers.findViewById(R.id.androidPlayer);
+        MaterialCardView webPlayer = videoPlayers.findViewById(R.id.webPlayer);
+        MaterialCardView bubblePlayer = videoPlayers.findViewById(R.id.bubblePlayer);
 
         videoPlayers.show();
         videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
