@@ -23,6 +23,7 @@ public class AdjustTabsActivity extends AppCompatActivity {
     ActivityAdjustTabsBinding binding;
     TabsAdjustAdapter adapter;
     ArrayList<TabsModel> list = new ArrayList<>();
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fxn.stash.Stash;
 import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.R;
+import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
 
@@ -56,62 +57,8 @@ public class StreamLinksAdapter extends RecyclerView.Adapter<StreamLinksAdapter.
     }
 
     private void videoPlayerDialog(StreamLinksModel model) {
-        final Dialog videoPlayers = new Dialog(context);
-        videoPlayers.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        videoPlayers.setContentView(R.layout.video_players);
-
-        MaterialCardView mxPlayer = videoPlayers.findViewById(R.id.mxPlayer);
-        MaterialCardView xyzPlayer = videoPlayers.findViewById(R.id.xyzPlayer);
-        MaterialCardView vlcPlayer = videoPlayers.findViewById(R.id.vlcPlayer);
-
-        MaterialCardView localPlayer = videoPlayers.findViewById(R.id.localPlayer);
-        MaterialCardView videoPlayer = videoPlayers.findViewById(R.id.videoPlayer);
-        MaterialCardView wuffyPlayer = videoPlayers.findViewById(R.id.wuffyPlayer);
-
-        MaterialCardView androidPlayer = videoPlayers.findViewById(R.id.androidPlayer);
-        MaterialCardView webPlayer = videoPlayers.findViewById(R.id.webPlayer);
-        MaterialCardView bubblePlayer = videoPlayers.findViewById(R.id.bubblePlayer);
-
-        mxPlayer.setOnClickListener(v -> {
-            mxPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        xyzPlayer.setOnClickListener(v -> {
-            xyzPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        vlcPlayer.setOnClickListener(v -> {
-            vlcPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        localPlayer.setOnClickListener(v -> {
-            localPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        videoPlayer.setOnClickListener(v -> {
-            videoPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        wuffyPlayer.setOnClickListener(v -> {
-            wuffyPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        androidPlayer.setOnClickListener(v -> {
-            androidPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        webPlayer.setOnClickListener(v -> {
-            webPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        bubblePlayer.setOnClickListener(v -> {
-            bubblePlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        videoPlayers.show();
-        videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        videoPlayers.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        videoPlayers.getWindow().setGravity(Gravity.CENTER);
+        VideoPlayerDialog vd = new VideoPlayerDialog(context, model);
+        vd.showStream();
     }
 
     @Override

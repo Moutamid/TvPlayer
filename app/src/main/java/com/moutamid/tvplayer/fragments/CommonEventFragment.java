@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fxn.stash.Stash;
@@ -25,7 +26,6 @@ import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
 import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
-import com.moutamid.tvplayer.databinding.FragmentCommonBinding;
 import com.moutamid.tvplayer.databinding.FragmentCommonEventBinding;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
@@ -45,6 +45,8 @@ public class CommonEventFragment extends Fragment {
     ArrayList<StreamLinksModel> streamLinks;
     ChannelsAdapter adapter;
 
+    ArrayList<String> favrtList;
+
     public CommonEventFragment() {
         // Required empty public constructor
     }
@@ -62,6 +64,11 @@ public class CommonEventFragment extends Fragment {
         channelsList = new ArrayList<>();
         streamLinks = new ArrayList<>();
         binding.recycler.setHasFixedSize(false);
+
+        favrtList = Stash.getArrayList("favrtList", String.class);
+        if (favrtList == null){
+            favrtList = new ArrayList<>();
+        }
 
         try {
             JSONArray jsonArray = new JSONArray(title);
@@ -217,6 +224,23 @@ public class CommonEventFragment extends Fragment {
                 if (idx == 0) {
                     videoPlayerDialog(model);
                 }
+            }
+        }
+
+        @Override
+        public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
+            if (!isfvrt) {
+                favrt.setImageResource(R.drawable.ic_favorite);
+                isfvrt = true;
+                favrtList.add(model.get_id());
+                Stash.put("favrtList", favrtList);
+                adapter.notifyDataSetChanged();
+            } else {
+                favrtList.remove(favrtList.indexOf(model.get_id()));
+                Stash.put("favrtList", favrtList);
+                favrt.setImageResource(R.drawable.ic_favorite_border);
+                isfvrt = false;
+                adapter.notifyDataSetChanged();
             }
         }
     };

@@ -139,6 +139,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
+            android:visibility="gone"
             app:cardCornerRadius="0dp">
 
             <LinearLayout
@@ -176,6 +177,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:visibility="gone"
             android:background="#e5e5e5" />
 
         <com.google.android.material.card.MaterialCardView
@@ -220,6 +222,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:visibility="gone"
             android:background="#e5e5e5" />
 
         <com.google.android.material.card.MaterialCardView

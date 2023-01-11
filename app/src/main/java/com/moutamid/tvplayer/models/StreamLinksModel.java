@@ -4,6 +4,7 @@ public class StreamLinksModel {
     String name, token;
     int priority;
     String request_header, player_header, _id;
+    String stream_link;
 
     public StreamLinksModel() {
     }
@@ -15,6 +16,24 @@ public class StreamLinksModel {
         this.request_header = request_header;
         this.player_header = player_header;
         this._id = _id;
+    }
+
+    public StreamLinksModel(String name, String token, int priority, String request_header, String player_header, String _id, String stream_link) {
+        this.name = name;
+        this.token = token;
+        this.priority = priority;
+        this.request_header = request_header;
+        this.player_header = player_header;
+        this._id = _id;
+        this.stream_link = stream_link;
+    }
+
+    public String getStream_link() {
+        return stream_link;
+    }
+
+    public void setStream_link(String stream_link) {
+        this.stream_link = stream_link;
     }
 
     public String getName() {

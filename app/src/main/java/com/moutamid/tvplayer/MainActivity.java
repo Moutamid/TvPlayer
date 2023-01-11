@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (pasw.getText().toString().equals(s)){
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 password.dismiss();
+            } else {
+                Toast.makeText(this, "Password is Wrong", Toast.LENGTH_SHORT).show();
             }
         });
 

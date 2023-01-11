@@ -62,11 +62,13 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
                 holder.isfvrt = true;
                 favrtList.add(model.get_id());
                 Stash.put("favrtList", favrtList);
+                // adapter.notifyDataSetChanged();
             } else {
                 favrtList.remove(favrtList.indexOf(model.get_id()));
                 Stash.put("favrtList", favrtList);
                 holder.favrt.setImageResource(R.drawable.ic_favorite_border);
                 holder.isfvrt = false;
+                // adapter.notifyDataSetChanged();
             }
         });
 

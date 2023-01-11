@@ -7,28 +7,26 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fxn.stash.Stash;
-import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import  com.moutamid.tvplayer.databinding.FragmentCommonBinding;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
+import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
 
@@ -36,7 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -48,6 +45,7 @@ public class CommonFragment extends Fragment {
     ArrayList<ChannelsModel> channelsList;
     ArrayList<StreamLinksModel> streamLinks;
     ChannelsAdapter adapter;
+    ArrayList<String> favrtList;
 
     public CommonFragment() {
         // Required empty public constructor
@@ -66,6 +64,11 @@ public class CommonFragment extends Fragment {
         channelsList = new ArrayList<>();
         streamLinks = new ArrayList<>();
         binding.recycler.setHasFixedSize(false);
+
+        favrtList = Stash.getArrayList("favrtList", String.class);
+        if (favrtList == null){
+            favrtList = new ArrayList<>();
+        }
 
         try {
             JSONArray jsonArray = new JSONArray(title);
@@ -153,62 +156,8 @@ public class CommonFragment extends Fragment {
     }
 
     private void videoPlayerDialog(ChannelsModel model) {
-        final Dialog videoPlayers = new Dialog(context);
-        videoPlayers.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        videoPlayers.setContentView(R.layout.video_players);
-
-        MaterialCardView mxPlayer = videoPlayers.findViewById(R.id.mxPlayer);
-        MaterialCardView xyzPlayer = videoPlayers.findViewById(R.id.xyzPlayer);
-        MaterialCardView vlcPlayer = videoPlayers.findViewById(R.id.vlcPlayer);
-
-        MaterialCardView localPlayer = videoPlayers.findViewById(R.id.localPlayer);
-        MaterialCardView videoPlayer = videoPlayers.findViewById(R.id.videoPlayer);
-        MaterialCardView wuffyPlayer = videoPlayers.findViewById(R.id.wuffyPlayer);
-
-        MaterialCardView androidPlayer = videoPlayers.findViewById(R.id.androidPlayer);
-        MaterialCardView webPlayer = videoPlayers.findViewById(R.id.webPlayer);
-        MaterialCardView bubblePlayer = videoPlayers.findViewById(R.id.bubblePlayer);
-
-        mxPlayer.setOnClickListener(v -> {
-            mxPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        xyzPlayer.setOnClickListener(v -> {
-            xyzPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        vlcPlayer.setOnClickListener(v -> {
-            vlcPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        localPlayer.setOnClickListener(v -> {
-            localPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        videoPlayer.setOnClickListener(v -> {
-            videoPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        wuffyPlayer.setOnClickListener(v -> {
-            wuffyPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        androidPlayer.setOnClickListener(v -> {
-            androidPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        webPlayer.setOnClickListener(v -> {
-            webPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        bubblePlayer.setOnClickListener(v -> {
-            bubblePlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
-        });
-
-        videoPlayers.show();
-        videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        videoPlayers.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        videoPlayers.getWindow().setGravity(Gravity.CENTER);
+        VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0));
+        vd.showStream();
     }
 
     Clicklistners clicklistners = new Clicklistners() {
@@ -221,6 +170,23 @@ public class CommonFragment extends Fragment {
                 if (idx == 0) {
                     videoPlayerDialog(model);
                 }
+            }
+        }
+
+        @Override
+        public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
+            if (!isfvrt) {
+                favrt.setImageResource(R.drawable.ic_favorite);
+                isfvrt = true;
+                favrtList.add(model.get_id());
+                Stash.put("favrtList", favrtList);
+                adapter.notifyDataSetChanged();
+            } else {
+                favrtList.remove(favrtList.indexOf(model.get_id()));
+                Stash.put("favrtList", favrtList);
+                favrt.setImageResource(R.drawable.ic_favorite_border);
+                isfvrt = false;
+                adapter.notifyDataSetChanged();
             }
         }
     };
