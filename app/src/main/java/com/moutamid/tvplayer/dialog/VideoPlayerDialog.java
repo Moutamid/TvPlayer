@@ -5,17 +5,35 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.fxn.stash.Stash;
 import com.google.android.material.card.MaterialCardView;
+import com.moutamid.tvplayer.MetaRequest;
 import com.moutamid.tvplayer.R;
+import com.moutamid.tvplayer.VolleySingleton;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 
 public class VideoPlayerDialog {
 
@@ -23,9 +41,14 @@ public class VideoPlayerDialog {
     StreamLinksModel stream;
     ProgressDialog progressDialog;
 
+    private RequestQueue requestQueue;
+
     public VideoPlayerDialog(Context context, StreamLinksModel stream) {
         this.context = context;
         this.stream = stream;
+
+        requestQueue = VolleySingleton.getmInstance(context).getRequestQueue();
+
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
         progressDialog.setTitle("Creating Your Link");
@@ -196,8 +219,10 @@ public class VideoPlayerDialog {
             if (ids == R.id.alwaysAsk) {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
             } else {
-                if (checkIsInstall(ids)){
+                if (checkIsInstall(ids)) {
                     progressDialog.show();
+                    createLink();
+                    videoPlayers.dismiss();
                 } else {
 
                 }
@@ -209,10 +234,10 @@ public class VideoPlayerDialog {
             if (ids == R.id.alwaysAsk) {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
             } else {
-                if (checkIsInstall(ids)){
+                if (checkIsInstall(ids)) {
                     progressDialog.show();
                     Stash.put("buttonID", ids);
-                    progressDialog.dismiss();
+                    createLink();
                     videoPlayers.dismiss();
                 } else {
 
@@ -227,7 +252,6 @@ public class VideoPlayerDialog {
             if (checkIsInstall(id)) {
                 progressDialog.show();
                 createLink();
-                progressDialog.dismiss();
             } else {
 
             }
@@ -237,41 +261,83 @@ public class VideoPlayerDialog {
         videoPlayers.getWindow().setGravity(Gravity.CENTER);
     }
 
-    private boolean checkIsInstall(int player){
-        if (player == R.id.mxPlayer){
+    private boolean checkIsInstall(int player) {
+        if (player == R.id.mxPlayer) {
 
         }
-        if (player == R.id.xyzPlayer){
+        if (player == R.id.xyzPlayer) {
 
         }
-        if (player == R.id.vlcPlayer){
-
-        }
-
-        if (player == R.id.androidPlayer){
-
-        }
-        if (player == R.id.videoPlayer){
-
-        }
-        if (player == R.id.wuffyPlayer){
+        if (player == R.id.vlcPlayer) {
 
         }
 
-        if (player == R.id.webPlayer){
+        if (player == R.id.androidPlayer) {
 
         }
-        if (player == R.id.bubblePlayer){
+        if (player == R.id.videoPlayer) {
 
         }
-        if (player == R.id.localPlayer){
+        if (player == R.id.wuffyPlayer) {
+
+        }
+
+        if (player == R.id.webPlayer) {
+
+        }
+        if (player == R.id.bubblePlayer) {
+
+        }
+        if (player == R.id.localPlayer) {
 
         }
         return true;
     }
 
-    private void createLink(){
-
+    private void createLink() {
+        new GetLink().execute("");
     }
 
+    public class GetLink extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String url = stream.getToken();
+            try {
+                Document doc = Jsoup.connect(url).get();
+                Elements body = doc.getElementsByTag("body");
+                String token = stream.getStream_link() + body.text();
+                Log.d("htmlTAG", "url  " + url);
+                MetaRequest key = new MetaRequest(Request.Method.GET, url, null,
+                        response -> {
+                            try {
+                                JSONObject headers = response.getJSONObject("headers");
+                                String session = headers.getString("Session");
+                                Log.d("htmlTAG", "Session : " + session);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.d("htmlTAG", "e " + e.getMessage());
+                            }
+
+                        }, error -> {
+                    Log.d("htmlTAG", "error " + error.getMessage());
+                });
+
+                requestQueue.add(key);
+                Log.d("htmlTAG", body.text().toString());
+                Log.d("htmlTAG", token);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            progressDialog.dismiss();
+        }
+    }
 }

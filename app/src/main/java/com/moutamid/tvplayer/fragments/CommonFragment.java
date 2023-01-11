@@ -97,6 +97,7 @@ public class CommonFragment extends Fragment {
                     model1.setPriority(stream.getInt("priority"));
                     model1.setRequest_header(stream.getString("request_header"));
                     model1.setPlayer_header(stream.getString("player_header"));
+                    model1.setStream_link(stream.getString("url"));
                     streamLinks.add(model1);
                 }
 
