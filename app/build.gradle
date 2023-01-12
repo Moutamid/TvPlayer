@@ -12,6 +12,7 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         setProperty("archivesBaseName", "TvPlayer-$versionName")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,8 +50,12 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
+/*
     implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.7.7.1'
     implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.7.7.1'
+*/
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
