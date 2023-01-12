@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.moutamid.tvplayer"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <queries>
+        <package android:name="com.moutamid.tvplayer" />
+        <package android:name="com.mxtech.videoplayer.ad" />
+        <package android:name="com.raddixcore.xyzplayer" />
+        <package android:name="org.videolan.vlc" />
+        <package android:name="com.zgz.supervideo" />
+        <package android:name="video.player.videoplayer" />
+        <package android:name="co.wuffy.player" />
+        <package android:name="com.instantbits.cast.webvideo" />
+        <package android:name="com.bubblesoft.android.bubbleupnp" />
+        <package android:name="de.stefanpledl.localcast" />
+    </queries>
 
     <application
         android:name=".MyApplication"
