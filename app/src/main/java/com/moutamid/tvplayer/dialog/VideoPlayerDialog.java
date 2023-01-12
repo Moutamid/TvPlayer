@@ -282,7 +282,12 @@ public class VideoPlayerDialog {
                 .setMessage(name + " is not installed. Click the button below to download it or selected any other player.")
                 .setPositiveButton("Install", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // Continue with delete operation
+                        final String appPackageName = Stash.getString("packageName"); // getPackageName() from Context or Activity object
+                        try {
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", null)
