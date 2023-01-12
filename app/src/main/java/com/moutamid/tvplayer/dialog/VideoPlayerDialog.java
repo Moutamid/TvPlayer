@@ -29,6 +29,7 @@ import com.fxn.stash.Stash;
 import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.MetaRequest;
 import com.moutamid.tvplayer.R;
+import com.moutamid.tvplayer.VideoPlayerActivity;
 import com.moutamid.tvplayer.VolleySingleton;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
@@ -226,6 +227,9 @@ public class VideoPlayerDialog {
             int ids = Stash.getInt("buttonIDDD", R.id.alwaysAsk);
             if (ids == R.id.alwaysAsk) {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
+            } else if (ids == R.id.androidPlayer) {
+                videoPlayers.dismiss();
+                context.startActivity(new Intent(context, VideoPlayerActivity.class));
             } else {
                 if (checkIsInstall(ids)) {
                     progressDialog.show();
@@ -243,6 +247,11 @@ public class VideoPlayerDialog {
             String name = Stash.getString("buttonTTT", "Always Ask");
             if (ids == R.id.alwaysAsk) {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
+            } else if (ids == R.id.androidPlayer) {
+                Stash.put("buttonID", ids);
+                Stash.put("buttonTXT", name);
+                videoPlayers.dismiss();
+                context.startActivity(new Intent(context, VideoPlayerActivity.class));
             } else {
                 if (checkIsInstall(ids)) {
                     progressDialog.show();
@@ -260,6 +269,8 @@ public class VideoPlayerDialog {
 
         if (id == R.id.alwaysAsk) {
             videoPlayers.show();
+        } else if (id == R.id.androidPlayer) {
+            context.startActivity(new Intent(context, VideoPlayerActivity.class));
         } else {
             if (checkIsInstall(id)) {
                 progressDialog.show();

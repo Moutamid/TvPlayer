@@ -160,6 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
                 String selectedText = r.getText().toString();
                 selectedText = selectedText.replace("\t\t", "");
                 Stash.put("buttonIDX", idx);
+                Stash.put("buttonIDDD", idx);
                 Stash.put("buttonTXT", selectedText);
                 binding.playername.setText(selectedText);
                 players.dismiss();
