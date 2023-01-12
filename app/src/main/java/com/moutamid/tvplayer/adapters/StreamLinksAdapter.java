@@ -29,11 +29,13 @@ public class StreamLinksAdapter extends RecyclerView.Adapter<StreamLinksAdapter.
     Context context;
     ArrayList<StreamLinksModel> list;
     Dialog dialog;
+    ChannelsModel channelsModel;
 
-    public StreamLinksAdapter(Context context, ArrayList<StreamLinksModel> list, Dialog dialog) {
+    public StreamLinksAdapter(Context context, ArrayList<StreamLinksModel> list, Dialog dialog, ChannelsModel channelsModel) {
         this.context = context;
         this.list = list;
         this.dialog = dialog;
+        this.channelsModel = channelsModel;
     }
 
     @NonNull
@@ -57,7 +59,7 @@ public class StreamLinksAdapter extends RecyclerView.Adapter<StreamLinksAdapter.
     }
 
     private void videoPlayerDialog(StreamLinksModel model) {
-        VideoPlayerDialog vd = new VideoPlayerDialog(context, model);
+        VideoPlayerDialog vd = new VideoPlayerDialog(context, model, channelsModel);
         vd.showStream();
     }
 

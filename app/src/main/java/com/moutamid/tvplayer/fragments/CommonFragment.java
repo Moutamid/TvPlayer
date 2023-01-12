@@ -26,6 +26,7 @@ import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import  com.moutamid.tvplayer.databinding.FragmentCommonBinding;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
+import com.moutamid.tvplayer.dialog.LinkDialog;
 import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
@@ -125,39 +126,13 @@ public class CommonFragment extends Fragment {
     }
 
     public void linkDialog(ChannelsModel model){
-        final Dialog dialog = new Dialog(context);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.stream_links);
-
-        ArrayList<StreamLinksModel> list = new ArrayList<>();
-
-        TextView title = dialog.findViewById(R.id.title);
-        RecyclerView rc = dialog.findViewById(R.id.links);
-        rc.setLayoutManager(new LinearLayoutManager(context));
-        rc.setHasFixedSize(false);
-        String s = "We have got multiple links for " + model.getName() + ". Please Select one";
-        title.setText(s);
-
-        for (StreamLinksModel streamLinksModel : model.getStreamingLinks()){
-            list.add(streamLinksModel);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Collections.sort(list, Comparator.comparing(StreamLinksModel::getPriority));
-        }
-
-        StreamLinksAdapter adapter = new StreamLinksAdapter(context, list, dialog);
-        rc.setAdapter(adapter);
-
-        dialog.show();
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.getWindow().setGravity(Gravity.CENTER);
+        LinkDialog ld = new LinkDialog(context, model);
+        ld.show();
 
     }
 
     private void videoPlayerDialog(ChannelsModel model) {
-        VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0));
+        VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0), model);
         vd.showStream();
     }
 

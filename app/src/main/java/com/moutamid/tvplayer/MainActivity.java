@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,15 +34,26 @@ import com.moutamid.tvplayer.databinding.ActivityMainBinding;
 import com.moutamid.tvplayer.fragments.AllChannelsFragment;
 import com.moutamid.tvplayer.fragments.EventsFragment;
 import com.moutamid.tvplayer.fragments.FavouritesFragment;
+import com.moutamid.tvplayer.fragments.LastPlayedFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ActivityMainBinding binding;
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
+
+        String s = Stash.getString("android_id", "");
+
+        if (s.isEmpty()){
+            String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+            Stash.put("android_id", android_id);
+            registerDevice();
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
@@ -57,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
         }
+
+    }
+
+    private void registerDevice() {
 
     }
 
@@ -128,20 +145,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
                 break;
             case R.id.nav_favourites:
-                /*binding.navView.setCheckedItem(R.id.nav_favourites);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    binding.navView.setItemIconTintList(null);
-                    binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
-                }*/
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();
                 break;
             case R.id.nav_events:
-                /*binding.navView.setCheckedItem(R.id.nav_favourites);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    binding.navView.setItemIconTintList(null);
-                    binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
-                }*/
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EventsFragment()).commit();
+                break;
+            case R.id.nav_last_played:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new LastPlayedFragment()).commit();
                 break;
             case R.id.nav_settings:
                 boolean isLock = Stash.getBoolean("lockState", false);

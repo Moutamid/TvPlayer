@@ -43,20 +43,26 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class VideoPlayerDialog {
 
     Context context;
     StreamLinksModel stream;
     ProgressDialog progressDialog;
+    ArrayList<ChannelsModel> channelsModelArrayList;
+    ChannelsModel channelsModel;
 
     private RequestQueue requestQueue;
 
-    public VideoPlayerDialog(Context context, StreamLinksModel stream) {
+    public VideoPlayerDialog(Context context, StreamLinksModel stream, ChannelsModel channelsModel) {
         this.context = context;
         this.stream = stream;
+        this.channelsModel = channelsModel;
 
         requestQueue = VolleySingleton.getmInstance(context).getRequestQueue();
+
+        channelsModelArrayList = new ArrayList<>();
 
         progressDialog = new ProgressDialog(context);
         progressDialog.setCancelable(false);
@@ -410,6 +416,10 @@ public class VideoPlayerDialog {
             progressDialog.dismiss();
             String url = Stash.getString("videoURL");
             String packageName = Stash.getString("packageName");
+            channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
+            if (channelsModel==null) channelsModelArrayList = new ArrayList<>();
+            channelsModelArrayList.add(channelsModel);
+            Stash.put("LastPlayed", channelsModelArrayList);
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setPackage(packageName);
             i.setDataAndType(Uri.parse(url),"video/*");
