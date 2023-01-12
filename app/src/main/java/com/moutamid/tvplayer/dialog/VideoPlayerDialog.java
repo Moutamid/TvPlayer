@@ -311,14 +311,9 @@ public class VideoPlayerDialog {
                 Log.d("htmlTAG", "url  " + url);
                 MetaRequest key = new MetaRequest(Request.Method.GET, url, null,
                         response -> {
-                            try {
-                                JSONObject headers = response.getJSONObject("headers");
-                                String session = headers.getString("Session");
-                                Log.d("htmlTAG", "Session : " + session);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.d("htmlTAG", "e " + e.getMessage());
-                            }
+                            //JSONObject headers = response.getJSONObject("headers");
+                            String session = Stash.getString("SeassionHeader");
+                            Log.d("htmlTAG", "Session : " + session);
 
                         }, error -> {
                     Log.d("htmlTAG", "error " + error.getMessage());

@@ -110,14 +110,14 @@ public class CommonFragment extends Fragment {
             e.printStackTrace();
         }
 
-        if(channelsList.size() == 1){
+        /*if(channelsList.size() == 1){
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 1));
         } else if(channelsList.size() == 2){
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 2));
         } else {
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
-        }
-
+        }*/
+        binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
         adapter = new ChannelsAdapter(context, channelsList,clicklistners );
         binding.recycler.setAdapter(adapter);
 
