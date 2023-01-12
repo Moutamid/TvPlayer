@@ -341,7 +341,7 @@ public class VideoPlayerDialog {
         new GetLink().execute("");
     }
 
-    public boolean isPackageExisted(String targetPackage){
+    private boolean isPackageExisted(String targetPackage){
         PackageManager pm = context.getPackageManager();
         try {
             PackageInfo info = pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
@@ -352,7 +352,7 @@ public class VideoPlayerDialog {
     }
 
 
-    public class GetLink extends AsyncTask<String, String, String> {
+    private class GetLink extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... strings) {
@@ -404,7 +404,6 @@ public class VideoPlayerDialog {
             i.setDataAndType(Uri.parse(url),"video/*");
             i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             context.startActivity(i);
-
         }
     }
 }
