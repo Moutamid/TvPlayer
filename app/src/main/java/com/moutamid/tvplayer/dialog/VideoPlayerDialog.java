@@ -276,7 +276,8 @@ public class VideoPlayerDialog {
         if (id == R.id.alwaysAsk) {
             videoPlayers.show();
         } else if (id == R.id.androidPlayer) {
-            context.startActivity(new Intent(context, VideoPlayerActivity.class));
+            Stash.put("androidInternal", 1);
+            createLink();
         } else {
             if (checkIsInstall(id)) {
                 progressDialog.show();
@@ -376,7 +377,7 @@ public class VideoPlayerDialog {
             try {
                 Document doc = Jsoup.connect(url).get();
                 Elements body = doc.getElementsByTag("body");
-                final String[] token = {stream.getStream_link() + body.text()};
+                final String[] token = { stream.getStream_link() + body.text() };
                 Log.d("htmlTAG", "url  " + url);
                 MetaRequest key = new MetaRequest(Request.Method.GET, url, null,
                         response -> {
@@ -414,15 +415,21 @@ public class VideoPlayerDialog {
             progressDialog.dismiss();
             String url = Stash.getString("videoURL");
             String packageName = Stash.getString("packageName");
+            int internal = Stash.getInt("androidInternal",  0);
+
+            if (internal == 1){
+                context.startActivity(new Intent(context, VideoPlayerActivity.class).putExtra("name", channelsModel.getName()).putExtra("url", url));
+            } else {
             /*channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
             if (channelsModel==null) { channelsModelArrayList = new ArrayList<>(); }
             channelsModelArrayList.add(channelsModel);
             Stash.put("LastPlayed", channelsModelArrayList);*/
-            Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setPackage(packageName);
-            i.setDataAndType(Uri.parse(url),"video/");
-            i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            context.startActivity(i);
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setPackage(packageName);
+                i.setDataAndType(Uri.parse(url), "video/");
+                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                context.startActivity(i);
+            }
         }
     }
 }
