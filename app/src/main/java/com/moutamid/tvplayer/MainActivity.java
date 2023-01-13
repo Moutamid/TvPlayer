@@ -1,6 +1,7 @@
 package com.moutamid.tvplayer;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -17,6 +18,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,9 +29,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.fxn.stash.Stash;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
@@ -40,7 +49,9 @@ import com.moutamid.tvplayer.fragments.FavouritesFragment;
 import com.moutamid.tvplayer.fragments.LastPlayedFragment;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,9 +72,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         requestQueue = VolleySingleton.getmInstance(this).getRequestQueue();
 
-        /*if (s.isEmpty()){
+        if (s.isEmpty()){
             registerDevice();
-        }*/
+        }
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
@@ -84,21 +95,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void registerDevice() {
-        Map<String, String> device_id = new HashMap<>();
-        String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-        device_id.put("device_id", android_id);
+        try {
+            JSONObject device_id = new JSONObject();
+            String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+            device_id.put("device_id", android_id);
+            final String requestBody = device_id.toString();
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.post, null, response -> {
-            try {
-                response.put("device_id", android_id);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.post,
+                    (Response.Listener<String>) response -> {
+                Log.i("VOLLEY", response);
+                Stash.put("android_id", android_id);
+            }, (Response.ErrorListener) error -> Log.e("VOLLEY", error.toString())) {
 
-        });
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String,String> params = new HashMap<String, String>();
+                    params.put("device_id", android_id);
+                    return params;
+                }
 
-        Stash.put("android_id", android_id);
+            };
+
+            requestQueue.add(stringRequest);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void Dialog() {
