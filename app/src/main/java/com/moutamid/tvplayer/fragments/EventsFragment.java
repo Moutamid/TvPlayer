@@ -134,9 +134,11 @@ public class EventsFragment extends Fragment {
 
             Log.d("TAG", "data: " + htmlData);
 
+
             if (isAdded()) {
                 requireActivity().runOnUiThread(() -> {
                     try {
+                        Toast.makeText(context, "Html  " + htmlData, Toast.LENGTH_SHORT).show();
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
                         Stash.put("dataEvents", data);
@@ -145,7 +147,7 @@ public class EventsFragment extends Fragment {
 
                         for (String s : iterate(data.keys())) {
                             JSONArray channelsArray = data.getJSONArray(s);
-                            // Toast.makeText(context, channelsArray.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Data " + channelsArray.toString(), Toast.LENGTH_SHORT).show();
                             CommonEventFragment fragment = new CommonEventFragment(channelsArray.toString());
                             adapter.addFrag(fragment, s);
                             TabsModel model = new TabsModel(s, channelsArray.toString());

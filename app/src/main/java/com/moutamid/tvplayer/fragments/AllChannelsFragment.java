@@ -73,10 +73,10 @@ public class AllChannelsFragment extends Fragment {
 
         JSONObject data = (JSONObject) Stash.getObject("data", JSONObject.class);
 
-        progressDialog.show();
-        getData();
+        /*progressDialog.show();
+        getData();*/
 
-        /*if (data == null){
+        if (data == null){
             progressDialog.show();
             getData();
         } else {
@@ -84,18 +84,18 @@ public class AllChannelsFragment extends Fragment {
                     .getSupportFragmentManager());
             list = Stash.getArrayList("tabs", TabsModel.class);
             for (TabsModel s : list) {
-                *//*JSONArray channelsArray = null;
-                try {
+                JSONArray channelsArray = null;
+                /*try {
                     channelsArray = data.getJSONArray(s);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }*//*
+                }*/
                 CommonFragment fragment = new CommonFragment(s.getObject());
                 adapter.addFrag(fragment, s.getTitle());
             }
             binding.viewpager.setAdapter(adapter);
             binding.tablayout.setupWithViewPager(binding.viewpager);
-        }*/
+        }
 
         return view;
     }
@@ -153,8 +153,8 @@ public class AllChannelsFragment extends Fragment {
                             adapter.addFrag(fragment, s);
                             TabsModel model = new TabsModel(s, channelsArray.toString());
                             list.add(model);
-                            Stash.put("tabs", list);
                         }
+                        Stash.put("tabs", list);
                         binding.viewpager.setAdapter(adapter);
                         binding.tablayout.setupWithViewPager(binding.viewpager);
                         progressDialog.dismiss();

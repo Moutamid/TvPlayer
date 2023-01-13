@@ -166,7 +166,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     binding.navView.setItemIconTintList(null);
                     binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
                 }*/
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                finish();
                 break;
             case R.id.nav_favourites:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();

@@ -116,14 +116,14 @@ public class CommonEventFragment extends Fragment {
         } catch (Exception e){
             e.printStackTrace();
         }
-
+        Toast.makeText(context, "channel " + channelsList.size(), Toast.LENGTH_SHORT).show();
         binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
 
         adapter = new ChannelsAdapter(context, channelsList, clicklistners );
         binding.recycler.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        return view;
+        return binding.getRoot();
     }
 
     public void linkDialog(ChannelsModel model){
