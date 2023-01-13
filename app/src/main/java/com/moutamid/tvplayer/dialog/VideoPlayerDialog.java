@@ -278,7 +278,6 @@ public class VideoPlayerDialog {
         } else if (id == R.id.androidPlayer) {
             context.startActivity(new Intent(context, VideoPlayerActivity.class));
         } else {
-            Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
             if (checkIsInstall(id)) {
                 progressDialog.show();
                 createLink();

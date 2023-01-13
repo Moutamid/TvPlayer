@@ -79,10 +79,7 @@ public class LastPlayedFragment extends Fragment {
             if (model.getStreamingLinks().size()>1){
                 linkDialog(model);
             } else {
-                int idx = Stash.getInt("buttonIDX", 0);
-                if (idx == 0) {
-                    videoPlayerDialog(model);
-                }
+                videoPlayerDialog(model);
             }
         }
 

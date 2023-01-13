@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -119,9 +120,12 @@ public class SettingsActivity extends AppCompatActivity {
         for (TabsModel s : list) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText(s.getTitle().toUpperCase(Locale.ROOT));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                checkBox.setButtonTintList(getResources().getColorStateList(R.color.orange));
+            }
             checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                String msg = "You have " + (isChecked ? "checked" : "unchecked") + " this Check it Checkbox.";
+                String msg = "You have " + (isChecked ? "checked" : "unchecked") + s.getTitle() + "  " + buttonView.toString();
                 Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
             });
 
