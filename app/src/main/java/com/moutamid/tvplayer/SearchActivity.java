@@ -63,7 +63,7 @@ public class SearchActivity extends AppCompatActivity {
                     channelsModel.set__v(obj.getInt("__v"));
 
                     JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
-
+                    streamLinks.clear();
                     for (int j = 0; j < streamingLinks.length(); j++) {
                         JSONObject stream = streamingLinks.getJSONObject(j);
                         StreamLinksModel model1 = new StreamLinksModel();

@@ -27,6 +27,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.fxn.stash.Stash;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
@@ -36,9 +39,16 @@ import com.moutamid.tvplayer.fragments.EventsFragment;
 import com.moutamid.tvplayer.fragments.FavouritesFragment;
 import com.moutamid.tvplayer.fragments.LastPlayedFragment;
 
+import org.json.JSONException;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.http.POST;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ActivityMainBinding binding;
-    ProgressDialog progressDialog;
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +59,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         String s = Stash.getString("android_id", "");
 
-        if (s.isEmpty()){
-            String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-            Stash.put("android_id", android_id);
+        requestQueue = VolleySingleton.getmInstance(this).getRequestQueue();
+
+        /*if (s.isEmpty()){
             registerDevice();
-        }
+        }*/
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
@@ -74,7 +84,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void registerDevice() {
+        Map<String, String> device_id = new HashMap<>();
+        String android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        device_id.put("device_id", android_id);
 
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, Constants.post, null, response -> {
+            try {
+                response.put("device_id", android_id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+
+        });
+
+        Stash.put("android_id", android_id);
     }
 
     private void Dialog() {

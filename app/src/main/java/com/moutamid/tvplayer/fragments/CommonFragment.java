@@ -88,7 +88,7 @@ public class CommonFragment extends Fragment {
                 channelsModel.set__v(obj.getInt("__v"));
 
                 JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
-
+                streamLinks.clear();
                 for (int j = 0; j < streamingLinks.length(); j++) {
                     JSONObject stream = streamingLinks.getJSONObject(j);
                     StreamLinksModel model1 = new StreamLinksModel();
@@ -111,14 +111,14 @@ public class CommonFragment extends Fragment {
             e.printStackTrace();
         }
 
-        /*if(channelsList.size() == 1){
+        if(channelsList.size() == 1){
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 1));
         } else if(channelsList.size() == 2){
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 2));
         } else {
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
-        }*/
-        binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
+        }
+        // binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
         adapter = new ChannelsAdapter(context, channelsList,clicklistners );
         binding.recycler.setAdapter(adapter);
 

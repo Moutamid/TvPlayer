@@ -278,6 +278,7 @@ public class VideoPlayerDialog {
         } else if (id == R.id.androidPlayer) {
             context.startActivity(new Intent(context, VideoPlayerActivity.class));
         } else {
+            Toast.makeText(context, "Toast", Toast.LENGTH_SHORT).show();
             if (checkIsInstall(id)) {
                 progressDialog.show();
                 createLink();
@@ -296,15 +297,13 @@ public class VideoPlayerDialog {
         String name = Stash.getString("buttonTTT");
         new AlertDialog.Builder(context)
                 .setTitle("Important")
-                .setMessage(name + " is not installed. Click the button below to download it or selected any other player.")
-                .setPositiveButton("Install", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        final String appPackageName = Stash.getString("packageName"); // getPackageName() from Context or Activity object
-                        try {
-                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                        } catch (android.content.ActivityNotFoundException anfe) {
-                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                        }
+                .setMessage(name + " is not installed. Click the button below to download it or select android player.")
+                .setPositiveButton("Install", (dialog, which) -> {
+                    final String appPackageName = Stash.getString("packageName"); // getPackageName() from Context or Activity object
+                    try {
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                     }
                 })
                 .setNegativeButton("Cancel", null)
@@ -326,10 +325,10 @@ public class VideoPlayerDialog {
             return isPackageExisted("org.videolan.vlc");
         }
 
-        if (player == R.id.androidPlayer) {
+        /*if (player == R.id.androidPlayer) {
             Stash.put("packageName", "com.zgz.supervideo");
             return isPackageExisted("com.zgz.supervideo");
-        }
+        }*/
         if (player == R.id.videoPlayer) {
             Stash.put("packageName", "video.player.videoplayer");
             return isPackageExisted("video.player.videoplayer");
@@ -416,13 +415,13 @@ public class VideoPlayerDialog {
             progressDialog.dismiss();
             String url = Stash.getString("videoURL");
             String packageName = Stash.getString("packageName");
-            channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
-            if (channelsModel==null) channelsModelArrayList = new ArrayList<>();
+            /*channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
+            if (channelsModel==null) { channelsModelArrayList = new ArrayList<>(); }
             channelsModelArrayList.add(channelsModel);
-            Stash.put("LastPlayed", channelsModelArrayList);
+            Stash.put("LastPlayed", channelsModelArrayList);*/
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setPackage(packageName);
-            i.setDataAndType(Uri.parse(url),"video/*");
+            i.setDataAndType(Uri.parse(url),"video/");
             i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             context.startActivity(i);
         }

@@ -20,10 +20,7 @@
         app:tabIndicatorHeight="3sp"
         android:background="#e5e5e5"
         android:layout_marginBottom="10dp"
-        app:tabIndicatorAnimationMode="elastic">
-
-
-    </com.google.android.material.tabs.TabLayout>
+        app:tabIndicatorAnimationMode="elastic" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"

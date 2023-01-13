@@ -73,7 +73,10 @@ public class AllChannelsFragment extends Fragment {
 
         JSONObject data = (JSONObject) Stash.getObject("data", JSONObject.class);
 
-        if (data == null){
+        progressDialog.show();
+        getData();
+
+        /*if (data == null){
             progressDialog.show();
             getData();
         } else {
@@ -81,18 +84,18 @@ public class AllChannelsFragment extends Fragment {
                     .getSupportFragmentManager());
             list = Stash.getArrayList("tabs", TabsModel.class);
             for (TabsModel s : list) {
-                /*JSONArray channelsArray = null;
+                *//*JSONArray channelsArray = null;
                 try {
                     channelsArray = data.getJSONArray(s);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }*/
+                }*//*
                 CommonFragment fragment = new CommonFragment(s.getObject());
                 adapter.addFrag(fragment, s.getTitle());
             }
             binding.viewpager.setAdapter(adapter);
             binding.tablayout.setupWithViewPager(binding.viewpager);
-        }
+        }*/
 
         return view;
     }

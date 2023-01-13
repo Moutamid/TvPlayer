@@ -70,25 +70,28 @@ public class EventsFragment extends Fragment {
 
         JSONObject data = (JSONObject) Stash.getObject("dataEvents", JSONObject.class);
 
-        if (data == null) {
+        progressDialog.show();
+        getData();
+
+        /*if (data == null) {
             progressDialog.show();
             getData();
         } else {
             EventsFragment.ViewPagerAdapter adapter = new EventsFragment.ViewPagerAdapter(requireActivity().getSupportFragmentManager());
             list = Stash.getArrayList("tabsEvents", TabsModel.class);
             for (TabsModel s : list) {
-                /*JSONArray channelsArray = null;
+                *//*JSONArray channelsArray = null;
                 try {
                     channelsArray = data.getJSONArray(s);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }*/
+                }*//*
                 CommonEventFragment fragment = new CommonEventFragment(s.getObject());
                 adapter.addFrag(fragment, s.getTitle());
             }
             binding.viewpager.setAdapter(adapter);
             binding.tablayout.setupWithViewPager(binding.viewpager);
-        }
+        }*/
 
         return view;
     }
