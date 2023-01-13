@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Clicklistners;
@@ -54,6 +55,7 @@ public class CommonFragment extends Fragment {
 
     public CommonFragment(String title) {
         this.title = title;
+        //Toast.makeText(context, title.toString(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

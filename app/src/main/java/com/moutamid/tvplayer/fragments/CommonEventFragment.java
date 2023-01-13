@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.card.MaterialCardView;
@@ -55,6 +57,7 @@ public class CommonEventFragment extends Fragment {
 
     public CommonEventFragment(String title) {
         this.title = title;
+        Log.d("testing123", "OK  " + title);
     }
 
     @Override
@@ -68,11 +71,12 @@ public class CommonEventFragment extends Fragment {
 
         binding.recycler.setHasFixedSize(false);
 
+        Log.d("testing123", "OK  " + title);
         favrtList = Stash.getArrayList("favrtList", String.class);
         if (favrtList == null){
             favrtList = new ArrayList<>();
         }
-
+        Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
         try {
             JSONArray jsonArray = new JSONArray(title);
 

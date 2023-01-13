@@ -6,5 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".VideoPlayerActivity">
 
+    
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -140,11 +140,12 @@ public class EventsFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
                         Stash.put("dataEvents", data);
-                        EventsFragment.ViewPagerAdapter adapter = new EventsFragment.ViewPagerAdapter(requireActivity()
+                        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
                                 .getSupportFragmentManager());
 
                         for (String s : iterate(data.keys())) {
                             JSONArray channelsArray = data.getJSONArray(s);
+                            // Toast.makeText(context, channelsArray.toString(), Toast.LENGTH_SHORT).show();
                             CommonEventFragment fragment = new CommonEventFragment(channelsArray.toString());
                             adapter.addFrag(fragment, s);
                             TabsModel model = new TabsModel(s, channelsArray.toString());
