@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -119,13 +120,14 @@ public class SettingsActivity extends AppCompatActivity {
         // Create Checkbox Dynamically
         for (TabsModel s : list) {
             CheckBox checkBox = new CheckBox(this);
-            checkBox.setText(s.getTitle().toUpperCase(Locale.ROOT));
+            checkBox.setText("\t\t" + s.getTitle().toUpperCase(Locale.ROOT));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 checkBox.setButtonTintList(getResources().getColorStateList(R.color.orange));
             }
-            checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+            checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                String msg = "You have " + (isChecked ? "checked" : "unchecked") + s.getTitle() + "  " + buttonView.toString();
+                String msg = "You have " + (isChecked ? "checked " : "unchecked ") + s.getTitle() + "  " + buttonView.toString();
                 Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
             });
 

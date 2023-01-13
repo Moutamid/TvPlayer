@@ -14,18 +14,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Hide Category"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:layout_marginBottom="8sp"
             android:layout_alignParentTop="true"
             android:textColor="@color/black" />
 
-        <LinearLayout
-            android:id="@+id/layout"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/buttnlayout"
             android:layout_below="@id/head"
-            android:orientation="vertical" />
+            android:layout_above="@id/buttnlayout"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12sp"
+                android:orientation="vertical" />
+
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:id="@+id/buttnlayout"
