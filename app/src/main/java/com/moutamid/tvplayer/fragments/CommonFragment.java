@@ -112,6 +112,7 @@ public class CommonFragment extends Fragment {
                 channelsModel.setStreamingLinks(streamLinks);
 
                 channelsList.add(channelsModel);
+
                 countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
             }
         } catch (Exception e){
@@ -126,10 +127,9 @@ public class CommonFragment extends Fragment {
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
         }*/
 
-        ArrayList<CountriesChannelModel> countries = new ArrayList<>(new LinkedHashSet<>(countriesChannel));
 
         binding.recycler.setLayoutManager(new LinearLayoutManager(context));
-        adapter = new CountriesWiseAdapter(context, countries, clicklistners );
+        adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
         binding.recycler.setAdapter(adapter);
 
         return view;

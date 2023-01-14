@@ -83,6 +83,7 @@ public class AllChannelsFragment extends Fragment {
             ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
                     .getSupportFragmentManager());
             list = Stash.getArrayList("tabs", TabsModel.class);
+            ArrayList<String> t = Stash.getArrayList("hidden", String.class);
             for (TabsModel s : list) {
                 JSONArray channelsArray = null;
                 /*try {
@@ -90,10 +91,19 @@ public class AllChannelsFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }*/
-                if (!s.isHidden()){
+
+                if(t.isEmpty() || t == null){
                     CommonFragment fragment = new CommonFragment(s.getObject());
                     adapter.addFrag(fragment, s.getTitle());
+                } else {
+                    for (String ss : t){
+                        if (!ss.equals(s.getTitle())){
+                            CommonFragment fragment = new CommonFragment(s.getObject());
+                            adapter.addFrag(fragment, s.getTitle());
+                        }
+                    }
                 }
+
             }
             binding.viewpager.setAdapter(adapter);
             binding.tablayout.setupWithViewPager(binding.viewpager);

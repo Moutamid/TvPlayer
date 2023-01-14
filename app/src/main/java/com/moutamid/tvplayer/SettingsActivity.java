@@ -116,21 +116,49 @@ public class SettingsActivity extends AppCompatActivity {
         list = Stash.getArrayList("tabs", TabsModel.class);
 
         LinearLayout linearLayout = hide.findViewById(R.id.layout);
-
+        ArrayList<TabsModel> tabsModels = new ArrayList<>(list);
+        //Toast.makeText(this, ""+list.size(), Toast.LENGTH_SHORT).show();
         // Create Checkbox Dynamically
         for (TabsModel s : list) {
             CheckBox checkBox = new CheckBox(this);
             checkBox.setText("\t\t" + s.getTitle().toUpperCase(Locale.ROOT));
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 checkBox.setButtonTintList(getResources().getColorStateList(R.color.orange));
             }
+
+            ArrayList<String> list1 = Stash.getArrayList("hidden", String.class);
+            if (list1.isEmpty() || list1 == null){
+                list1 = new ArrayList<>();
+            }
+
+            for (String r : list1){
+                if (r.equals(s.getTitle())){
+                    checkBox.setChecked(true);
+                }
+            }
+
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
             checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            ArrayList<String> finalList = list1;
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked){
+                /*TabsModel tab = new TabsModel();
+                tab.setHidden(isChecked);
+                tab.setObject(s.getObject());
+                tab.setTitle(s.getTitle());*/
 
+//                Toast.makeText(this, tab.getTitle() + " " + s.getTitle(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, tab.isHidden() + " " + isChecked, Toast.LENGTH_SHORT).show();
+
+                if (isChecked) {
+                    finalList.add(s.getTitle());
+                    // Toast.makeText(this, ""+list1.size(), Toast.LENGTH_SHORT).show();
+                    // Stash.clear("hidden");
+                    Stash.put("hidden", finalList);
                 } else {
-
+                    finalList.remove(s.getTitle());
+                    // Toast.makeText(this, ""+list1.size(), Toast.LENGTH_SHORT).show();
+                    Stash.put("hidden", finalList);
                 }
             });
 
