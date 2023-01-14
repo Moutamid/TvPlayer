@@ -150,7 +150,7 @@ public class EventsFragment extends Fragment {
                             Toast.makeText(context, "Data " + channelsArray.toString(), Toast.LENGTH_SHORT).show();
                             CommonEventFragment fragment = new CommonEventFragment(channelsArray.toString());
                             adapter.addFrag(fragment, s);
-                            TabsModel model = new TabsModel(s, channelsArray.toString());
+                            TabsModel model = new TabsModel(s, channelsArray.toString(), false);
                             list.add(model);
                             Stash.put("tabsEvents", list);
                         }

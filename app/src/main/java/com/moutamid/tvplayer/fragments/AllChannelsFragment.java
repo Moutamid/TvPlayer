@@ -90,8 +90,10 @@ public class AllChannelsFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }*/
-                CommonFragment fragment = new CommonFragment(s.getObject());
-                adapter.addFrag(fragment, s.getTitle());
+                if (!s.isHidden()){
+                    CommonFragment fragment = new CommonFragment(s.getObject());
+                    adapter.addFrag(fragment, s.getTitle());
+                }
             }
             binding.viewpager.setAdapter(adapter);
             binding.tablayout.setupWithViewPager(binding.viewpager);
@@ -151,7 +153,7 @@ public class AllChannelsFragment extends Fragment {
                             JSONArray channelsArray = data.getJSONArray(s);
                             CommonFragment fragment = new CommonFragment(channelsArray.toString());
                             adapter.addFrag(fragment, s);
-                            TabsModel model = new TabsModel(s, channelsArray.toString());
+                            TabsModel model = new TabsModel(s, channelsArray.toString(), false);
                             list.add(model);
                         }
                         Stash.put("tabs", list);

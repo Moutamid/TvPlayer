@@ -7,6 +7,9 @@ public class TabsModel {
     String object;
     boolean isHidden;
 
+    public TabsModel() {
+    }
+
     public TabsModel(String title, String object) {
         this.title = title;
         this.object = object;

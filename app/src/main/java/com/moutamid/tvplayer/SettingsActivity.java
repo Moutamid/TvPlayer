@@ -127,8 +127,7 @@ public class SettingsActivity extends AppCompatActivity {
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
             checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                String msg = "You have " + (isChecked ? "checked " : "unchecked ") + s.getTitle() + "  " + buttonView.toString();
-                Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
+
             });
 
             // Add Checkbox to LinearLayout
