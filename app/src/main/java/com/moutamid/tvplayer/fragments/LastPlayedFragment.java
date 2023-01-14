@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,11 +35,13 @@ import com.moutamid.tvplayer.models.StreamLinksModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 
 
 public class LastPlayedFragment extends Fragment {
     FragmentLastPlayedBinding binding;
     Context context;
+    ArrayList<String> favrtList;
 
     ArrayList<ChannelsModel> channelsList;
     ChannelsAdapter adapter;
@@ -54,14 +57,26 @@ public class LastPlayedFragment extends Fragment {
         context = view.getContext();
 
         channelsList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
+
+        favrtList = Stash.getArrayList("favrtList", String.class);
+        if (favrtList == null){
+            favrtList = new ArrayList<>();
+        }
+
+        Log.d("VideoURLPlayer", "Size FRA "+channelsList.size());
+
         if (channelsList==null || channelsList.isEmpty()){
             channelsList = new ArrayList<>();
-            binding.recycler.setVisibility(View.VISIBLE);
-            binding.text.setVisibility(View.GONE);
-        } else {
             binding.recycler.setVisibility(View.GONE);
             binding.text.setVisibility(View.VISIBLE);
+        } else {
+            binding.recycler.setVisibility(View.VISIBLE);
+            binding.text.setVisibility(View.GONE);
         }
+
+        ArrayList<ChannelsModel> newList = new ArrayList<>(new LinkedHashSet<>(channelsList));
+
+        Log.d("VideoURLPlayer", "Size newList "+newList.size());
 
         adapter = new ChannelsAdapter(context, channelsList, clicklistners);
         binding.recycler.setAdapter(adapter);
@@ -85,7 +100,21 @@ public class LastPlayedFragment extends Fragment {
 
         @Override
         public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
-
+            if (!isfvrt) {
+                favrt.setImageResource(R.drawable.ic_favorite);
+                isfvrt = true;
+                favrtList.add(model.get_id());
+                Stash.put("favrtList", favrtList);
+                adapter.notifyDataSetChanged();
+            } else {
+                favrtList.remove(favrtList.indexOf(model.get_id()));
+                Stash.put("favrtList", favrtList);
+                favrt.setImageResource(R.drawable.ic_favorite_border);
+                isfvrt = false;
+//                getActivity().getSupportFragmentManager().beginTransaction().remove(FavouritesFragment.this);
+//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();
+                // adapter.notifyDataSetChanged();
+            }
         }
     };
 

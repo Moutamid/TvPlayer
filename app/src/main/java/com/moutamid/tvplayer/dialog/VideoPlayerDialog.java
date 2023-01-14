@@ -393,6 +393,11 @@ public class VideoPlayerDialog {
         protected String doInBackground(String... strings) {
 
             String url = stream.getToken();
+
+            if (url.equals("1")){
+                url = "http://95.217.210.178:8080/projects/token.php";
+            }
+
             try {
                 Document doc = Jsoup.connect(url).get();
                 Elements body = doc.getElementsByTag("body");
@@ -439,16 +444,19 @@ public class VideoPlayerDialog {
             Log.d("VideoURLPlayer", "token "+token[0]);
             Log.d("VideoURLPlayer", ""+internal);
             Log.d("VideoURLPlayer", ""+packageName);
+
+            channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
+            if (channelsModel==null) { channelsModelArrayList = new ArrayList<>(); }
+            channelsModelArrayList.add(channelsModel);
+            Stash.put("LastPlayed", channelsModelArrayList);
+            Log.d("VideoURLPlayer", "Size  "+channelsModelArrayList.size());
+
             if (internal == 1){
                 Intent intent = new Intent(context, VideoPlayerActivity.class);
                 intent.putExtra("name", channelsModel.getName());
                 intent.putExtra("url", url);
                 context.startActivity(intent);
             } else {
-            channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
-            if (channelsModel==null) { channelsModelArrayList = new ArrayList<>(); }
-            channelsModelArrayList.add(channelsModel);
-            Stash.put("LastPlayed", channelsModelArrayList);
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setPackage(packageName);
                 i.setDataAndType(Uri.parse(url), "video/");

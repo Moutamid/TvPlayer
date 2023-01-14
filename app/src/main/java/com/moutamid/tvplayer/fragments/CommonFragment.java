@@ -165,7 +165,7 @@ public class CommonFragment extends Fragment {
                 Stash.put("favrtList", favrtList);
                 favrt.setImageResource(R.drawable.ic_favorite_border);
                 isfvrt = false;
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
             }
         }
     };

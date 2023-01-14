@@ -57,7 +57,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         }
 
         holder.favrt.setOnClickListener(v -> {
-            if (!holder.isfvrt) {
+            /*if (!holder.isfvrt) {
                 holder.favrt.setImageResource(R.drawable.ic_favorite);
                 holder.isfvrt = true;
                 favrtList.add(model.get_id());
@@ -69,7 +69,9 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
                 holder.favrt.setImageResource(R.drawable.ic_favorite_border);
                 holder.isfvrt = false;
                 // adapter.notifyDataSetChanged();
-            }
+            }*/
+
+            clicklistners.favrt(list.get(holder.getAdapterPosition()), holder.isfvrt, holder.favrt);
         });
 
         holder.itemView.setOnClickListener(v -> {
