@@ -262,8 +262,10 @@ public class VideoPlayerDialog {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
             } else if (ids == R.id.androidPlayer) {
                 if (checkIsInstall(ids)){
-                    Stash.put("androidInternal", 1);
                     progressDialog.show();
+                    Stash.put("androidInternal", 1);
+                    Stash.put("buttonID", ids);
+                    Stash.put("buttonTXT", name);
                     createLink();
                     videoPlayers.dismiss();
                 }
