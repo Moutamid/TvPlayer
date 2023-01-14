@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Clicklistners;
+import com.moutamid.tvplayer.adapters.CountriesWiseAdapter;
 import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import  com.moutamid.tvplayer.databinding.FragmentCommonBinding;
 import com.moutamid.tvplayer.R;
@@ -30,6 +31,7 @@ import com.moutamid.tvplayer.adapters.ChannelsAdapter;
 import com.moutamid.tvplayer.dialog.LinkDialog;
 import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
 import com.moutamid.tvplayer.models.ChannelsModel;
+import com.moutamid.tvplayer.models.CountriesChannelModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
 
 import org.json.JSONArray;
@@ -38,6 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 
 public class CommonFragment extends Fragment {
 
@@ -45,8 +48,9 @@ public class CommonFragment extends Fragment {
     Context context;
     FragmentCommonBinding binding;
     ArrayList<ChannelsModel> channelsList;
+    ArrayList<CountriesChannelModel> countriesChannel;
     ArrayList<StreamLinksModel> streamLinks;
-    ChannelsAdapter adapter;
+    CountriesWiseAdapter adapter;
     ArrayList<String> favrtList;
 
     public CommonFragment() {
@@ -66,6 +70,7 @@ public class CommonFragment extends Fragment {
 
         channelsList = new ArrayList<>();
         streamLinks = new ArrayList<>();
+        countriesChannel = new ArrayList<>();
         binding.recycler.setHasFixedSize(false);
 
         favrtList = Stash.getArrayList("favrtList", String.class);
@@ -107,21 +112,24 @@ public class CommonFragment extends Fragment {
                 channelsModel.setStreamingLinks(streamLinks);
 
                 channelsList.add(channelsModel);
-
+                countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
             }
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        if(channelsList.size() == 1){
+        /*if(channelsList.size() == 1){
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 1));
         } else if(channelsList.size() == 2){
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 2));
         } else {
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
-        }
-        // binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
-        adapter = new ChannelsAdapter(context, channelsList,clicklistners );
+        }*/
+
+        ArrayList<CountriesChannelModel> countries = new ArrayList<>(new LinkedHashSet<>(countriesChannel));
+
+        binding.recycler.setLayoutManager(new LinearLayoutManager(context));
+        adapter = new CountriesWiseAdapter(context, countries, clicklistners );
         binding.recycler.setAdapter(adapter);
 
         return view;

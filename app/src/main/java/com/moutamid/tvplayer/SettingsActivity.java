@@ -127,7 +127,11 @@ public class SettingsActivity extends AppCompatActivity {
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
             checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked){
 
+                } else {
+
+                }
             });
 
             // Add Checkbox to LinearLayout

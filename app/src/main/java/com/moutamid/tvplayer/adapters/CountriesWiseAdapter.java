@@ -4,22 +4,33 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.R;
+import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.CountriesChannelModel;
 
 import java.util.ArrayList;
 
 public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdapter.CountriesVH> {
     Context context;
+    private RecyclerView.RecycledViewPool
+            viewPool
+            = new RecyclerView
+            .RecycledViewPool();
     ArrayList<CountriesChannelModel> list;
+    Clicklistners clicklistners;
 
-    public CountriesWiseAdapter(Context context, ArrayList<CountriesChannelModel> list) {
+    public CountriesWiseAdapter(Context context, ArrayList<CountriesChannelModel> list, Clicklistners clicklistners) {
         this.context = context;
         this.list = list;
+        this.clicklistners = clicklistners;
     }
 
     @NonNull
@@ -31,18 +42,37 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
 
     @Override
     public void onBindViewHolder(@NonNull CountriesVH holder, int position) {
+        CountriesChannelModel model = list.get(position);
+        holder.name.setText(model.getName());
+
+        GridLayoutManager layoutManager = new GridLayoutManager(holder.recyclerView.getContext(),3);
+        layoutManager.setInitialPrefetchItemCount(model.getChannelsList().size());
+        holder.recyclerView.setLayoutManager(layoutManager);
+        ArrayList<ChannelsModel> list1 = new ArrayList<>();
+
+        for (ChannelsModel s : model.getChannelsList()){
+            if (s.getCountry().equals(model.getName())){
+                list1.add(s);
+            }
+        }
+
+        ChannelsAdapter channelsAdapter = new ChannelsAdapter(context, list1, clicklistners);
+        holder.recyclerView.setAdapter(channelsAdapter);
+        holder.recyclerView.setRecycledViewPool(viewPool);
 
     }
-
     @Override
     public int getItemCount() {
         return list.size();
     }
 
     public class CountriesVH extends RecyclerView.ViewHolder{
-
+        TextView name;
+        RecyclerView recyclerView;
         public CountriesVH(@NonNull View itemView) {
             super(itemView);
+            name = itemView.findViewById(R.id.name);
+            recyclerView = itemView.findViewById(R.id.recycler);
         }
     }
 
