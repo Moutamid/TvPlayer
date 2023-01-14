@@ -132,7 +132,7 @@ public class SettingsActivity extends AppCompatActivity {
                 list1 = new ArrayList<>();
             }
 
-            for (String r : list1){
+            for (String r : list1) {
                 if (r.equals(s.getTitle())){
                     checkBox.setChecked(true);
                 }
