@@ -76,6 +76,8 @@ public class VideoPlayerDialog {
         videoPlayers.requestWindowFeature(Window.FEATURE_NO_TITLE);
         videoPlayers.setContentView(R.layout.video_players);
 
+        Stash.clear("buttonIDDD");
+
         int id = Stash.getInt("buttonID", R.id.alwaysAsk);
         String player = Stash.getString("buttonTXT", "Always Ask");
 
@@ -234,11 +236,16 @@ public class VideoPlayerDialog {
             if (ids == R.id.alwaysAsk) {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
             } else if (ids == R.id.androidPlayer) {
-                videoPlayers.dismiss();
-                context.startActivity(new Intent(context, VideoPlayerActivity.class));
+                if (checkIsInstall(ids)){
+                    Stash.put("androidInternal", 1);
+                    progressDialog.show();
+                    createLink();
+                    videoPlayers.dismiss();
+                }
             } else {
                 if (checkIsInstall(ids)) {
                     progressDialog.show();
+                    Stash.put("androidInternal", 0);
                     createLink();
                     videoPlayers.dismiss();
                 } else {
@@ -254,13 +261,16 @@ public class VideoPlayerDialog {
             if (ids == R.id.alwaysAsk) {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
             } else if (ids == R.id.androidPlayer) {
-                Stash.put("buttonID", ids);
-                Stash.put("buttonTXT", name);
-                videoPlayers.dismiss();
-                context.startActivity(new Intent(context, VideoPlayerActivity.class));
+                if (checkIsInstall(ids)){
+                    Stash.put("androidInternal", 1);
+                    progressDialog.show();
+                    createLink();
+                    videoPlayers.dismiss();
+                }
             } else {
                 if (checkIsInstall(ids)) {
                     progressDialog.show();
+                    Stash.put("androidInternal", 0);
                     Stash.put("buttonID", ids);
                     Stash.put("buttonTXT", name);
                     createLink();
@@ -276,11 +286,18 @@ public class VideoPlayerDialog {
         if (id == R.id.alwaysAsk) {
             videoPlayers.show();
         } else if (id == R.id.androidPlayer) {
-            Stash.put("androidInternal", 1);
-            createLink();
+            if (checkIsInstall(id)){
+                Stash.put("androidInternal", 1);
+                progressDialog.show();
+                createLink();
+                videoPlayers.dismiss();
+            }
         } else {
             if (checkIsInstall(id)) {
                 progressDialog.show();
+                Stash.put("androidInternal", 0);
+                /*Stash.put("buttonID", id);
+                Stash.put("buttonTXT", player);*/
                 createLink();
                 videoPlayers.dismiss();
             } else {
@@ -325,10 +342,10 @@ public class VideoPlayerDialog {
             return isPackageExisted("org.videolan.vlc");
         }
 
-        /*if (player == R.id.androidPlayer) {
-            Stash.put("packageName", "com.zgz.supervideo");
-            return isPackageExisted("com.zgz.supervideo");
-        }*/
+        if (player == R.id.androidPlayer) {
+            Stash.put("packageName", "com.moutamid.android");
+            return true;
+        }
         if (player == R.id.videoPlayer) {
             Stash.put("packageName", "video.player.videoplayer");
             return isPackageExisted("video.player.videoplayer");
@@ -369,7 +386,7 @@ public class VideoPlayerDialog {
 
 
     private class GetLink extends AsyncTask<String, String, String> {
-
+        String[] token = new String[5];
         @Override
         protected String doInBackground(String... strings) {
 
@@ -377,7 +394,7 @@ public class VideoPlayerDialog {
             try {
                 Document doc = Jsoup.connect(url).get();
                 Elements body = doc.getElementsByTag("body");
-                final String[] token = { stream.getStream_link() + body.text() };
+                token[0] = stream.getStream_link() + body.text();
                 Log.d("htmlTAG", "url  " + url);
                 MetaRequest key = new MetaRequest(Request.Method.GET, url, null,
                         response -> {
@@ -416,14 +433,20 @@ public class VideoPlayerDialog {
             String url = Stash.getString("videoURL");
             String packageName = Stash.getString("packageName");
             int internal = Stash.getInt("androidInternal",  0);
-
+            Log.d("VideoURLPlayer", "URL "+url);
+            Log.d("VideoURLPlayer", "token "+token[0]);
+            Log.d("VideoURLPlayer", ""+internal);
+            Log.d("VideoURLPlayer", ""+packageName);
             if (internal == 1){
-                context.startActivity(new Intent(context, VideoPlayerActivity.class).putExtra("name", channelsModel.getName()).putExtra("url", url));
+                Intent intent = new Intent(context, VideoPlayerActivity.class);
+                intent.putExtra("name", channelsModel.getName());
+                intent.putExtra("url", url);
+                context.startActivity(intent);
             } else {
-            /*channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
+            channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
             if (channelsModel==null) { channelsModelArrayList = new ArrayList<>(); }
             channelsModelArrayList.add(channelsModel);
-            Stash.put("LastPlayed", channelsModelArrayList);*/
+            Stash.put("LastPlayed", channelsModelArrayList);
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setPackage(packageName);
                 i.setDataAndType(Uri.parse(url), "video/");
