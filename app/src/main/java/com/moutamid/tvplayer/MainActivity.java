@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     (Response.Listener<String>) response -> {
                 Log.i("VOLLEY", response);
                 Stash.put("android_id", android_id);
-                        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
             }, (Response.ErrorListener) error -> Log.e("VOLLEY", error.toString())) {
 
                 @Nullable
