@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.moutamid.tvplayer'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.moutamid.tvplayer"
         minSdk 19
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -40,8 +40,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
-    implementation 'androidx.room:room-runtime:2.4.3'
-    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+    implementation 'androidx.room:room-runtime:2.5.0'
+    annotationProcessor 'androidx.room:room-compiler:2.5.0'
 
     implementation 'org.jsoup:jsoup:1.15.3'
     implementation 'androidx.browser:browser:1.4.0'
@@ -50,39 +50,34 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
-    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
-    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
+  /*  implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'*/
 
-    /*implementation 'tv.danmaku.ijk.media:ijkplayer-armv5:0.8.8'
-    implementation 'tv.danmaku.ijk.media:ijkplayer-arm64:0.8.8'
-    implementation 'tv.danmaku.ijk.media:ijkplayer-x86:0.8.8'
-    implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8'*/
+
+    implementation 'com.github.hty527.iPlayer:exo:2.1.20'
+    //选择exo音视频解码器时需引用
+    //以下为必须项，SDK内部已引用，集成时无需引用
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.2'//（必需）
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.2'//核心功能（必需）
+    implementation "com.google.android.exoplayer:extension-rtmp:2.18.2"//rtmp直播流解码协议//（必需）
+    //exo音视频解码器，以下为可选依赖，请根据需要实现
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.2'//支持DASH内容
+    implementation "com.google.android.exoplayer:exoplayer-hls:2.18.2"//支持HLS内容
+    implementation "com.google.android.exoplayer:exoplayer-rtsp:2.18.2"//rtsp直播流解码协议
 
     implementation 'com.github.hty527.iPlayer:iplayer:2.1.20'
     //UI交互组件,可根据需要使用
     implementation 'com.github.hty527.iPlayer:widget:2.1.20'
 
     //音视频预缓存+边播边存,根据需要使用
-    //implementation 'com.github.hty527.iPlayer:cache:2.1.20'
+    implementation 'com.github.hty527.iPlayer:cache:2.1.20'
 
     //ijk音视频解码器,根据需要使用
-    //implementation 'com.github.hty527.iPlayer:ijk:2.1.20'
-    //exo音视频解码器,根据需要使用
-    //implementation 'com.github.hty527.iPlayer:exo:2.1.20'
-    //选择exo音视频解码器时需引用
-    //以下为必须项，SDK内部已引用，集成时无需引用
-    //implementation 'com.google.android.exoplayer:exoplayer:2.18.1'//（必需）
-    //implementation 'com.google.android.exoplayer:exoplayer-core:2.18.1'//核心功能（必需）
-    //implementation "com.google.android.exoplayer:extension-rtmp:2.18.1"//rtmp直播流解码协议//（必需）
-    //exo音视频解码器，以下为可选依赖，请根据需要实现
-    //implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.1'//支持DASH内容
-    //implementation "com.google.android.exoplayer:exoplayer-hls:2.18.1"//支持HLS内容
-    //implementation "com.google.android.exoplayer:exoplayer-rtsp:2.18.1"//rtsp直播流解码协议
-
+    implementation 'com.github.hty527.iPlayer:ijk:2.1.20'
 
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
