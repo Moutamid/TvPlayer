@@ -101,10 +101,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
             }
         });
 
-        ControlFunctionBarView functionBarView=new ControlFunctionBarView(this);//底部时间、seek、静音、全屏功能栏
-        functionBarView.showSoundMute(false,false);//启用静音功能交互\默认不静音
-        ControlGestureView gestureView=new ControlGestureView(this);//手势控制屏幕亮度、系统音量、快进、快退UI交互
-        ControlCompletionView completionView=new ControlCompletionView(this);//播放完成、重试
+        ControlFunctionBarView functionBarView=new ControlFunctionBarView(this);
+        functionBarView.showSoundMute(false,false);
+        ControlGestureView gestureView=new ControlGestureView(this);
+        ControlCompletionView completionView=new ControlCompletionView(this);
         ControlStatusView statusView=new ControlStatusView(this);
         ControlLoadingView loadingView=new ControlLoadingView(this);
         ControWindowView windowView=new ControWindowView(this);
