@@ -8,14 +8,18 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.iplayer.base.AbstractMediaPlayer;
+import com.android.iplayer.controller.ControlWrapper;
 import com.android.iplayer.controller.VideoController;
+import com.android.iplayer.interfaces.IControllerView;
 import com.android.iplayer.interfaces.IVideoController;
 import com.android.iplayer.listener.OnPlayerEventListener;
 import com.android.iplayer.media.core.ExoPlayerFactory;
 import com.android.iplayer.media.core.IjkPlayerFactory;
+import com.android.iplayer.model.PlayerState;
 import com.android.iplayer.widget.WidgetFactory;
 import com.android.iplayer.widget.controls.ControWindowView;
 import com.android.iplayer.widget.controls.ControlCompletionView;
@@ -40,10 +44,6 @@ public class VideoPlayerActivity extends AppCompatActivity {
         String url = getIntent().getStringExtra("url");
         String name = getIntent().getStringExtra("name");
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            binding.videoPlayer.setTooltipText(name);
-        }
-
         // binding.videoPlayer.getLayoutParams().height= getResources().getDisplayMetrics().widthPixels * 9 /16;
 
         binding.videoPlayer.setAutoChangeOrientation(true);
@@ -63,23 +63,18 @@ public class VideoPlayerActivity extends AppCompatActivity {
             }
         });*/
 
-        VideoController mController = new VideoController(binding.videoPlayer.getContext());
-        mController.showLocker(true);
-        mController.setCanTouchInPortrait(true);
-        mController.setCanTouchPosition(true);
-        mController.setGestureEnabled(true);
-        mController.setDoubleTapTogglePlayEnabled(true);
-        binding.videoPlayer.setController(mController);
+
+        VideoController controller = new VideoController(binding.videoPlayer.getContext());
+        binding.videoPlayer.setController(controller);
+        WidgetFactory.bindDefaultControls(controller);
+        controller.setTitle(name);
+        // binding.videoPlayer.createController();
 
         ControlToolBarView toolBarView=new ControlToolBarView(this);
         toolBarView.setTarget(IVideoController.TARGET_CONTROL_TOOL);
         toolBarView.showBack(true);
-        toolBarView.setTitle(name);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            toolBarView.setTooltipText(name);
-        }
-        toolBarView.showMenus(true,false,false);
 
+        toolBarView.showMenus(true,false,false);
         toolBarView.setOnToolBarActionListener(new ControlToolBarView.OnToolBarActionListener() {
             @Override
             public void onBack() {
@@ -105,20 +100,17 @@ public class VideoPlayerActivity extends AppCompatActivity {
                 //showMenuDialog();
             }
         });
+
         ControlFunctionBarView functionBarView=new ControlFunctionBarView(this);//底部时间、seek、静音、全屏功能栏
-        functionBarView.showSoundMute(true,false);//启用静音功能交互\默认不静音
+        functionBarView.showSoundMute(false,false);//启用静音功能交互\默认不静音
         ControlGestureView gestureView=new ControlGestureView(this);//手势控制屏幕亮度、系统音量、快进、快退UI交互
         ControlCompletionView completionView=new ControlCompletionView(this);//播放完成、重试
-        ControlStatusView statusView=new ControlStatusView(this);//移动网络播放提示、播放失败、试看完成
-        ControlLoadingView loadingView=new ControlLoadingView(this);//加载中、开始播放
-        ControWindowView windowView=new ControWindowView(this);//悬浮窗窗口播放器的窗口样式
+        ControlStatusView statusView=new ControlStatusView(this);
+        ControlLoadingView loadingView=new ControlLoadingView(this);
+        ControWindowView windowView=new ControWindowView(this);
         //将自定义交互组件添加到控制器
-        mController.addControllerWidget(toolBarView,functionBarView,gestureView,completionView,statusView,loadingView,windowView);
+        controller.addControllerWidget(toolBarView,functionBarView,gestureView,completionView,statusView,loadingView,windowView);
 
-        /*VideoController controller = new VideoController(binding.videoPlayer.getContext());
-        binding.videoPlayer.setController(controller);
-        WidgetFactory.bindDefaultControls(controller);
-        controller.setTitle(name);*/
         Log.d("VideoURLPlayer", ""+url);
         binding.videoPlayer.setDataSource(url);
         // binding.videoPlayer.setDataSource("https://upload.dongfeng-nissan.com.cn/nissan/video/202204/4cfde6f0-bf80-11ec-95c3-214c38efbbc8.mp4");
@@ -141,8 +133,11 @@ public class VideoPlayerActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(binding.videoPlayer.isBackPressed()){
-            super.onBackPressed();
+            startActivity(new Intent(VideoPlayerActivity.this, MainActivity.class));
+            finish();
         }
+        startActivity(new Intent(VideoPlayerActivity.this, MainActivity.class));
+        finish();
     }
 
     @Override

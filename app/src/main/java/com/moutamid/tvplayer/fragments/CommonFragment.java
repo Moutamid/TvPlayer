@@ -40,7 +40,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 
 public class CommonFragment extends Fragment {
 
@@ -52,6 +54,7 @@ public class CommonFragment extends Fragment {
     ArrayList<StreamLinksModel> streamLinks;
     CountriesWiseAdapter adapter;
     ArrayList<String> favrtList;
+    Map<String, Object> map = new HashMap<>();
 
     public CommonFragment() {
         // Required empty public constructor
@@ -70,7 +73,7 @@ public class CommonFragment extends Fragment {
 
         channelsList = new ArrayList<>();
         streamLinks = new ArrayList<>();
-        countriesChannel = new ArrayList<>();
+        countriesChannel = new ArrayList<CountriesChannelModel>();
         binding.recycler.setHasFixedSize(false);
 
         favrtList = Stash.getArrayList("favrtList", String.class);
