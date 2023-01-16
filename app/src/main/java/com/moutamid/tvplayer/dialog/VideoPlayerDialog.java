@@ -408,11 +408,7 @@ public class VideoPlayerDialog {
                             //JSONObject headers = response.getJSONObject("headers");
                             String session = Stash.getString("SeassionHeader");
                             Log.d("htmlTAG", "Session : " + session);
-// Sending side
                             byte[] send = session.getBytes(StandardCharsets.UTF_8);
-                           // String base64 = Base64.encodeToString(send, Base64.DEFAULT);
-
-// Receiving side
                             byte[] data = Base64.decode(send, Base64.DEFAULT);
                             String text = new String(data, StandardCharsets.UTF_8);
                             token[0] = token[0].replace("$", text);

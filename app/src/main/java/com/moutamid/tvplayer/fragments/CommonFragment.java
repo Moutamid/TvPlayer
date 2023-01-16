@@ -54,7 +54,7 @@ public class CommonFragment extends Fragment {
     ArrayList<StreamLinksModel> streamLinks;
     CountriesWiseAdapter adapter;
     ArrayList<String> favrtList;
-    Map<String, Object> map = new HashMap<>();
+    Map<String, ArrayList<ChannelsModel>> map = new HashMap<>();
 
     public CommonFragment() {
         // Required empty public constructor
@@ -116,6 +116,8 @@ public class CommonFragment extends Fragment {
 
                 channelsList.add(channelsModel);
 
+                map.put(channelsModel.getCountry(), channelsList);
+
                 countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
             }
         } catch (Exception e){
@@ -130,6 +132,7 @@ public class CommonFragment extends Fragment {
             binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
         }*/
 
+       // ArrayList<CountriesChannelModel> newList = new ArrayList();
 
         binding.recycler.setLayoutManager(new LinearLayoutManager(context));
         adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
@@ -141,7 +144,6 @@ public class CommonFragment extends Fragment {
     public void linkDialog(ChannelsModel model){
         LinkDialog ld = new LinkDialog(context, model);
         ld.show();
-
     }
 
     private void videoPlayerDialog(ChannelsModel model) {
@@ -156,10 +158,12 @@ public class CommonFragment extends Fragment {
                 linkDialog(model);
             } else {
                 videoPlayerDialog(model);
-                /*int idx = Stash.getInt("buttonIDX", 0);
+                /*
+                int idx = Stash.getInt("buttonIDX", 0);
                 if (idx == 0) {
                     videoPlayerDialog(model);
-                }*/
+                }
+                */
             }
         }
 
