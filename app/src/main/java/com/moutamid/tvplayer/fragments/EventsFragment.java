@@ -138,7 +138,7 @@ public class EventsFragment extends Fragment {
             if (isAdded()) {
                 requireActivity().runOnUiThread(() -> {
                     try {
-                        Toast.makeText(context, "Html  " + htmlData, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "Html  " + htmlData, Toast.LENGTH_SHORT).show();
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
                         Stash.put(Constants.eventsData, data);
