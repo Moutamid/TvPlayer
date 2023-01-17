@@ -71,7 +71,7 @@ public class AllChannelsFragment extends Fragment {
         /*requireContext().setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
-        JSONObject data = (JSONObject) Stash.getObject("data", JSONObject.class);
+        JSONObject data = (JSONObject) Stash.getObject(Constants.channelsData, JSONObject.class);
 
         /*progressDialog.show();
         getData();*/
@@ -82,7 +82,7 @@ public class AllChannelsFragment extends Fragment {
         } else {
             ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
                     .getSupportFragmentManager());
-            list = Stash.getArrayList("tabs", TabsModel.class);
+            list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
             ArrayList<String> t = Stash.getArrayList("hidden", String.class);
             for (TabsModel s : list) {
                 JSONArray channelsArray = null;
@@ -153,20 +153,22 @@ public class AllChannelsFragment extends Fragment {
             if (isAdded()) {
                 requireActivity().runOnUiThread(() -> {
                     try {
+                        //Toast.makeText(context, htmlData, Toast.LENGTH_SHORT).show();
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
-                        Stash.put("data", data);
+                        Stash.put(Constants.channelsData, data);
                         ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
                                 .getSupportFragmentManager());
 
                         for (String s : iterate(data.keys())) {
                             JSONArray channelsArray = data.getJSONArray(s);
+                            Toast.makeText(context, channelsArray.toString(), Toast.LENGTH_SHORT).show();
                             CommonFragment fragment = new CommonFragment(channelsArray.toString());
                             adapter.addFrag(fragment, s);
                             TabsModel model = new TabsModel(s, channelsArray.toString(), false);
                             list.add(model);
                         }
-                        Stash.put("tabs", list);
+                        Stash.put(Constants.channelsTab, list);
                         binding.viewpager.setAdapter(adapter);
                         binding.tablayout.setupWithViewPager(binding.viewpager);
                         progressDialog.dismiss();

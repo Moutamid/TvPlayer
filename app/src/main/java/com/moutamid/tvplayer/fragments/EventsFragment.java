@@ -68,30 +68,30 @@ public class EventsFragment extends Fragment {
         /*requireContext().setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
-        JSONObject data = (JSONObject) Stash.getObject("dataEvents", JSONObject.class);
+        JSONObject data = (JSONObject) Stash.getObject(Constants.eventsData, JSONObject.class);
 
         progressDialog.show();
         getData();
 
-        /*if (data == null) {
+        if (data == null) {
             progressDialog.show();
             getData();
         } else {
             EventsFragment.ViewPagerAdapter adapter = new EventsFragment.ViewPagerAdapter(requireActivity().getSupportFragmentManager());
-            list = Stash.getArrayList("tabsEvents", TabsModel.class);
+            list = Stash.getArrayList(Constants.eventsTab, TabsModel.class);
             for (TabsModel s : list) {
-                *//*JSONArray channelsArray = null;
+                /*JSONArray channelsArray = null;
                 try {
                     channelsArray = data.getJSONArray(s);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }*//*
+                }*/
                 CommonEventFragment fragment = new CommonEventFragment(s.getObject());
                 adapter.addFrag(fragment, s.getTitle());
             }
             binding.viewpager.setAdapter(adapter);
             binding.tablayout.setupWithViewPager(binding.viewpager);
-        }*/
+        }
 
         return view;
     }
@@ -141,18 +141,18 @@ public class EventsFragment extends Fragment {
                         Toast.makeText(context, "Html  " + htmlData, Toast.LENGTH_SHORT).show();
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
-                        Stash.put("dataEvents", data);
+                        Stash.put(Constants.eventsData, data);
                         ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
                                 .getSupportFragmentManager());
 
                         for (String s : iterate(data.keys())) {
                             JSONArray channelsArray = data.getJSONArray(s);
-                            Toast.makeText(context, "Data " + channelsArray.toString(), Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(context, "Data " + channelsArray.toString(), Toast.LENGTH_SHORT).show();
                             CommonEventFragment fragment = new CommonEventFragment(channelsArray.toString());
                             adapter.addFrag(fragment, s);
                             TabsModel model = new TabsModel(s, channelsArray.toString(), false);
                             list.add(model);
-                            Stash.put("tabsEvents", list);
+                            Stash.put(Constants.eventsTab, list);
                         }
                         binding.viewpager.setAdapter(adapter);
                         binding.tablayout.setupWithViewPager(binding.viewpager);
