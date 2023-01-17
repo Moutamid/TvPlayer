@@ -71,12 +71,35 @@ public class AllChannelsFragment extends Fragment {
         /*requireContext().setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
-        JSONObject data = (JSONObject) Stash.getObject(Constants.channelsData, JSONObject.class);
+        // String dummy = "{\"status\":\"success\",\"data\":{\"pakistani movies\":[{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"pakistan\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0},{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"pakistan\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0}],\"Entertainment\":[{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"pakistan\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0},{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"pakistan\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0}],\"Darama\":[{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"pakistan\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0}]}}";
+        String dummy = "{\"status\":\"success\",\"data\":{\"pakistani movies\":[{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"pakistan\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0},{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"india\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0}],\"Entertainment\":[{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"pakistan\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0},{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"china\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0}],\"Darama\":[{\"_id\":\"63c0201fa23a96dcd4d13e05\",\"name\":\"India vs Pakistan\",\"category\":\"pakistani movies\",\"image\":\"event-img-1673535519840.jpeg\",\"imageUrl\":\"http://95.217.210.178/image/event-img-1673535519840.jpeg\",\"hide\":false,\"country\":\"pakistan\",\"streamingLinks\":[{\"name\":\"Pakistani Movies\",\"token\":\"1\",\"url\":\"http://$/mooon/pakistaninewmovies/playlist.m3u8\",\"priority\":1,\"request_header\":\"Referer,http://google.com\",\"player_header\":\"User-Agent,vlcplayer\",\"_id\":\"63c0201fa23a96dcd4d13e06\"}],\"ID\":7,\"__v\":0}]}}";
+        //JSONObject data = (JSONObject) Stash.getObject(Constants.channelsData, JSONObject.class);
+
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(dummy);
+            JSONObject data = jsonObject.getJSONObject("data");
+            Stash.put(Constants.channelsData, data);
+            ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
+                    .getSupportFragmentManager());
+
+            for (String s : iterate(data.keys())) {
+                JSONArray channelsArray = data.getJSONArray(s);
+                Toast.makeText(context, channelsArray.toString(), Toast.LENGTH_SHORT).show();
+                CommonFragment fragment = new CommonFragment(channelsArray.toString());
+                adapter.addFrag(fragment, s);
+                TabsModel model = new TabsModel(s, channelsArray.toString(), false);
+                list.add(model);
+            }
+            Stash.put(Constants.channelsTab, list);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
         /*progressDialog.show();
         getData();*/
 
-        if (data == null){
+        if (jsonObject == null){
             progressDialog.show();
             getData();
         } else {
