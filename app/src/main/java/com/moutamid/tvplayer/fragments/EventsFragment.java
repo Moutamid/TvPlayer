@@ -70,8 +70,8 @@ public class EventsFragment extends Fragment {
 
         JSONObject data = (JSONObject) Stash.getObject(Constants.eventsData, JSONObject.class);
 
-        progressDialog.show();
-        getData();
+//        progressDialog.show();
+//        getData();
 
         if (data == null) {
             progressDialog.show();
