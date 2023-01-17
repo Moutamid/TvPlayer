@@ -50,11 +50,14 @@ public class CommonFragment extends Fragment {
     Context context;
     FragmentCommonBinding binding;
     ArrayList<ChannelsModel> channelsList;
-    ArrayList<CountriesChannelModel> countriesChannel;
+    //ArrayList<CountriesChannelModel> countriesChannel;
+    ArrayList<Map<String, ArrayList<ChannelsModel>>> countriesChannel;
     ArrayList<StreamLinksModel> streamLinks;
     CountriesWiseAdapter adapter;
     ArrayList<String> favrtList;
     Map<String, ArrayList<ChannelsModel>> map = new HashMap<>();
+
+    ArrayList<String> newList = new ArrayList();
 
     public CommonFragment() {
         // Required empty public constructor
@@ -73,7 +76,8 @@ public class CommonFragment extends Fragment {
 
         channelsList = new ArrayList<>();
         streamLinks = new ArrayList<>();
-        countriesChannel = new ArrayList<CountriesChannelModel>();
+        //countriesChannel = new ArrayList<CountriesChannelModel>();
+        countriesChannel = new ArrayList<Map<String, ArrayList<ChannelsModel>>>();
         binding.recycler.setHasFixedSize(false);
 
         favrtList = Stash.getArrayList("favrtList", String.class);
@@ -118,7 +122,10 @@ public class CommonFragment extends Fragment {
 
                 map.put(channelsModel.getCountry(), channelsList);
 
-                countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
+                newList.add(channelsModel.getCountry());
+
+               // countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
+                countriesChannel.add(map);
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -133,6 +140,8 @@ public class CommonFragment extends Fragment {
         }*/
 
        // ArrayList<CountriesChannelModel> newList = new ArrayList();
+
+        Stash.put("newList", newList);
 
         binding.recycler.setLayoutManager(new LinearLayoutManager(context));
         adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
