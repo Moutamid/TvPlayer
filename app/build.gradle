@@ -42,7 +42,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation files('libs/unityadsadapter-4.3.24.aar')
-    //implementation 'com.supersonic.adapters:unityadsadapter:2.1.2'
+    //implementation 'com.supersonic.adapters:unityadsadapter:4.3.24@jar'
+    implementation 'com.supersonic.adapters:unityadsadapter:2.1.2@jar'
     implementation 'com.ironsource.adapters:vungleadapter:4.3.18'
     implementation 'com.vungle:publisher-sdk-android:6.12.0'
     implementation 'com.ironsource.adapters:inmobiadapter:4.3.15'
