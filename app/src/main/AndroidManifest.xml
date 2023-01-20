@@ -13,6 +13,22 @@
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
     <queries>
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+    </queries>
+
+    <queries>
         <package android:name="com.moutamid.tvplayer" />
         <package android:name="com.mxtech.videoplayer.ad" />
         <package android:name="com.raddixcore.xyzplayer" />
@@ -93,23 +109,24 @@
                 android:value="" />
         </activity>
 
-        <activity
-            android:name="com.ironsource.sdk.controller.ControllerActivity"
-            android:configChanges="orientation|screenSize"
-            android:hardwareAccelerated="true" />
-        <activity
-            android:name="com.ironsource.sdk.controller.InterstitialActivity"
-            android:configChanges="orientation|screenSize"
+        <!--<activity
+            android:name="com.unity3d.ads.adunit.AdUnitActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
             android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name="com.ironsource.sdk.controller.OpenUrlActivity"
-            android:configChanges="orientation|screenSize"
+            android:name="com.unity3d.ads.adunit.AdUnitSoftwareActivity"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+            android:hardwareAccelerated="false"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />-->
+
+        <activity
+            android:name="com.inmobi.ads.rendering.InMobiAdActivity"
+            android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize|screenLayout|locale|fontScale|uiMode"
             android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent" />
-        <provider
-            android:authorities="${applicationId}.IronsourceLifecycleProvider"
-            android:name="com.ironsource.lifecycle.IronsourceLifecycleProvider" />
+            android:theme="@android:style/Theme.NoTitleBar"
+            tools:ignore="UnusedAttribute" />
+
 
     </application>
 

@@ -5,7 +5,10 @@ pluginManagement {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven {
-            url 'https://android-sdk.is.com/'
+            url "https://dl.bintray.com/supersonic/android-adapters"
+        }
+        maven {
+            url "https://android-sdk.is.com/"
         }
         jcenter()
     }
@@ -17,7 +20,10 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven {
-            url 'https://android-sdk.is.com/'
+            url "https://dl.bintray.com/supersonic/android-adapters"
+        }
+        maven {
+            url "https://android-sdk.is.com/"
         }
         jcenter()
     }

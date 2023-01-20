@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         IronSource.init(this, "18494ecc5", IronSource.AD_UNIT.INTERSTITIAL);
 
+        IronSource.setMetaData("Vungle_coppa","true");
+
+        IronSource.setMetaData("InMobi_AgeRestricted","true");
+
+        IronSource.setAdaptersDebug(true);
         IronSource.setInterstitialListener(new InterstitialListener() {
             /**
              * Invoked when Interstitial Ad is ready to be shown after load function was called.
