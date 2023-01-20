@@ -185,7 +185,7 @@ public class AllChannelsFragment extends Fragment {
 
                         for (String s : iterate(data.keys())) {
                             JSONArray channelsArray = data.getJSONArray(s);
-                            Toast.makeText(context, channelsArray.toString(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(context, channelsArray.toString(), Toast.LENGTH_SHORT).show();
                             CommonFragment fragment = new CommonFragment(channelsArray.toString());
                             adapter.addFrag(fragment, s);
                             TabsModel model = new TabsModel(s, channelsArray.toString(), false);
