@@ -83,6 +83,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         IronSource.setMetaData("InMobi_AgeRestricted","true");
 
+        IronSource.Agent.setMetaData("UnityAds_coppa","true");
+
+        IronSource.Agent.setAdaptersDebug(true);
+
         IronSource.setAdaptersDebug(true);
         IronSource.setInterstitialListener(new InterstitialListener() {
             /**
