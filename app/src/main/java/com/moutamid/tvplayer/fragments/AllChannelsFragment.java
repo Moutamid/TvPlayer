@@ -30,6 +30,8 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -90,6 +92,7 @@ public class AllChannelsFragment extends Fragment {
             progressDialog.show();
             getData();
         } else {
+            progressDialog.show();
             list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
             getTabs();
         }
@@ -141,13 +144,20 @@ public class AllChannelsFragment extends Fragment {
                         JSONArray jsonArray = new JSONArray(htmlData);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            if (list.get(i).getName().equals(obj.getString("name"))) {
-                                list.get(i).setId(obj.getInt("id"));
+                            for (int j=0; j< list.size(); j++){
+                                if (list.get(j).getName().equals(obj.getString("name"))) {
+                                    list.get(j).setId(obj.getInt("id"));
+                                }
                             }
+                            // Stash.put(Constants.channelsTab, list);
                         }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            Collections.sort(list, Comparator.comparing(TabsModel::getId));
+                        }
+                        //Collections.reverse(list);
                         setTabs();
                     } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
                     }
                 });
             }
@@ -159,7 +169,7 @@ public class AllChannelsFragment extends Fragment {
                 .getSupportFragmentManager());
         ArrayList<String> t = Stash.getArrayList("hidden", String.class);
         for (TabsModel s : list) {
-            Toast.makeText(context, ""+s.getId(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(context, ""+s.getId(), Toast.LENGTH_SHORT).show();
             if(t.isEmpty() || t == null){
                 CommonFragment fragment = new CommonFragment(s.getObject());
                 adapter.addFrag(fragment, s.getName());
@@ -174,6 +184,7 @@ public class AllChannelsFragment extends Fragment {
         }
         binding.viewpager.setAdapter(adapter);
         binding.tablayout.setupWithViewPager(binding.viewpager);
+        progressDialog.dismiss();
     }
 
     private void getData() {
@@ -221,21 +232,22 @@ public class AllChannelsFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
                         Stash.put(Constants.channelsData, data);
-                        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
-                                .getSupportFragmentManager());
+                        /*ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
+                                .getSupportFragmentManager());*/
 
                         for (String s : iterate(data.keys())) {
                             JSONArray channelsArray = data.getJSONArray(s);
-                            Toast.makeText(context, channelsArray.toString(), Toast.LENGTH_SHORT).show();
+                            /*Toast.makeText(context, channelsArray.toString(), Toast.LENGTH_SHORT).show();
                             CommonFragment fragment = new CommonFragment(channelsArray.toString());
-                            adapter.addFrag(fragment, s);
+                            adapter.addFrag(fragment, s);*/
                             TabsModel model = new TabsModel(s, channelsArray.toString(), false);
                             list.add(model);
                         }
                         Stash.put(Constants.channelsTab, list);
-                        binding.viewpager.setAdapter(adapter);
-                        binding.tablayout.setupWithViewPager(binding.viewpager);
-                        progressDialog.dismiss();
+                        getTabs();
+                        /*binding.viewpager.setAdapter(adapter);
+                        binding.tablayout.setupWithViewPager(binding.viewpager);*/
+                        //progressDialog.dismiss();
 
                     } catch (JSONException error) {
                         Toast.makeText(requireActivity(), error.getMessage(), Toast.LENGTH_LONG).show();

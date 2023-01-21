@@ -30,6 +30,8 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -70,23 +72,97 @@ public class EventsFragment extends Fragment {
             progressDialog.show();
             getData();
         } else {
-            EventsFragment.ViewPagerAdapter adapter = new EventsFragment.ViewPagerAdapter(requireActivity().getSupportFragmentManager());
             list = Stash.getArrayList(Constants.eventsTab, TabsModel.class);
-            for (TabsModel s : list) {
-                /*JSONArray channelsArray = null;
-                try {
-                    channelsArray = data.getJSONArray(s);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
-                CommonEventFragment fragment = new CommonEventFragment(s.getObject());
-                adapter.addFrag(fragment, s.getName());
-            }
-            binding.viewpager.setAdapter(adapter);
-            binding.tablayout.setupWithViewPager(binding.viewpager);
+            getTabs();
         }
 
         return view;
+    }
+
+    private void getTabs() {
+        new Thread(() -> {
+            URL google = null;
+            try {
+                google = new URL(Constants.tabs);
+            } catch (final MalformedURLException e) {
+                e.printStackTrace();
+            }
+            BufferedReader in = null;
+            try {
+                in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
+            } catch (final IOException e) {
+                Log.d("TAG", "compress: ERROR: " + e.toString());
+                e.printStackTrace();
+            }
+            String input = null;
+            StringBuffer stringBuffer = new StringBuffer();
+            while (true) {
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if ((input = in != null ? in.readLine() : null) == null) break;
+                    }
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+                stringBuffer.append(input);
+            }
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+            String htmlData = stringBuffer.toString();
+
+            Log.d("TAG", "data: " + htmlData);
+
+            if (isAdded()) {
+                requireActivity().runOnUiThread(() -> {
+                    try {
+                        JSONArray jsonArray = new JSONArray(htmlData);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            for (int j=0; j< list.size(); j++){
+                                if (list.get(j).getName().equals(obj.getString("name"))) {
+                                    list.get(j).setId(obj.getInt("id"));
+                                }
+                            }
+                            // Stash.put(Constants.channelsTab, list);
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            Collections.sort(list, Comparator.comparing(TabsModel::getId));
+                        }
+                        //Collections.reverse(list);
+                        setTabs();
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void setTabs() {
+        EventsFragment.ViewPagerAdapter adapter = new EventsFragment.ViewPagerAdapter(requireActivity()
+                .getSupportFragmentManager());
+        ArrayList<String> t = Stash.getArrayList("hidden", String.class);
+        for (TabsModel s : list) {
+            //Toast.makeText(context, ""+s.getId(), Toast.LENGTH_SHORT).show();
+            if(t.isEmpty() || t == null){
+                CommonFragment fragment = new CommonFragment(s.getObject());
+                adapter.addFrag(fragment, s.getName());
+            } else {
+                for (String ss : t) {
+                    if (!ss.equals(s.getName())){
+                        CommonFragment fragment = new CommonFragment(s.getObject());
+                        adapter.addFrag(fragment, s.getName());
+                    }
+                }
+            }
+        }
+        binding.viewpager.setAdapter(adapter);
+        binding.tablayout.setupWithViewPager(binding.viewpager);
     }
 
     private void getData() {
@@ -135,20 +211,21 @@ public class EventsFragment extends Fragment {
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
                         Stash.put(Constants.eventsData, data);
-                        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
-                                .getSupportFragmentManager());
+                        /*ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
+                                .getSupportFragmentManager());*/
 
                         for (String s : iterate(data.keys())) {
                             JSONArray channelsArray = data.getJSONArray(s);
                             // Toast.makeText(context, "Data " + channelsArray.toString(), Toast.LENGTH_SHORT).show();
-                            CommonEventFragment fragment = new CommonEventFragment(channelsArray.toString());
-                            adapter.addFrag(fragment, s);
+                            //CommonEventFragment fragment = new CommonEventFragment(channelsArray.toString());
+                            //adapter.addFrag(fragment, s);
                             TabsModel model = new TabsModel(s, channelsArray.toString(), false);
                             list.add(model);
-                            Stash.put(Constants.eventsTab, list);
                         }
-                        binding.viewpager.setAdapter(adapter);
-                        binding.tablayout.setupWithViewPager(binding.viewpager);
+                        Stash.put(Constants.eventsTab, list);
+                        getTabs();
+                        /*binding.viewpager.setAdapter(adapter);
+                        binding.tablayout.setupWithViewPager(binding.viewpager);*/
                         progressDialog.dismiss();
 
                     } catch (JSONException error) {
