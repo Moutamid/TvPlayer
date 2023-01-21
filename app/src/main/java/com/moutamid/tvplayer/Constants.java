@@ -8,4 +8,6 @@ public class Constants {
     public static final String channelsData = "channelsData";
     public static final String channelsTab = "channelsTab";
     public static final String eventsTab = "eventsTab";
+    public static final String tabs = "https://raw.githubusercontent.com/Moutamid/CashAppReplica/master/categories.txt";
+    public static final String countries = "https://raw.githubusercontent.com/Moutamid/CashAppReplica/master/countries.txt";
 }

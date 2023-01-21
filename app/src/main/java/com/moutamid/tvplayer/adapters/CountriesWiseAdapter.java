@@ -27,22 +27,22 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
             viewPool
             = new RecyclerView
             .RecycledViewPool();
-   // ArrayList<CountriesChannelModel> list;
-    ArrayList<Map<String, ArrayList<ChannelsModel>>> list;
+   ArrayList<CountriesChannelModel> list;
+    //ArrayList<Map<String, ArrayList<ChannelsModel>>> list;
     Clicklistners clicklistners;
 
-    /*public CountriesWiseAdapter(Context context, ArrayList<CountriesChannelModel> list, Clicklistners clicklistners) {
-        this.context = context;
-        this.list = list;
-        this.clicklistners = clicklistners;
-    }*/
-
-    public CountriesWiseAdapter(Context context, ArrayList<Map<String, ArrayList<ChannelsModel>>> list, Clicklistners clicklistners) {
+    public CountriesWiseAdapter(Context context, ArrayList<CountriesChannelModel> list, Clicklistners clicklistners) {
         this.context = context;
         this.list = list;
         this.clicklistners = clicklistners;
     }
 
+  /*  public CountriesWiseAdapter(Context context, ArrayList<Map<String, ArrayList<ChannelsModel>>> list, Clicklistners clicklistners) {
+        this.context = context;
+        this.list = list;
+        this.clicklistners = clicklistners;
+    }
+*/
     @NonNull
     @Override
     public CountriesVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,29 +52,27 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
 
     @Override
     public void onBindViewHolder(@NonNull CountriesVH holder, int position) {
-        Map<String, ArrayList<ChannelsModel>> model = list.get(position);
+        CountriesChannelModel model = list.get(position);
         ArrayList<String> newList = Stash.getArrayList("newList", String.class);
 
-        for (String h : newList){
-            Toast.makeText(context, h, Toast.LENGTH_SHORT).show();
-        }
+        // String ss = newList.get(position);
 
-        String ss = newList.get(position);
+        holder.name.setText(model.getName());
 
-        holder.name.setText(ss);
-
-        /*GridLayoutManager layoutManager = new GridLayoutManager(holder.recyclerView.getContext(),3);
-        layoutManager.setInitialPrefetchItemCount(model.get(ss).size());
+        GridLayoutManager layoutManager = new GridLayoutManager(holder.recyclerView.getContext(),3);
+        layoutManager.setInitialPrefetchItemCount(model.getChannelsList().size());
         holder.recyclerView.setLayoutManager(layoutManager);
         ArrayList<ChannelsModel> list1 = new ArrayList<>();
 
-        for (ChannelsModel s : model.get(ss)){
-            list1.add(s);
+        for (ChannelsModel s : model.getChannelsList()){
+            if (s.getCountry().equals(model.getName())){
+                list1.add(s);
+            }
         }
 
         ChannelsAdapter channelsAdapter = new ChannelsAdapter(context, list1, clicklistners);
         holder.recyclerView.setAdapter(channelsAdapter);
-        holder.recyclerView.setRecycledViewPool(viewPool);*/
+        holder.recyclerView.setRecycledViewPool(viewPool);
 
     }
     @Override

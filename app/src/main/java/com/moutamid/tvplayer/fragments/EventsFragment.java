@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,15 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Constants;
-import com.moutamid.tvplayer.R;
-import com.moutamid.tvplayer.VolleySingleton;
-import com.moutamid.tvplayer.adapters.ChannelsAdapter;
 import com.moutamid.tvplayer.databinding.FragmentEventsBinding;
-import com.moutamid.tvplayer.models.ChannelsModel;
-import com.moutamid.tvplayer.models.StreamLinksModel;
 import com.moutamid.tvplayer.models.TabsModel;
 
 import org.json.JSONArray;
@@ -87,7 +80,7 @@ public class EventsFragment extends Fragment {
                     e.printStackTrace();
                 }*/
                 CommonEventFragment fragment = new CommonEventFragment(s.getObject());
-                adapter.addFrag(fragment, s.getTitle());
+                adapter.addFrag(fragment, s.getName());
             }
             binding.viewpager.setAdapter(adapter);
             binding.tablayout.setupWithViewPager(binding.viewpager);

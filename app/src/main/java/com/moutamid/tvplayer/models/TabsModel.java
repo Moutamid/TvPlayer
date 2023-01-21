@@ -1,24 +1,36 @@
 package com.moutamid.tvplayer.models;
 
-import androidx.fragment.app.Fragment;
-
 public class TabsModel {
-    String title;
+    int id;
+    String name;
     String object;
     boolean isHidden;
 
     public TabsModel() {
     }
 
+    public TabsModel(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public TabsModel(String title, String object) {
-        this.title = title;
+        this.name = title;
         this.object = object;
     }
 
     public TabsModel(String title, String object, boolean isHidden) {
-        this.title = title;
+        this.name = title;
         this.object = object;
         this.isHidden = isHidden;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isHidden() {
@@ -29,16 +41,12 @@ public class TabsModel {
         isHidden = hidden;
     }
 
-    public TabsModel(String title) {
-        this.title = title;
+    public String getName() {
+        return name;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String title) {
+        this.name = title;
     }
 
     public String getObject() {

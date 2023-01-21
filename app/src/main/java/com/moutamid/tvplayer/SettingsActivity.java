@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,18 +18,14 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
-import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.radiobutton.MaterialRadioButton;
-import com.moutamid.tvplayer.databinding.ActivityAdjustTabsBinding;
 import com.moutamid.tvplayer.databinding.ActivitySettingsBinding;
-import com.moutamid.tvplayer.models.StreamLinksModel;
 import com.moutamid.tvplayer.models.TabsModel;
 
 import java.util.ArrayList;
@@ -86,6 +81,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        binding.adjust.setVisibility(View.GONE);
+
         binding.adjust.setOnClickListener(v -> {
             startActivity(new Intent(this, AdjustTabsActivity.class));
         });
@@ -121,7 +118,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Create Checkbox Dynamically
         for (TabsModel s : list) {
             CheckBox checkBox = new CheckBox(this);
-            checkBox.setText("\t\t" + s.getTitle().toUpperCase(Locale.ROOT));
+            checkBox.setText("\t\t" + s.getName().toUpperCase(Locale.ROOT));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 checkBox.setButtonTintList(getResources().getColorStateList(R.color.orange));
@@ -133,7 +130,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             for (String r : list1){
-                if (r.equals(s.getTitle())){
+                if (r.equals(s.getName())){
                     checkBox.setChecked(true);
                 }
             }
@@ -142,21 +139,13 @@ public class SettingsActivity extends AppCompatActivity {
             checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             ArrayList<String> finalList = list1;
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                /*TabsModel tab = new TabsModel();
-                tab.setHidden(isChecked);
-                tab.setObject(s.getObject());
-                tab.setTitle(s.getTitle());*/
-
-//                Toast.makeText(this, tab.getTitle() + " " + s.getTitle(), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(this, tab.isHidden() + " " + isChecked, Toast.LENGTH_SHORT).show();
-
                 if (isChecked) {
-                    finalList.add(s.getTitle());
+                    finalList.add(s.getName());
                     // Toast.makeText(this, ""+list1.size(), Toast.LENGTH_SHORT).show();
                     // Stash.clear("hidden");
                     Stash.put("hidden", finalList);
                 } else {
-                    finalList.remove(s.getTitle());
+                    finalList.remove(s.getName());
                     // Toast.makeText(this, ""+list1.size(), Toast.LENGTH_SHORT).show();
                     Stash.put("hidden", finalList);
                 }
