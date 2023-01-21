@@ -110,7 +110,7 @@ public class SettingsActivity extends AppCompatActivity {
             hide.dismiss();
         });
 
-        list = Stash.getArrayList("tabs", TabsModel.class);
+        list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
 
         LinearLayout linearLayout = hide.findViewById(R.id.layout);
         ArrayList<TabsModel> tabsModels = new ArrayList<>(list);
