@@ -1,5 +1,7 @@
 package com.moutamid.tvplayer.dialog;
 
+import static com.android.volley.Request.Method.GET;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -12,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.StrictMode;
 import android.util.Base64;
 import android.util.Log;
@@ -24,9 +27,14 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpResponse;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.fxn.stash.Stash;
 import com.google.android.material.card.MaterialCardView;
+import com.google.gson.JsonParser;
+import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.MetaRequest;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.VideoPlayerActivity;
@@ -34,6 +42,7 @@ import com.moutamid.tvplayer.VolleySingleton;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -41,9 +50,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class VideoPlayerDialog {
 
@@ -373,7 +387,7 @@ public class VideoPlayerDialog {
     }
 
     private void createLink() {
-        new GetLink().execute("");
+        getToken();
     }
 
     private boolean isPackageExisted(String targetPackage){
@@ -386,24 +400,46 @@ public class VideoPlayerDialog {
         return true;
     }
 
+    private void getToken() {
+        Log.d("testing123", "okTesting");
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(GET, Constants.token, null, response -> {
+            for (int i = 0; i < response.length(); i++) {
+                try {
+                    JSONObject obj = response.getJSONObject(i);
+                    Toast.makeText(context, obj.getString("id"), Toast.LENGTH_SHORT).show();
+                    Stash.put(obj.getString("id"), obj.getString("url"));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            new GetLink().execute("");
+        }, error -> {
+
+        });
+
+        requestQueue.add(jsonArrayRequest);
+
+       // new GetLink().execute("");
+    }
+
 
     private class GetLink extends AsyncTask<String, String, String> {
         String[] token = new String[5];
         @Override
         protected String doInBackground(String... strings) {
 
-            String url = stream.getToken();
+            String tokenNumber = stream.getToken();
+            Log.d("testing123", tokenNumber);
 
-            if (url.equals("1")){
-                url = "http://95.217.210.178:8080/projects/token.php";
-            }
+            String url = Stash.getString(tokenNumber, "");
+            Log.d("testing123", "url  " + url);
 
             try {
                 Document doc = Jsoup.connect(url).get();
                 Elements body = doc.getElementsByTag("body");
                 token[0] = stream.getStream_link() + body.text();
                 Log.d("htmlTAG", "url  " + url);
-                MetaRequest key = new MetaRequest(Request.Method.GET, url, null,
+                MetaRequest key = new MetaRequest(GET, url, null,
                         response -> {
                             //JSONObject headers = response.getJSONObject("headers");
                             String session = Stash.getString("SeassionHeader");
