@@ -1,23 +1,24 @@
-package com.moutamid.tvplayer.fragments;
+package com.moutamid.tvplayer;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import android.app.ActionBar;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
-import com.moutamid.tvplayer.Constants;
-import com.moutamid.tvplayer.databinding.FragmentEventsBinding;
+import com.moutamid.tvplayer.databinding.ActivityEventsBinding;
+import com.moutamid.tvplayer.fragments.CommonEventFragment;
+import com.moutamid.tvplayer.fragments.EventsFragment;
 import com.moutamid.tvplayer.models.TabsModel;
 
 import org.json.JSONArray;
@@ -35,28 +36,27 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-public class EventsFragment extends Fragment {
-    FragmentEventsBinding binding;
+public class EventsActivity extends AppCompatActivity {
+    ActivityEventsBinding binding;
+
     Context context;
     private ProgressDialog progressDialog;
     ArrayList<TabsModel> tabs;
     TabsModel tabsModel;
     ArrayList<TabsModel> list = new ArrayList<>();
 
-    public EventsFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentEventsBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
-        context = view.getContext();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityEventsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tabs = new ArrayList<>();
 
-        progressDialog = new ProgressDialog(requireActivity());
+        progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
 
@@ -75,16 +75,14 @@ public class EventsFragment extends Fragment {
             getData();
             Log.d("testing123", "If Data");
         } else {
+            progressDialog.show();
             list = Stash.getArrayList(Constants.eventsTab, TabsModel.class);
             getTabs();
-
             Log.d("testing123", "else Data");
         }
 
-        return view;
+
     }
-
-
 
     private void getTabs() {
         new Thread(() -> {
@@ -124,8 +122,7 @@ public class EventsFragment extends Fragment {
 
             Log.d("TAG", "data: " + htmlData);
 
-            if (isAdded()) {
-                requireActivity().runOnUiThread(() -> {
+                runOnUiThread(() -> {
                     try {
                         JSONArray jsonArray = new JSONArray(htmlData);
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -146,13 +143,11 @@ public class EventsFragment extends Fragment {
                         throw new RuntimeException(e);
                     }
                 });
-            }
         }).start();
     }
 
     private void setTabs() {
-        EventsFragment.ViewPagerAdapter adapter = new EventsFragment.ViewPagerAdapter(requireActivity()
-                .getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         ArrayList<String> t = Stash.getArrayList("hidden", String.class);
         for (TabsModel s : list) {
             //Toast.makeText(context, ""+s.getId(), Toast.LENGTH_SHORT).show();
@@ -174,6 +169,7 @@ public class EventsFragment extends Fragment {
 
         Log.d("testing123", "ViewPager Adapter After");
         binding.tablayout.setupWithViewPager(binding.viewpager);
+        progressDialog.dismiss();
     }
 
     private void getData() {
@@ -214,9 +210,7 @@ public class EventsFragment extends Fragment {
 
             Log.d("TAG", "data: " + htmlData);
 
-
-            if (isAdded()) {
-                requireActivity().runOnUiThread(() -> {
+                runOnUiThread(() -> {
                     try {
                         //Toast.makeText(context, "Html  " + htmlData, Toast.LENGTH_SHORT).show();
                         JSONObject jsonObject = new JSONObject(htmlData);
@@ -240,10 +234,9 @@ public class EventsFragment extends Fragment {
                         progressDialog.dismiss();
 
                     } catch (JSONException error) {
-                        Toast.makeText(requireActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(EventsActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-            }
         }).start();
     }
 
@@ -282,6 +275,16 @@ public class EventsFragment extends Fragment {
 
     private <T> Iterable<T> iterate(final Iterator<T> i) {
         return () -> i;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.moutamid.tvplayer.models;
 
+import androidx.annotation.NonNull;
+
 public class TabsModel {
     int id;
     String name;
@@ -55,5 +57,16 @@ public class TabsModel {
 
     public void setObject(String object) {
         this.object = object;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "TabsModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", object='" + object + '\'' +
+                ", isHidden=" + isHidden +
+                '}';
     }
 }

@@ -83,4 +83,17 @@ public class StreamLinksModel {
     public void set_id(String _id) {
         this._id = _id;
     }
+
+    @Override
+    public String toString() {
+        return "StreamLinksModel{" +
+                "name='" + name + '\'' +
+                ", token='" + token + '\'' +
+                ", priority=" + priority +
+                ", request_header='" + request_header + '\'' +
+                ", player_header='" + player_header + '\'' +
+                ", _id='" + _id + '\'' +
+                ", stream_link='" + stream_link + '\'' +
+                '}';
+    }
 }

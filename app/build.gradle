@@ -49,11 +49,12 @@ dependencies {
     implementation 'com.ironsource.adapters:inmobiadapter:4.3.15'
     implementation 'com.inmobi.monetization:inmobi-ads:10.0.8'
 
+    implementation 'com.google.firebase:firebase-messaging:23.1.1'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.2.0'
+
     implementation 'com.fxn769:stash:1.3.2'
 
     implementation 'com.github.bumptech.glide:glide:4.14.2'
-    implementation 'com.google.firebase:firebase-messaging:23.1.1'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:20.2.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
 
     implementation 'androidx.room:room-runtime:2.5.0'
@@ -69,28 +70,20 @@ dependencies {
   /*  implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
     implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'*/
 
-    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+    // implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
 
     implementation 'com.github.hty527.iPlayer:exo:2.1.20'
-    //选择exo音视频解码器时需引用
-    //以下为必须项，SDK内部已引用，集成时无需引用
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.2'//（必需）
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.2'//核心功能（必需）
-    implementation "com.google.android.exoplayer:extension-rtmp:2.18.2"//rtmp直播流解码协议//（必需）
-    //exo音视频解码器，以下为可选依赖，请根据需要实现
-    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.2'//支持DASH内容
-    implementation "com.google.android.exoplayer:exoplayer-hls:2.18.2"//支持HLS内容
-    implementation "com.google.android.exoplayer:exoplayer-rtsp:2.18.2"//rtsp直播流解码协议
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.2'
+    implementation "com.google.android.exoplayer:extension-rtmp:2.18.2"
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.2'
+    implementation "com.google.android.exoplayer:exoplayer-hls:2.18.2"
+    implementation "com.google.android.exoplayer:exoplayer-rtsp:2.18.2"
 
     implementation 'com.github.hty527.iPlayer:iplayer:2.1.20'
-    //UI交互组件,可根据需要使用
     implementation 'com.github.hty527.iPlayer:widget:2.1.20'
-
-    //音视频预缓存+边播边存,根据需要使用
     implementation 'com.github.hty527.iPlayer:cache:2.1.20'
-
-    //ijk音视频解码器,根据需要使用
     implementation 'com.github.hty527.iPlayer:ijk:2.1.20'
 
     implementation 'com.android.support:multidex:1.0.3'

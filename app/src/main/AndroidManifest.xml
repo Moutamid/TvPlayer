@@ -8,9 +8,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <queries>
         <intent>
@@ -18,16 +17,19 @@
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <category android:name="android.intent.category.BROWSABLE" />
+
             <data android:scheme="https" />
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
+
             <category android:name="android.intent.category.BROWSABLE" />
+
             <data android:scheme="http" />
         </intent>
     </queries>
-
     <queries>
         <package android:name="com.moutamid.tvplayer" />
         <package android:name="com.mxtech.videoplayer.ad" />
@@ -53,6 +55,9 @@
         android:theme="@style/Theme.TvPlayer"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".EventsActivity"
+            android:exported="false" />
         <activity
             android:name=".VideoPlayerActivity"
             android:exported="false">
@@ -108,7 +113,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name="com.ironsource.sdk.controller.ControllerActivity"
             android:configChanges="orientation|screenSize"
@@ -122,29 +126,24 @@
             android:name="com.ironsource.sdk.controller.OpenUrlActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent" />
-
-<!--        <activity-->
-<!--            android:name="com.unity3d.ads.adunit.AdUnitActivity"-->
-<!--            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"-->
-<!--            android:hardwareAccelerated="true"-->
-<!--            android:exported="true"-->
-<!--            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />-->
-<!--        <activity-->
-<!--            android:name="com.unity3d.ads.adunit.AdUnitSoftwareActivity"-->
-<!--            android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"-->
-<!--            android:hardwareAccelerated="false"-->
-<!--            android:exported="true"-->
-<!--            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />-->
-
+            android:theme="@android:style/Theme.Translucent" /> <!-- <activity -->
+        <!-- android:name="com.unity3d.ads.adunit.AdUnitActivity" -->
+        <!-- android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" -->
+        <!-- android:hardwareAccelerated="true" -->
+        <!-- android:exported="true" -->
+        <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> -->
+        <!-- <activity -->
+        <!-- android:name="com.unity3d.ads.adunit.AdUnitSoftwareActivity" -->
+        <!-- android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" -->
+        <!-- android:hardwareAccelerated="false" -->
+        <!-- android:exported="true" -->
+        <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> -->
         <activity
             android:name="com.inmobi.ads.rendering.InMobiAdActivity"
             android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize|screenLayout|locale|fontScale|uiMode"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.NoTitleBar"
             tools:ignore="UnusedAttribute" />
-
-
     </application>
 
 </manifest>

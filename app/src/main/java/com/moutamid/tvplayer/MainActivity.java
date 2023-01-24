@@ -266,7 +266,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();
                 break;
             case R.id.nav_events:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EventsFragment()).commit();
+                startActivity(new Intent(MainActivity.this, EventsActivity.class));
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new EventsFragment()).commit();
                 break;
             case R.id.nav_last_played:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new LastPlayedFragment()).commit();
@@ -308,5 +309,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onPause();
         IronSource.onPause(this);
     }
+
+
 
 }

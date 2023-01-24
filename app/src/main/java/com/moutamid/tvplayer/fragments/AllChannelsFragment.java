@@ -104,7 +104,7 @@ public class AllChannelsFragment extends Fragment {
         new Thread(() -> {
             URL google = null;
             try {
-                google = new URL(Constants.tabs);
+                google = new URL(Constants.categories);
             } catch (final MalformedURLException e) {
                 e.printStackTrace();
             }

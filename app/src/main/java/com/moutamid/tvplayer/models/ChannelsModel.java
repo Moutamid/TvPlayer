@@ -106,4 +106,20 @@ public class ChannelsModel implements Serializable {
     public void set__v(int __v) {
         this.__v = __v;
     }
+
+    @Override
+    public String toString() {
+        return "ChannelsModel{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", image='" + image + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", hide=" + hide +
+                ", country='" + country + '\'' +
+                ", streamingLinks=" + streamingLinks +
+                ", ID=" + ID +
+                ", __v=" + __v +
+                '}';
+    }
 }

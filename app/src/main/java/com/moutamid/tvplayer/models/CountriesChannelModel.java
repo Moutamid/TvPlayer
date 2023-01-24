@@ -5,11 +5,17 @@ import java.util.Map;
 
 public class CountriesChannelModel {
 
+    int id;
     String name;
     ArrayList<ChannelsModel> channelsList;
     Map<String, ArrayList<ChannelsModel>> map;
 
     public CountriesChannelModel() {
+    }
+
+    public CountriesChannelModel(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public CountriesChannelModel(String name, ArrayList<ChannelsModel> channelsList) {
@@ -21,6 +27,14 @@ public class CountriesChannelModel {
         this.name = name;
         this.channelsList = channelsList;
         this.map = map;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Map<String, ArrayList<ChannelsModel>> getMap() {
@@ -45,5 +59,15 @@ public class CountriesChannelModel {
 
     public void setChannelsList(ArrayList<ChannelsModel> channelsList) {
         this.channelsList = channelsList;
+    }
+
+    @Override
+    public String toString() {
+        return "CountriesChannelModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", channelsList=" + channelsList +
+                ", map=" + map +
+                '}';
     }
 }
