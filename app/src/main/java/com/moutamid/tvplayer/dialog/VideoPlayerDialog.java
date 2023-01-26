@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Base64;
 import android.util.Log;
@@ -406,7 +407,6 @@ public class VideoPlayerDialog {
             for (int i = 0; i < response.length(); i++) {
                 try {
                     JSONObject obj = response.getJSONObject(i);
-                    Toast.makeText(context, obj.getString("id"), Toast.LENGTH_SHORT).show();
                     Stash.put(obj.getString("id"), obj.getString("url"));
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -438,63 +438,65 @@ public class VideoPlayerDialog {
                 Document doc = Jsoup.connect(url).get();
                 Elements body = doc.getElementsByTag("body");
                 token[0] = stream.getStream_link() + body.text();
-                Log.d("htmlTAG", "url  " + url);
+                Log.d("testing123", "url  " + url);
                 MetaRequest key = new MetaRequest(GET, url, null,
                         response -> {
                             //JSONObject headers = response.getJSONObject("headers");
                             String session = Stash.getString("SeassionHeader");
-                            Log.d("htmlTAG", "Session : " + session);
+                            Log.d("testing123", "Session : " + session);
                             byte[] send = session.getBytes(StandardCharsets.UTF_8);
                             byte[] data = Base64.decode(send, Base64.DEFAULT);
                             String text = new String(data, StandardCharsets.UTF_8);
                             token[0] = token[0].replace("$", text);
                             Stash.put("videoURL", token[0]);
-                            Log.d("htmlTAG", "Session Decode : " + token[0]);
+                            Log.d("testing123", "Session Decode : " + token[0]);
 
                         }, error -> {
-                    Log.d("htmlTAG", "error " + error.getMessage());
+                    Log.d("testing123", "error " + error.getMessage());
                 });
 
                 requestQueue.add(key);
-                Log.d("htmlTAG", body.text().toString());
-                Log.d("htmlTAG", token[0]);
+                Log.d("testing123", body.text().toString());
+                Log.d("testing123", token[0]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            return null;
+            return token[0];
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            progressDialog.dismiss();
-            String url = Stash.getString("videoURL");
-            String packageName = Stash.getString("packageName");
-            int internal = Stash.getInt("androidInternal",  0);
-            Log.d("VideoURLPlayer", "URL "+url);
-            Log.d("VideoURLPlayer", "token "+token[0]);
-            Log.d("VideoURLPlayer", ""+internal);
-            Log.d("VideoURLPlayer", ""+packageName);
+            new Handler().postDelayed(() -> {
+                progressDialog.dismiss();
+                String url = Stash.getString("videoURL");
+                //String url = s;
+                String packageName = Stash.getString("packageName");
+                int internal = Stash.getInt("androidInternal",  0);
+                Log.d("testing123", "VideoURLPlayer  URL "+url);
+                Log.d("testing123", "VideoURLPlayer token "+token[0]);
+                Log.d("testing123", ""+internal);
+                Log.d("testing123", ""+packageName);
 
-            channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
-            if (channelsModel==null) { channelsModelArrayList = new ArrayList<>(); }
-            channelsModelArrayList.add(channelsModel);
-            Stash.put("LastPlayed", channelsModelArrayList);
-            Log.d("VideoURLPlayer", "Size  "+channelsModelArrayList.size());
+                channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
+                if (channelsModel==null) { channelsModelArrayList = new ArrayList<>(); }
+                channelsModelArrayList.add(channelsModel);
+                Stash.put("LastPlayed", channelsModelArrayList);
+                Log.d("testing123", "Size  "+channelsModelArrayList.size());
 
-            if (internal == 1){
-                Intent intent = new Intent(context, VideoPlayerActivity.class);
-                intent.putExtra("name", channelsModel.getName());
-                intent.putExtra("url", url);
-                context.startActivity(intent);
-            } else {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setPackage(packageName);
-                i.setDataAndType(Uri.parse(url), "video/");
-                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                context.startActivity(i);
-            }
+                if (internal == 1){
+                    Intent intent = new Intent(context, VideoPlayerActivity.class);
+                    intent.putExtra("name", channelsModel.getName());
+                    intent.putExtra("url", url);
+                    context.startActivity(intent);
+                } else {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setPackage(packageName);
+                    i.setDataAndType(Uri.parse(url), "video/");
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    context.startActivity(i);
+                }
+            }, 2000);
         }
     }
 }
