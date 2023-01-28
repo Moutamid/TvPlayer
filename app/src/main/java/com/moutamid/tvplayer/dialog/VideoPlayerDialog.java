@@ -456,7 +456,7 @@ public class VideoPlayerDialog {
                 }
                 new GetLink().execute("");
             } catch (JSONException e) {
-                throw new RuntimeException(e);
+                Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
             }
         }).start();
 
@@ -485,29 +485,37 @@ public class VideoPlayerDialog {
             Log.d("testing123", "url  " + url);
 
             try {
-                Document doc = Jsoup.connect(url).get();
-                Elements body = doc.getElementsByTag("body");
-                token[0] = stream.getStream_link() + body.text();
-                Log.d("testing123", "url  " + url);
-                MetaRequest key = new MetaRequest(GET, url, null,
-                        response -> {
-                            //JSONObject headers = response.getJSONObject("headers");
-                            String session = Stash.getString("SeassionHeader");
-                            Log.d("testing123", "Session : " + session);
-                            byte[] send = session.getBytes(StandardCharsets.UTF_8);
-                            byte[] data = Base64.decode(send, Base64.DEFAULT);
-                            String text = new String(data, StandardCharsets.UTF_8);
-                            token[0] = token[0].replace("$", text);
-                            Stash.put("videoURL", token[0]);
-                            Log.d("testing123", "Session Decode : " + token[0]);
+                if (url!=null){
+                    if (url.contains("http://") || url.contains("https://")){
+                        Document doc = Jsoup.connect(url).get();
+                        Elements body = doc.getElementsByTag("body");
+                        token[0] = stream.getStream_link() + body.text();
+                        Log.d("testing123", "url  " + url);
+                        MetaRequest key = new MetaRequest(GET, url, null,
+                                response -> {
+                                    //JSONObject headers = response.getJSONObject("headers");
+                                    String session = Stash.getString("SeassionHeader");
+                                    Log.d("testing123", "Session : " + session);
+                                    byte[] send = session.getBytes(StandardCharsets.UTF_8);
+                                    byte[] data = Base64.decode(send, Base64.DEFAULT);
+                                    String text = new String(data, StandardCharsets.UTF_8);
+                                    token[0] = token[0].replace("$", text);
+                                    Stash.put("videoURL", token[0]);
+                                    Log.d("testing123", "Session Decode : " + token[0]);
 
-                        }, error -> {
-                    Log.d("testing123", "error " + error.getMessage());
-                });
+                                }, error -> {
+                            Log.d("testing123", "error " + error.getMessage());
+                        });
 
-                requestQueue.add(key);
-                Log.d("testing123", body.text().toString());
-                Log.d("testing123", token[0]);
+                        requestQueue.add(key);
+                        Log.d("testing123", body.text().toString());
+                        Log.d("testing123", token[0]);
+                    } else {
+                        Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
