@@ -454,7 +454,7 @@ public class VideoPlayerDialog {
                     Stash.put(String.valueOf(obj.getInt("id")), obj.getString("url"));
                     Log.d("Testing258", String.valueOf(obj.getInt("id")) + "  " + obj.getString("url"));
                 }
-                //new GetLink().execute("");
+                new GetLink().execute("");
             } catch (JSONException e) {
                 throw new RuntimeException(e);
             }
