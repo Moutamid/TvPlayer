@@ -25,6 +25,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,7 +42,9 @@ import com.moutamid.tvplayer.MetaRequest;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.VideoPlayerActivity;
 import com.moutamid.tvplayer.VolleySingleton;
+import com.moutamid.tvplayer.adapters.CountriesWiseAdapter;
 import com.moutamid.tvplayer.models.ChannelsModel;
+import com.moutamid.tvplayer.models.CountriesChannelModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
 
 import org.json.JSONArray;
@@ -58,6 +62,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 
 public class VideoPlayerDialog {
@@ -402,22 +408,66 @@ public class VideoPlayerDialog {
     }
 
     private void getToken() {
-        Log.d("testing123", "okTesting");
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(GET, Constants.token, null, response -> {
-            for (int i = 0; i < response.length(); i++) {
-                try {
-                    JSONObject obj = response.getJSONObject(i);
-                    Stash.put(obj.getString("id"), obj.getString("url"));
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
+
+        new Thread(() -> {
+            URL google = null;
+            try {
+                google = new URL(Constants.token);
+            } catch (final MalformedURLException e) {
+                e.printStackTrace();
             }
-            new GetLink().execute("");
+            BufferedReader in = null;
+            try {
+                in = new BufferedReader(new InputStreamReader(google != null ? google.openStream() : null));
+            } catch (final IOException e) {
+                Log.d("TAG", "compress: ERROR: " + e.toString());
+                e.printStackTrace();
+            }
+            String input = null;
+            StringBuffer stringBuffer = new StringBuffer();
+            while (true) {
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        if ((input = in != null ? in.readLine() : null) == null) break;
+                    }
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+                stringBuffer.append(input);
+            }
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+            String htmlData = stringBuffer.toString();
+
+            Log.d("TAG", "data: " + htmlData);
+
+            try {
+                JSONObject json = new JSONObject(htmlData);
+                JSONArray jsonArray = json.getJSONArray("data");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    Stash.put(String.valueOf(obj.getInt("id")), obj.getString("url"));
+                    Log.d("Testing258", String.valueOf(obj.getInt("id")) + "  " + obj.getString("url"));
+                }
+                //new GetLink().execute("");
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+
+        /*Log.d("testing123", "okTesting");
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(GET, Constants.token, null, response -> {
+
         }, error -> {
 
         });
 
-        requestQueue.add(jsonArrayRequest);
+        requestQueue.add(jsonArrayRequest);*/
 
        // new GetLink().execute("");
     }

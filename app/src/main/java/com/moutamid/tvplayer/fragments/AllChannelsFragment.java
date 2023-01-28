@@ -141,7 +141,8 @@ public class AllChannelsFragment extends Fragment {
             if (isAdded()) {
                 requireActivity().runOnUiThread(() -> {
                     try {
-                        JSONArray jsonArray = new JSONArray(htmlData);
+                        JSONObject json = new JSONObject(htmlData);
+                        JSONArray jsonArray = json.getJSONArray("data");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
                             for (int j=0; j< list.size(); j++){
