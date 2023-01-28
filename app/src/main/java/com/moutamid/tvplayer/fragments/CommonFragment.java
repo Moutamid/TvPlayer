@@ -112,22 +112,24 @@ public class CommonFragment extends Fragment {
 
                 JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
                 streamLinks.clear();
-                for (int j = 0; j < streamingLinks.length(); j++) {
-                    JSONObject stream = streamingLinks.getJSONObject(j);
-                    StreamLinksModel model1 = new StreamLinksModel();
-                    model1.set_id(stream.getString("_id"));
-                    model1.setName(stream.getString("name"));
-                    model1.setToken(stream.getString("token"));
-                    model1.setPriority(stream.getInt("priority"));
-                    model1.setRequest_header(stream.getString("request_header"));
-                    model1.setPlayer_header(stream.getString("player_header"));
-                    model1.setStream_link(stream.getString("url"));
-                    streamLinks.add(model1);
+                if (streamingLinks.length() > 0 && streamingLinks!=null) {
+                    for (int j = 0; j < streamingLinks.length(); j++) {
+                        JSONObject stream = streamingLinks.getJSONObject(j);
+                        StreamLinksModel model1 = new StreamLinksModel();
+                        model1.set_id(stream.getString("_id"));
+                        model1.setName(stream.getString("name"));
+                        model1.setToken(stream.getString("token"));
+                        model1.setPriority(stream.getInt("priority"));
+                        model1.setRequest_header(stream.getString("request_header"));
+                        model1.setPlayer_header(stream.getString("player_header"));
+                        model1.setStream_link(stream.getString("url"));
+                        streamLinks.add(model1);
+                        channelsModel.setStreamingLinks(streamLinks);
+                    }
                 }
 
-                channelsModel.setStreamingLinks(streamLinks);
-
                 channelsList.add(channelsModel);
+                //Toast.makeText(context, channelsList.get(0).getStreamingLinks().toString(), Toast.LENGTH_SHORT).show();
 
                 //map.put(channelsModel.getCountry(), channelsList);
 
@@ -213,29 +215,16 @@ public class CommonFragment extends Fragment {
         }).start();
     }
 
-    public void linkDialog(ChannelsModel model){
-        LinkDialog ld = new LinkDialog(context, model);
-        ld.show();
-    }
-
-    private void videoPlayerDialog(ChannelsModel model) {
-        VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0), model);
-        vd.showStream();
-    }
-
     Clicklistners clicklistners = new Clicklistners() {
         @Override
         public void click(ChannelsModel model) {
+            Toast.makeText(context, model.getName()+"\n\n"+model.getStreamingLinks().get(0).toString(), Toast.LENGTH_SHORT).show();
             if (model.getStreamingLinks().size()>1){
-                linkDialog(model);
+                LinkDialog ld = new LinkDialog(context, model);
+                ld.show();
             } else {
-                videoPlayerDialog(model);
-                /*
-                int idx = Stash.getInt("buttonIDX", 0);
-                if (idx == 0) {
-                    videoPlayerDialog(model);
-                }
-                */
+                VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0), model);
+                vd.showStream();
             }
         }
 

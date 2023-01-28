@@ -485,7 +485,7 @@ public class VideoPlayerDialog {
             Log.d("testing123", "url  " + url);
 
             try {
-                if (url!=null){
+                if (url!=null) {
                     if (url.contains("http://") || url.contains("https://")){
                         Document doc = Jsoup.connect(url).get();
                         Elements body = doc.getElementsByTag("body");

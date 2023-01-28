@@ -49,6 +49,8 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         Glide.with(context).load(model.getImageUrl()).into(holder.image);
         holder.name.setText(model.getName());
 
+       // Toast.makeText(context, "Adapter Position : " + holder.getAdapterPosition() + "\n\nAdapter Name : " + model.getName() + "\n\n" + "Adapter STream : " + model.getStreamingLinks().get(0).getStream_link() + "\n\n", Toast.LENGTH_SHORT).show();
+
         for (String id : favrtList){
             if (model.get_id().equals(id)){
                 holder.favrt.setImageResource(R.drawable.ic_favorite);

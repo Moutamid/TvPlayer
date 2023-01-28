@@ -135,21 +135,21 @@ public class CommonEventFragment extends Fragment {
 
                 JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
                 streamLinks.clear();
-                for (int j = 0; j < streamingLinks.length(); j++) {
-
-                    Log.d("testing123", "For TRY");
-                    JSONObject stream = streamingLinks.getJSONObject(j);
-                    StreamLinksModel model1 = new StreamLinksModel();
-                    model1.set_id(stream.getString("_id"));
-                    model1.setName(stream.getString("name"));
-                    model1.setToken(stream.getString("token"));
-                    model1.setPriority(stream.getInt("priority"));
-                    model1.setRequest_header(stream.getString("request_header"));
-                    model1.setPlayer_header(stream.getString("player_header"));
-                    model1.setStream_link(stream.getString("url"));
-                    streamLinks.add(model1);
+                if (streamingLinks.length() > 0 && streamingLinks!=null) {
+                    for (int j = 0; j < streamingLinks.length(); j++) {
+                        Log.d("testing123", "For TRY");
+                        JSONObject stream = streamingLinks.getJSONObject(j);
+                        StreamLinksModel model1 = new StreamLinksModel();
+                        model1.set_id(stream.getString("_id"));
+                        model1.setName(stream.getString("name"));
+                        model1.setToken(stream.getString("token"));
+                        model1.setPriority(stream.getInt("priority"));
+                        model1.setRequest_header(stream.getString("request_header"));
+                        model1.setPlayer_header(stream.getString("player_header"));
+                        model1.setStream_link(stream.getString("url"));
+                        streamLinks.add(model1);
+                    }
                 }
-
                 channelsModel.setStreamingLinks(streamLinks);
 
                 channelsList.add(channelsModel);

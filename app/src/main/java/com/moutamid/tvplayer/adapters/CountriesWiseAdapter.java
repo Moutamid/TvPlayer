@@ -23,6 +23,7 @@ import java.util.Map;
 
 public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdapter.CountriesVH> {
     Context context;
+    ArrayList<ChannelsModel> list1 = new ArrayList<>();
     private RecyclerView.RecycledViewPool
             viewPool
             = new RecyclerView
@@ -59,12 +60,14 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
 
         holder.name.setText(model.getName());
 
+        Toast.makeText(context, "Adapter Position : " + holder.getAdapterPosition() + "\n\nAdapter Name : " + model.getName() + "\n\n" + "Adapter STream : " + model.getChannelsList().get(0).getStreamingLinks().get(0).getStream_link() + "\n\n", Toast.LENGTH_SHORT).show();
+
+
         GridLayoutManager layoutManager = new GridLayoutManager(holder.recyclerView.getContext(),3);
         layoutManager.setInitialPrefetchItemCount(model.getChannelsList().size());
         holder.recyclerView.setLayoutManager(layoutManager);
-        ArrayList<ChannelsModel> list1 = new ArrayList<>();
-
-        for (ChannelsModel s : model.getChannelsList()){
+        list1.clear();
+        for (ChannelsModel s : model.getChannelsList()) {
             if (s.getCountry().equals(model.getName())){
                 list1.add(s);
             }
