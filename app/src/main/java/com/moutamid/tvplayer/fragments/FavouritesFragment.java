@@ -69,7 +69,6 @@ public class FavouritesFragment extends Fragment {
         favrtList = Stash.getArrayList("favrtList", String.class);
         tabs = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
 
-
         if (favrtList == null){
             favrtList = new ArrayList<>();
         }
