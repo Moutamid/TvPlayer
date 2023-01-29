@@ -34,6 +34,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         if (favrtList == null){
             favrtList = new ArrayList<>();
         }
+//        Log.d("tager", "List Items: "+list.toString());
     }
 
     @NonNull
@@ -46,6 +47,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
     @Override
     public void onBindViewHolder(@NonNull ChannelVH holder, int position) {
         ChannelsModel model = list.get(holder.getAdapterPosition());
+//        Log.d("tager", "ModelChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
 
         Glide.with(context).load(model.getImageUrl()).into(holder.image);
         holder.name.setText(model.getName());
@@ -82,8 +84,8 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
            /* Log.d("tager", "ChannelName: "+list.get(holder.getAdapterPosition()).getName());
             Log.d("tager", "ChannelLink: "+list.get(holder.getAdapterPosition()).getStreamingLinks().get(0).getStream_link());
 */
-            Log.d("tager", "ModelChannelName: "+model.getName());
-            Log.d("tager", "ModelChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
+//            Log.d("tager", "ModelChannelName: "+model.getName());
+//            Log.d("tager", "ModelChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
 
 
         });

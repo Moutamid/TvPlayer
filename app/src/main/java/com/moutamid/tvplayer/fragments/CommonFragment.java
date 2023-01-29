@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,7 +63,7 @@ public class CommonFragment extends Fragment {
     ArrayList<ChannelsModel> channelsList;
     //ArrayList<CountriesChannelModel> countriesChannel;
     ArrayList<CountriesChannelModel> countriesChannel;
-    ArrayList<StreamLinksModel> streamLinks;
+//    ArrayList<StreamLinksModel> streamLinks;
     CountriesWiseAdapter adapter;
     ArrayList<String> favrtList;
     Map<String, ArrayList<ChannelsModel>> map = new HashMap<>();
@@ -79,13 +80,13 @@ public class CommonFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCommonBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         context = view.getContext();
 
         channelsList = new ArrayList<>();
-        streamLinks = new ArrayList<>();
+//        streamLinks = new ArrayList<>();
         //countriesChannel = new ArrayList<CountriesChannelModel>();
         countriesChannel = new ArrayList<CountriesChannelModel>();
         binding.recycler.setHasFixedSize(false);
@@ -97,7 +98,7 @@ public class CommonFragment extends Fragment {
 
         try {
             JSONArray jsonArray = new JSONArray(title);
-
+            Log.d("tager", "jsonArray title Size: "+ jsonArray.length());
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 ChannelsModel channelsModel = new ChannelsModel();
@@ -111,11 +112,12 @@ public class CommonFragment extends Fragment {
                 channelsModel.setID(obj.getInt("ID"));
                 channelsModel.set__v(obj.getInt("__v"));
 
-                JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
-                streamLinks.clear();
-                if (streamingLinks.length() > 0 && streamingLinks!=null) {
-                    for (int j = 0; j < streamingLinks.length(); j++) {
-                        JSONObject stream = streamingLinks.getJSONObject(j);
+                JSONArray streamingLinksArrays = obj.getJSONArray("streamingLinks");
+                Log.d("tager", "jsonArray Links Size: "+streamingLinksArrays.length());
+                ArrayList<StreamLinksModel> streamLinks = new ArrayList<>();
+                if (streamingLinksArrays.length() > 0) {//&& streamingLinks!=null
+                    for (int j = 0; j < streamingLinksArrays.length(); j++) {
+                        JSONObject stream = streamingLinksArrays.getJSONObject(j);
                         StreamLinksModel model1 = new StreamLinksModel();
                         model1.set_id(stream.getString("_id"));
                         model1.setName(stream.getString("name"));
@@ -124,27 +126,53 @@ public class CommonFragment extends Fragment {
                         model1.setRequest_header(stream.getString("request_header"));
                         model1.setPlayer_header(stream.getString("player_header"));
                         model1.setStream_link(stream.getString("url"));
+//                        Log.d("tager", "array link: "+stream.getString("url"));
                         streamLinks.add(model1);
                         channelsModel.setStreamingLinks(streamLinks);
                     }
+                }else {
+                    Log.d("tager", "streaming links error");
                 }
 
                 channelsList.add(channelsModel);
+//                Log.d("tager", "model after array: "+channelsModel);
                 //Toast.makeText(context, channelsList.get(0).getStreamingLinks().toString(), Toast.LENGTH_SHORT).show();
 
                 //map.put(channelsModel.getCountry(), channelsList);
 
                 newList.add(channelsModel.getCountry());
-                Stash.put("newList", newList);
 
-               countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
+                for (CountriesChannelModel model : countriesChannel){
+                    String channels = "null";
+                    for (ChannelsModel channelsModell: model.getChannelsList()) {
+                        channels = channelsModell.getName()+"----"+channelsModell.getStreamingLinks();
+                    }
+                    Log.d("tager", i+" country before: "+model.getName()+channels);
+
+                }
+
+                countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
                 // countriesChannel.add(map);
+
+                for (CountriesChannelModel model : countriesChannel){
+                    String channels = "null";
+                    for (ChannelsModel channelsModekl: model.getChannelsList()) {
+                        channels = channelsModekl.getName()+"----"+channelsModekl.getStreamingLinks();
+                    }
+                    Log.d("tager", i+" country data after: "+model.getName()+channels+"\n\n");
+
+                }
             }
+            Stash.put("newList", newList);
+
+//            Log.d("tager", "countries data: "+countriesChannel);
             getSorting();
         } catch (Exception e){
+            Log.d("tager", "ERROR at 147 CommonFrag: "+e.getMessage());
             e.printStackTrace();
         }
 
+        Log.d("tager", "onCreateView: Ended");
         return view;
     }
 
@@ -220,8 +248,8 @@ public class CommonFragment extends Fragment {
         @Override
         public void click(ChannelsModel model) {
 //            Toast.makeText(context, model.getName()+"\n\n"+model.getStreamingLinks().get(0).toString(), Toast.LENGTH_SHORT).show();
-            Log.d("tager", "PassedChannelName: "+model.getName());
-            Log.d("tager", "PassedChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
+//            Log.d("tager", "PassedChannelName: "+model.getName());
+//            Log.d("tager", "PassedChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
 
             if (model.getStreamingLinks().size()>1){
                 LinkDialog ld = new LinkDialog(context, model);

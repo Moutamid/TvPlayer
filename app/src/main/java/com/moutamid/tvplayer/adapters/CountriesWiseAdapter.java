@@ -1,6 +1,7 @@
 package com.moutamid.tvplayer.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
     @Override
     public void onBindViewHolder(@NonNull CountriesVH holder, int position) {
         CountriesChannelModel model = list.get(position);
+//        Log.d("tager", "country data: "+model);
         ArrayList<String> newList = Stash.getArrayList("newList", String.class);
 
         // String ss = newList.get(position);
@@ -70,6 +72,7 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
         for (ChannelsModel s : model.getChannelsList()) {
             if (s.getCountry().equals(model.getName())){
                 list1.add(s);
+//                Log.d("tager", "items: "+s);
             }
         }
 

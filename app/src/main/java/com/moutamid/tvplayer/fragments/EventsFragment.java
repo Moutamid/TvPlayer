@@ -70,16 +70,16 @@ public class EventsFragment extends Fragment {
 //        progressDialog.show();
 //        getData();
 
-        if (data == null) {
+//TODO:        if (data == null) {
             progressDialog.show();
             getData();
             Log.d("testing123", "If Data");
-        } else {
-            list = Stash.getArrayList(Constants.eventsTab, TabsModel.class);
-            getTabs();
-
-            Log.d("testing123", "else Data");
-        }
+//        } else {
+//            list = Stash.getArrayList(Constants.eventsTab, TabsModel.class);
+//            getTabs();
+//
+//            Log.d("testing123", "else Data");
+//        }
 
         return view;
     }

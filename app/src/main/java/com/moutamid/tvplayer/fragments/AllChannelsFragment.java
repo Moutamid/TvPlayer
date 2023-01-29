@@ -88,14 +88,14 @@ public class AllChannelsFragment extends Fragment {
         /*progressDialog.show();
         getData();*/
 
-        if (data == null){
+//TODO:        if (data == null){
             progressDialog.show();
             getData();
-        } else {
-            progressDialog.show();
-            list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
-            getTabs();
-        }
+//        } else {
+//            progressDialog.show();
+//            list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
+//            getTabs();
+//        }
 
         return view;
     }
