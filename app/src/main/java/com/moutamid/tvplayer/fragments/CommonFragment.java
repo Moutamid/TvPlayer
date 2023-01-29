@@ -1,5 +1,6 @@
 package com.moutamid.tvplayer.fragments;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -218,7 +219,10 @@ public class CommonFragment extends Fragment {
     Clicklistners clicklistners = new Clicklistners() {
         @Override
         public void click(ChannelsModel model) {
-            Toast.makeText(context, model.getName()+"\n\n"+model.getStreamingLinks().get(0).toString(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, model.getName()+"\n\n"+model.getStreamingLinks().get(0).toString(), Toast.LENGTH_SHORT).show();
+            Log.d("tager", "PassedChannelName: "+model.getName());
+            Log.d("tager", "PassedChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
+
             if (model.getStreamingLinks().size()>1){
                 LinkDialog ld = new LinkDialog(context, model);
                 ld.show();

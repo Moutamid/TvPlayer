@@ -229,7 +229,7 @@ public class AllChannelsFragment extends Fragment {
             if (isAdded()) {
                 requireActivity().runOnUiThread(() -> {
                     try {
-                        Toast.makeText(context, htmlData, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, htmlData, Toast.LENGTH_SHORT).show();
                         JSONObject jsonObject = new JSONObject(htmlData);
                         JSONObject data = jsonObject.getJSONObject("data");
                         Stash.put(Constants.channelsData, data);

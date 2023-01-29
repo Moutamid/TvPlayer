@@ -60,7 +60,7 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
 
         holder.name.setText(model.getName());
 
-        Toast.makeText(context, "Adapter Position : " + holder.getAdapterPosition() + "\n\nAdapter Name : " + model.getName() + "\n\n" + "Adapter STream : " + model.getChannelsList().get(0).getStreamingLinks().get(0).getStream_link() + "\n\n", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "Adapter Position : " + holder.getAdapterPosition() + "\n\nAdapter Name : " + model.getName() + "\n\n" + "Adapter STream : " + model.getChannelsList().get(0).getStreamingLinks().get(0).getStream_link() + "\n\n", Toast.LENGTH_SHORT).show();
 
 
         GridLayoutManager layoutManager = new GridLayoutManager(holder.recyclerView.getContext(),3);

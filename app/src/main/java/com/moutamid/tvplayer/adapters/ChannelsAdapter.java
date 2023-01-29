@@ -1,6 +1,7 @@
 package com.moutamid.tvplayer.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,11 +74,18 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
                 // adapter.notifyDataSetChanged();
             }*/
 
-            clicklistners.favrt(list.get(holder.getAdapterPosition()), holder.isfvrt, holder.favrt);
+            clicklistners.favrt(model, holder.isfvrt, holder.favrt);
         });
 
         holder.itemView.setOnClickListener(v -> {
-            clicklistners.click(list.get(holder.getAdapterPosition()));
+            clicklistners.click(model);
+           /* Log.d("tager", "ChannelName: "+list.get(holder.getAdapterPosition()).getName());
+            Log.d("tager", "ChannelLink: "+list.get(holder.getAdapterPosition()).getStreamingLinks().get(0).getStream_link());
+*/
+            Log.d("tager", "ModelChannelName: "+model.getName());
+            Log.d("tager", "ModelChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
+
+
         });
 
     }

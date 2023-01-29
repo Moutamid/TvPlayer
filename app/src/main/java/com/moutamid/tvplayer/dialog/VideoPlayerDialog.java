@@ -481,6 +481,15 @@ public class VideoPlayerDialog {
             String tokenNumber = stream.getToken();
             Log.d("testing123", tokenNumber);
 
+            Log.d("testing123", "streamLink: "+stream.getStream_link());
+
+            // IF TOKEN NUMBER IS 0 THEN WE PLAY THE VIDEO DIRECTLY WITHOUT ANY TOKEN AND META REQUEST
+            if (Integer.parseInt(tokenNumber) == 0){
+                token[0] = stream.getStream_link();
+                Stash.put("videoURL", token[0]);
+                return token[0];
+            }
+
             String url = Stash.getString(tokenNumber, "");
             Log.d("testing123", "url  " + url);
 
@@ -542,18 +551,27 @@ public class VideoPlayerDialog {
                 Stash.put("LastPlayed", channelsModelArrayList);
                 Log.d("testing123", "Size  "+channelsModelArrayList.size());
 
-                if (internal == 1){
-                    Intent intent = new Intent(context, VideoPlayerActivity.class);
-                    intent.putExtra("name", channelsModel.getName());
-                    intent.putExtra("url", url);
-                    context.startActivity(intent);
-                } else {
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setPackage(packageName);
-                    i.setDataAndType(Uri.parse(url), "video/");
-                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    context.startActivity(i);
-                }
+                new AlertDialog.Builder(context)
+                        .setMessage(
+                                "name: " +channelsModel.getName()
+                                +"\nurl: "+url
+                        )
+                        .setPositiveButton("launch", (dialog, which) -> {
+                            if (internal == 1){
+                                Intent intent = new Intent(context, VideoPlayerActivity.class);
+                                intent.putExtra("name", channelsModel.getName());
+                                intent.putExtra("url", url);
+                                context.startActivity(intent);
+                            } else {
+                                Intent i = new Intent(Intent.ACTION_VIEW);
+                                i.setPackage(packageName);
+                                i.setDataAndType(Uri.parse(url), "video/");
+                                i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                context.startActivity(i);
+                            }
+                        })
+                        .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
+                        .show();
             }, 2000);
         }
     }
