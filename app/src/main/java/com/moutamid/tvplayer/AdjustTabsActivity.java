@@ -38,7 +38,7 @@ public class AdjustTabsActivity extends AppCompatActivity {
         binding.tabsRC.setHasFixedSize(true);
         binding.tabsRC.setNestedScrollingEnabled(false);
 
-        list = Stash.getArrayList("tabs", TabsModel.class);
+        list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
 
         adapter = new TabsAdjustAdapter(this, list);
         binding.tabsRC.setAdapter(adapter);
