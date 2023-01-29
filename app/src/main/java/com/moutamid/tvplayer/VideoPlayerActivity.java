@@ -133,10 +133,10 @@ public class VideoPlayerActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(binding.videoPlayer.isBackPressed()){
-            startActivity(new Intent(VideoPlayerActivity.this, MainActivity.class));
+//            startActivity(new Intent(VideoPlayerActivity.this, MainActivity.class));
             finish();
         }
-        startActivity(new Intent(VideoPlayerActivity.this, MainActivity.class));
+//        startActivity(new Intent(VideoPlayerActivity.this, MainActivity.class));
         finish();
     }
 
