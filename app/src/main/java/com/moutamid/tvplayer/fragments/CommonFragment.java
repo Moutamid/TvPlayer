@@ -148,7 +148,6 @@ public class CommonFragment extends Fragment {
                         channels = channelsModell.getName()+"----"+channelsModell.getStreamingLinks();
                     }
                     Log.d("tager", i+" country before: "+model.getName()+channels);
-
                 }
 
                 countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
@@ -221,7 +220,7 @@ public class CommonFragment extends Fragment {
                         JSONArray jsonArray = json.getJSONArray("data");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            for (int j=0; j< countriesChannel.size(); j++){
+                            for (int j=0; j< countriesChannel.size(); j++) {
                                 if (countriesChannel.get(j).getName().equals(obj.getString("name"))) {
                                     countriesChannel.get(j).setId(obj.getInt("id"));
                                 }
