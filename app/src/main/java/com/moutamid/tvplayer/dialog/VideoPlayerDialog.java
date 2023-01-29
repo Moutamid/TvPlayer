@@ -67,13 +67,11 @@ import java.util.Comparator;
 import java.util.Map;
 
 public class VideoPlayerDialog {
-
     Context context;
     StreamLinksModel stream;
     ProgressDialog progressDialog;
     ArrayList<ChannelsModel> channelsModelArrayList;
     ChannelsModel channelsModel;
-
     private RequestQueue requestQueue;
 
     public VideoPlayerDialog(Context context, StreamLinksModel stream, ChannelsModel channelsModel) {

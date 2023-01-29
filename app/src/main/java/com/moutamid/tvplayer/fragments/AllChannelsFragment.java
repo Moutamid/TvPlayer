@@ -150,7 +150,7 @@ public class AllChannelsFragment extends Fragment {
                                     list.get(j).setId(obj.getInt("id"));
                                 }
                             }
-                            // Stash.put(Constants.channelsTab, list);
+                            Stash.put(Constants.channelsTab, list);
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             Collections.sort(list, Comparator.comparing(TabsModel::getId));

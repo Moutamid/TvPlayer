@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.fxn.stash.Stash;
 import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.Clicklistners;
+import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
 import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
@@ -66,7 +67,7 @@ public class FavouritesFragment extends Fragment {
         binding.recycler.setHasFixedSize(false);
 
         favrtList = Stash.getArrayList("favrtList", String.class);
-        tabs = Stash.getArrayList("tabs", TabsModel.class);
+        tabs = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
 
 
         if (favrtList == null){

@@ -14,6 +14,4 @@ public class Constants {
     public static final String countriesEvent = "http://95.217.210.178/api/v1/event/countries";
     public static final String token = "http://95.217.210.178/api/v1/token/";
 
-
-
 }
