@@ -1,5 +1,6 @@
 package com.moutamid.tvplayer.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -88,6 +89,22 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
 //            Log.d("tager", "ModelChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
 
 
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(context)
+                        .setMessage("Do you want to save it?")
+                        .setPositiveButton("Yes", (dialog, which) -> {
+                            clicklistners.favrt(model, holder.isfvrt, holder.favrt);
+                        })
+                        .setNegativeButton("No", (dialog, which) -> {
+                            dialog.dismiss();
+                        })
+                        .show();
+                return false;
+            }
         });
 
     }
