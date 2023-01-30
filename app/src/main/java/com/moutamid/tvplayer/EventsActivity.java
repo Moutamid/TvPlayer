@@ -19,6 +19,7 @@ import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.databinding.ActivityEventsBinding;
 import com.moutamid.tvplayer.fragments.CommonEventFragment;
 import com.moutamid.tvplayer.fragments.EventsFragment;
+import com.moutamid.tvplayer.models.TabLocal;
 import com.moutamid.tvplayer.models.TabsModel;
 
 import org.json.JSONArray;
@@ -67,10 +68,10 @@ public class EventsActivity extends AppCompatActivity {
 
         JSONObject data = (JSONObject) Stash.getObject(Constants.eventsData, JSONObject.class);
 
-//        progressDialog.show();
-//        getData();
+        progressDialog.show();
+        getData();
 
-        if (data == null) {
+        /*if (data == null) {
             progressDialog.show();
             getData();
             Log.d("testing123", "If Data");
@@ -79,9 +80,25 @@ public class EventsActivity extends AppCompatActivity {
             list = Stash.getArrayList(Constants.eventsTab, TabsModel.class);
             getTabs();
             Log.d("testing123", "else Data");
+        }*/
+
+    }
+    private void getLocalTabs() {
+        ArrayList<TabLocal> tabLocals = new ArrayList<>();
+        tabLocals = Stash.getArrayList(Constants.localTab, TabLocal.class);
+        for (int i = 0; i < tabLocals.size(); i++) {
+            for (int j=0; j< list.size(); j++){
+                if (list.get(j).getName().equals(tabLocals.get(i).getName())) {
+                    list.get(j).setId(tabLocals.get(i).getId());
+                }
+            }
+            Stash.put(Constants.channelsTab, list);
         }
-
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Collections.sort(list, Comparator.comparing(TabsModel::getId));
+        }
+        //Collections.reverse(list);
+        setTabs();
     }
 
     private void getTabs() {
@@ -229,10 +246,15 @@ public class EventsActivity extends AppCompatActivity {
                             list.add(model);
                         }
                         Stash.put(Constants.eventsTab, list);
-                        getTabs();
+                        boolean ta = Stash.getBoolean(Constants.isAdjusted, false);
+                        if (ta){
+                            getLocalTabs();
+                        } else {
+                            getTabs();
+                        }
                         /*binding.viewpager.setAdapter(adapter);
                         binding.tablayout.setupWithViewPager(binding.viewpager);*/
-                        progressDialog.dismiss();
+                        //progressDialog.dismiss();
 
                     } catch (JSONException error) {
                         Toast.makeText(EventsActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
