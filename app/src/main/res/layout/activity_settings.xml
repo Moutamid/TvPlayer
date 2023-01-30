@@ -36,6 +36,14 @@
                 android:id="@+id/lockSetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusedByDefault="true"
+                android:screenReaderFocusable="true"
+                android:defaultFocusHighlightEnabled="true"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:descendantFocusability="beforeDescendants"
+                android:background="@drawable/item_selector"
                 app:cardElevation="0dp"
                 app:cardCornerRadius="0dp">
 
@@ -86,6 +94,14 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusedByDefault="true"
+                android:screenReaderFocusable="true"
+                android:defaultFocusHighlightEnabled="true"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:descendantFocusability="beforeDescendants"
+                android:background="@drawable/item_selector"
                 app:cardElevation="0dp"
                 app:cardCornerRadius="0dp">
 
@@ -138,6 +154,14 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusedByDefault="true"
+            android:screenReaderFocusable="true"
+            android:defaultFocusHighlightEnabled="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:descendantFocusability="beforeDescendants"
+            android:background="@drawable/item_selector"
             app:cardElevation="0dp"
             android:visibility="gone"
             app:cardCornerRadius="0dp">
@@ -183,6 +207,14 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusedByDefault="true"
+            android:screenReaderFocusable="true"
+            android:defaultFocusHighlightEnabled="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:descendantFocusability="beforeDescendants"
+            android:background="@drawable/item_selector"
             app:cardElevation="0dp"
             android:visibility="gone"
             app:cardCornerRadius="0dp">
@@ -229,6 +261,14 @@
             android:id="@+id/hideCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusedByDefault="true"
+            android:screenReaderFocusable="true"
+            android:defaultFocusHighlightEnabled="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:descendantFocusability="beforeDescendants"
+            android:background="@drawable/item_selector"
             app:cardElevation="0dp"
             app:cardCornerRadius="0dp">
 
@@ -273,6 +313,14 @@
             android:id="@+id/adjust"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusedByDefault="true"
+            android:screenReaderFocusable="true"
+            android:defaultFocusHighlightEnabled="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:descendantFocusability="beforeDescendants"
+            android:background="@drawable/item_selector"
             app:cardElevation="0dp"
             app:cardCornerRadius="0dp">
 
@@ -326,6 +374,14 @@
             android:id="@+id/videoPlayer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusedByDefault="true"
+            android:screenReaderFocusable="true"
+            android:defaultFocusHighlightEnabled="true"
+            android:focusableInTouchMode="true"
+            android:clickable="true"
+            android:descendantFocusability="beforeDescendants"
+            android:background="@drawable/item_selector"
             app:cardElevation="0dp"
             app:cardCornerRadius="0dp">
 

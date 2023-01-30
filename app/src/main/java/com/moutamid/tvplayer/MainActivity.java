@@ -48,6 +48,7 @@ import com.ironsource.mediationsdk.logger.IronSourceError;
 import com.ironsource.mediationsdk.model.InterstitialPlacement;
 import com.ironsource.mediationsdk.sdk.InterstitialListener;
 import com.moutamid.tvplayer.databinding.ActivityMainBinding;
+import com.moutamid.tvplayer.dialog.PasswordDialog;
 import com.moutamid.tvplayer.fragments.AllChannelsFragment;
 import com.moutamid.tvplayer.fragments.EventsFragment;
 import com.moutamid.tvplayer.fragments.FavouritesFragment;
@@ -195,33 +196,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void Dialog() {
-        final Dialog password = new Dialog(this);
-        password.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        password.setContentView(R.layout.password_layout);
-
-        EditText pasw = password.findViewById(R.id.et_password);
-        Button ok = password.findViewById(R.id.ok);
-        Button cancel = password.findViewById(R.id.cancel);
-
-        cancel.setOnClickListener(v -> password.dismiss());
-
-        ok.setOnClickListener(v -> {
-            String s = Stash.getString("password", "");
-            if (pasw.getText().toString().equals(s)){
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                password.dismiss();
-            } else {
-                Toast.makeText(this, "Password is Wrong", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        password.show();
-        password.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        password.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        password.getWindow().setGravity(Gravity.CENTER);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.navigation_setting, menu);
@@ -238,7 +212,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             boolean isLock = Stash.getBoolean("lockState", false);
 
             if (isLock){
-                Dialog();
+                PasswordDialog passwordDialog = new PasswordDialog(MainActivity.this);
+                passwordDialog.show();
             } else {
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
@@ -275,7 +250,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_settings:
                 boolean isLock = Stash.getBoolean("lockState", false);
                 if (isLock){
-                    Dialog();
+                    PasswordDialog passwordDialog = new PasswordDialog(MainActivity.this);
+                    passwordDialog.show();
                 } else {
                     startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 }

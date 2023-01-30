@@ -214,6 +214,8 @@ public class SettingsActivity extends AppCompatActivity {
         Button ok = password.findViewById(R.id.ok);
         Button cancel = password.findViewById(R.id.cancel);
 
+        pasw.requestFocus();
+
         cancel.setOnClickListener(v -> password.dismiss());
 
         ok.setOnClickListener(v -> {
