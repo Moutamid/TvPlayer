@@ -95,7 +95,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
             @Override
             public boolean onLongClick(View v) {
                 new AlertDialog.Builder(context)
-                        .setMessage("Do you want to save it?")
+                        .setMessage("Do you want to favourite it?")
                         .setPositiveButton("Yes", (dialog, which) -> {
                             clicklistners.favrt(model, holder.isfvrt, holder.favrt);
                         })
