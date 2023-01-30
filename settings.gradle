@@ -28,6 +28,6 @@ dependencyResolutionManagement {
         jcenter()
     }
 }
-rootProject.name = "TvPlayer"
+rootProject.name = "Multi Streamz"
 include ':app'
 //include ':unity-ads'

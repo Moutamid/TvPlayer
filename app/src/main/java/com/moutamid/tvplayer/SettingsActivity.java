@@ -25,6 +25,8 @@ import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.tvplayer.databinding.ActivitySettingsBinding;
 import com.moutamid.tvplayer.models.TabsModel;
 
@@ -210,19 +212,22 @@ public class SettingsActivity extends AppCompatActivity {
         password.requestWindowFeature(Window.FEATURE_NO_TITLE);
         password.setContentView(R.layout.password_layout);
 
-        EditText pasw = password.findViewById(R.id.et_password);
+        TextInputLayout pasw = password.findViewById(R.id.et_password);
+        TextInputEditText passwordEt = password.findViewById(R.id.passwordEt);
         Button ok = password.findViewById(R.id.ok);
         Button cancel = password.findViewById(R.id.cancel);
 
         pasw.requestFocus();
+        passwordEt.requestFocus();
+        pasw.getEditText().requestFocus();
 
         cancel.setOnClickListener(v -> password.dismiss());
 
         ok.setOnClickListener(v -> {
-            if (pasw.getText().toString().isEmpty()) {
+            if (pasw.getEditText().getText().toString().isEmpty()) {
                 Toast.makeText(this, "Add Password", Toast.LENGTH_SHORT).show();
             } else {
-                Stash.put("password", pasw.getText().toString());
+                Stash.put("password", pasw.getEditText().getText().toString());
                 Toast.makeText(this, "Password Updated", Toast.LENGTH_SHORT).show();
                 password.dismiss();
             }

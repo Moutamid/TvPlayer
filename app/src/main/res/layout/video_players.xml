@@ -8,7 +8,7 @@
     android:focusedByDefault="true"
     android:screenReaderFocusable="true"
     android:defaultFocusHighlightEnabled="true"
-    android:focusableInTouchMode="true"
+    android:focusableInTouchMode="false"
     android:clickable="true"
     android:descendantFocusability="beforeDescendants"
     android:layout_margin="25sp">

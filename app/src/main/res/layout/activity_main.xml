@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:title="Tv Player"
+            app:title="@string/app_name"
             android:background="@color/orange"
             android:elevation="4dp"/>
 
