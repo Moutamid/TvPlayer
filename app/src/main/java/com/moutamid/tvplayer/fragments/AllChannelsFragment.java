@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.databinding.FragmentAllChannelsBinding;
+import com.moutamid.tvplayer.models.TabLocal;
 import com.moutamid.tvplayer.models.TabsModel;
 
 import org.json.JSONArray;
@@ -245,7 +246,12 @@ public class AllChannelsFragment extends Fragment {
                             list.add(model);
                         }
                         Stash.put(Constants.channelsTab, list);
-                        getTabs();
+                        boolean ta = Stash.getBoolean(Constants.isAdjusted, false);
+                        if (ta){
+                            getLocalTabs();
+                        } else {
+                            getTabs();
+                        }
                         /*binding.viewpager.setAdapter(adapter);
                         binding.tablayout.setupWithViewPager(binding.viewpager);*/
                         //progressDialog.dismiss();
@@ -256,6 +262,24 @@ public class AllChannelsFragment extends Fragment {
                 });
             }
         }).start();
+    }
+
+    private void getLocalTabs() {
+        ArrayList<TabLocal> tabLocals = new ArrayList<>();
+        tabLocals = Stash.getArrayList(Constants.localTab, TabLocal.class);
+        for (int i = 0; i < tabLocals.size(); i++) {
+            for (int j=0; j< list.size(); j++){
+                if (list.get(j).getName().equals(tabLocals.get(i).getName())) {
+                    list.get(j).setId(tabLocals.get(i).getId());
+                }
+            }
+            Stash.put(Constants.channelsTab, list);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Collections.sort(list, Comparator.comparing(TabsModel::getId));
+        }
+        //Collections.reverse(list);
+        setTabs();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

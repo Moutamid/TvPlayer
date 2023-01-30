@@ -7,6 +7,8 @@ public class Constants {
     public static final String eventsData = "eventsData";
     public static final String channelsData = "channelsData";
     public static final String channelsTab = "channelsTab";
+    public static final String localTab = "localTab";
+    public static final String isAdjusted = "isAdjusted";
     public static final String eventsTab = "eventsTab";
     public static final String categories = "http://95.217.210.178/api/v1/channel/categories";
     public static final String countries = "http://95.217.210.178/api/v1/channel/countries";

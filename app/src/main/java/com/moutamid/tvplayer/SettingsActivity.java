@@ -81,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        binding.adjust.setVisibility(View.GONE);
+        //binding.adjust.setVisibility(View.GONE);
 
         binding.adjust.setOnClickListener(v -> {
             startActivity(new Intent(this, AdjustTabsActivity.class));
