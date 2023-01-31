@@ -66,7 +66,7 @@ public class FavouritesFragment extends Fragment {
         streamLinks = new ArrayList<>();
         binding.recycler.setHasFixedSize(false);
 
-        favrtList = Stash.getArrayList("favrtList", String.class);
+        favrtList = Stash.getArrayList(Constants.favrtList, String.class);
         tabs = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
 
         if (favrtList == null){
@@ -166,20 +166,20 @@ public class FavouritesFragment extends Fragment {
 
         @Override
         public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
+            /*favrtList.clear();
+            favrtList = Stash.getArrayList(Constants.favrtList, String.class);*/
             if (!isfvrt) {
                 favrt.setImageResource(R.drawable.ic_favorite);
                 isfvrt = true;
                 favrtList.add(model.get_id());
-                Stash.put("favrtList", favrtList);
+                Stash.put(Constants.favrtList, favrtList);
                 adapter.notifyDataSetChanged();
             } else {
-                favrtList.remove(favrtList.indexOf(model.get_id()));
-                Stash.put("favrtList", favrtList);
                 favrt.setImageResource(R.drawable.ic_favorite_border);
                 isfvrt = false;
-                getActivity().getSupportFragmentManager().beginTransaction().remove(FavouritesFragment.this);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();
-                // adapter.notifyDataSetChanged();
+                favrtList.remove(favrtList.indexOf(model.get_id()));
+                Stash.put(Constants.favrtList, favrtList);
+                adapter.notifyDataSetChanged();
             }
         }
     };

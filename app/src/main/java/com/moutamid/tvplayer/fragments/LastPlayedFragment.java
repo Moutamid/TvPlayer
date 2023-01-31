@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Clicklistners;
+import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
 import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
@@ -58,7 +59,7 @@ public class LastPlayedFragment extends Fragment {
 
         channelsList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
 
-        favrtList = Stash.getArrayList("favrtList", String.class);
+        favrtList = Stash.getArrayList(Constants.favrtList, String.class);
         if (favrtList == null){
             favrtList = new ArrayList<>();
         }
@@ -100,20 +101,20 @@ public class LastPlayedFragment extends Fragment {
 
         @Override
         public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
+            /*favrtList.clear();
+            favrtList = Stash.getArrayList(Constants.favrtList, String.class);*/
             if (!isfvrt) {
                 favrt.setImageResource(R.drawable.ic_favorite);
                 isfvrt = true;
                 favrtList.add(model.get_id());
-                Stash.put("favrtList", favrtList);
+                Stash.put(Constants.favrtList, favrtList);
                 adapter.notifyDataSetChanged();
             } else {
-                favrtList.remove(favrtList.indexOf(model.get_id()));
-                Stash.put("favrtList", favrtList);
                 favrt.setImageResource(R.drawable.ic_favorite_border);
                 isfvrt = false;
-//                getActivity().getSupportFragmentManager().beginTransaction().remove(FavouritesFragment.this);
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FavouritesFragment()).commit();
-                // adapter.notifyDataSetChanged();
+                favrtList.remove(favrtList.indexOf(model.get_id()));
+                Stash.put(Constants.favrtList, favrtList);
+                adapter.notifyDataSetChanged();
             }
         }
     };

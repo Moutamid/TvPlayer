@@ -7,6 +7,7 @@ public class Constants {
     public static final String eventsData = "eventsData";
     public static final String channelsData = "channelsData";
     public static final String channelsTab = "channelsTab";
+    public static final String favrtList = "favrtList";
     public static final String localTab = "localTab";
     public static final String isAdjusted = "isAdjusted";
     public static final String eventsTab = "eventsTab";

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Clicklistners;
+import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.models.ChannelsModel;
 
@@ -31,10 +32,6 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         this.context = context;
         this.list = list;
         this.clicklistners = clicklistners;
-        favrtList = Stash.getArrayList("favrtList", String.class);
-        if (favrtList == null){
-            favrtList = new ArrayList<>();
-        }
 //        Log.d("tager", "List Items: "+list.toString());
     }
 
@@ -55,6 +52,11 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
 
        // Toast.makeText(context, "Adapter Position : " + holder.getAdapterPosition() + "\n\nAdapter Name : " + model.getName() + "\n\n" + "Adapter STream : " + model.getStreamingLinks().get(0).getStream_link() + "\n\n", Toast.LENGTH_SHORT).show();
 
+        favrtList = Stash.getArrayList(Constants.favrtList, String.class);
+        if (favrtList == null){
+            favrtList = new ArrayList<>();
+        }
+
         for (String id : favrtList){
             if (model.get_id().equals(id)){
                 holder.favrt.setImageResource(R.drawable.ic_favorite);
@@ -63,20 +65,6 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         }
 
         holder.favrt.setOnClickListener(v -> {
-            /*if (!holder.isfvrt) {
-                holder.favrt.setImageResource(R.drawable.ic_favorite);
-                holder.isfvrt = true;
-                favrtList.add(model.get_id());
-                Stash.put("favrtList", favrtList);
-                // adapter.notifyDataSetChanged();
-            } else {
-                favrtList.remove(favrtList.indexOf(model.get_id()));
-                Stash.put("favrtList", favrtList);
-                holder.favrt.setImageResource(R.drawable.ic_favorite_border);
-                holder.isfvrt = false;
-                // adapter.notifyDataSetChanged();
-            }*/
-
             clicklistners.favrt(model, holder.isfvrt, holder.favrt);
         });
 
