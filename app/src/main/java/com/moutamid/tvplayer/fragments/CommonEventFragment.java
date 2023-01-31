@@ -1,37 +1,24 @@
 package com.moutamid.tvplayer.fragments;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
-import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.Constants;
-import com.moutamid.tvplayer.R;
-import com.moutamid.tvplayer.adapters.ChannelsAdapter;
 import com.moutamid.tvplayer.adapters.CountriesWiseAdapter;
-import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import com.moutamid.tvplayer.databinding.FragmentCommonEventBinding;
 import com.moutamid.tvplayer.dialog.LinkDialog;
 import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
@@ -60,7 +47,7 @@ public class CommonEventFragment extends Fragment {
     ArrayList<StreamLinksModel> streamLinks;
     ArrayList<CountriesChannelModel> countriesChannel;
     CountriesWiseAdapter adapter;
-    ArrayList<String> favrtList;
+    ArrayList<ChannelsModel> favrtList;
 
     public CommonEventFragment() {
         // Required empty public constructor
@@ -112,7 +99,7 @@ public class CommonEventFragment extends Fragment {
         binding.recycler.setHasFixedSize(false);
 
         Log.d("testing123", "onCreateView  ");
-        favrtList = Stash.getArrayList(Constants.favrtList, String.class);
+        favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
         if (favrtList == null){
             favrtList = new ArrayList<>();
         }
@@ -266,19 +253,21 @@ public class CommonEventFragment extends Fragment {
         }
 
         @Override
-        public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
-            /*favrtList.clear();
-            favrtList = Stash.getArrayList(Constants.favrtList, String.class);*/
+        public void favrouite(ChannelsModel model, boolean isfvrt) {
+            favrtList.clear();
+            favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
             if (!isfvrt) {
-                favrt.setImageResource(R.drawable.ic_favorite);
-                isfvrt = true;
-                favrtList.add(model.get_id());
+                Toast.makeText(context, "added", Toast.LENGTH_SHORT).show();
+                favrtList.add(model);
                 Stash.put(Constants.favrtList, favrtList);
                 adapter.notifyDataSetChanged();
             } else {
-                favrt.setImageResource(R.drawable.ic_favorite_border);
-                isfvrt = false;
-                favrtList.remove(favrtList.indexOf(model.get_id()));
+                for (int i = 0; i < favrtList.size(); i++) {
+                    if (favrtList.get(i).get_id().equals(model.get_id())) {
+                        Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
+                        favrtList.remove(i);
+                    }
+                }
                 Stash.put(Constants.favrtList, favrtList);
                 adapter.notifyDataSetChanged();
             }

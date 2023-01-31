@@ -1,49 +1,34 @@
 package com.moutamid.tvplayer.fragments;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.Constants;
-import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
-import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import com.moutamid.tvplayer.databinding.FragmentLastPlayedBinding;
 import com.moutamid.tvplayer.dialog.LinkDialog;
 import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
 import com.moutamid.tvplayer.models.ChannelsModel;
-import com.moutamid.tvplayer.models.StreamLinksModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 
 
 public class LastPlayedFragment extends Fragment {
     FragmentLastPlayedBinding binding;
     Context context;
-    ArrayList<String> favrtList;
-
+    ArrayList<ChannelsModel> favrtList;
     ArrayList<ChannelsModel> channelsList;
     ChannelsAdapter adapter;
 
@@ -58,11 +43,6 @@ public class LastPlayedFragment extends Fragment {
         context = view.getContext();
 
         channelsList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
-
-        favrtList = Stash.getArrayList(Constants.favrtList, String.class);
-        if (favrtList == null){
-            favrtList = new ArrayList<>();
-        }
 
         Log.d("VideoURLPlayer", "Size FRA "+channelsList.size());
 
@@ -100,19 +80,21 @@ public class LastPlayedFragment extends Fragment {
         }
 
         @Override
-        public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
-            /*favrtList.clear();
-            favrtList = Stash.getArrayList(Constants.favrtList, String.class);*/
+        public void favrouite(ChannelsModel model, boolean isfvrt) {
+            favrtList.clear();
+            favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
             if (!isfvrt) {
-                favrt.setImageResource(R.drawable.ic_favorite);
-                isfvrt = true;
-                favrtList.add(model.get_id());
+                Toast.makeText(context, "added", Toast.LENGTH_SHORT).show();
+                favrtList.add(model);
                 Stash.put(Constants.favrtList, favrtList);
                 adapter.notifyDataSetChanged();
             } else {
-                favrt.setImageResource(R.drawable.ic_favorite_border);
-                isfvrt = false;
-                favrtList.remove(favrtList.indexOf(model.get_id()));
+                for (int i = 0; i < favrtList.size(); i++) {
+                    if (favrtList.get(i).get_id().equals(model.get_id())) {
+                        Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
+                        favrtList.remove(i);
+                    }
+                }
                 Stash.put(Constants.favrtList, favrtList);
                 adapter.notifyDataSetChanged();
             }

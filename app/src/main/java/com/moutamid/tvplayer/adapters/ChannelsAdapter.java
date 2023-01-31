@@ -25,13 +25,14 @@ import java.util.ArrayList;
 public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.ChannelVH> {
     Context context;
     ArrayList<ChannelsModel> list;
-    ArrayList<String> favrtList;
+    ArrayList<ChannelsModel> favrtList;
     Clicklistners clicklistners;
 
     public ChannelsAdapter(Context context, ArrayList<ChannelsModel> list, Clicklistners clicklistners) {
         this.context = context;
         this.list = list;
         this.clicklistners = clicklistners;
+
 //        Log.d("tager", "List Items: "+list.toString());
     }
 
@@ -44,7 +45,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
 
     @Override
     public void onBindViewHolder(@NonNull ChannelVH holder, int position) {
-        ChannelsModel model = list.get(holder.getAdapterPosition());
+        ChannelsModel model = list.get(holder.getAbsoluteAdapterPosition());
 //        Log.d("tager", "ModelChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
 
         Glide.with(context).load(model.getImageUrl()).into(holder.image);
@@ -52,20 +53,22 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
 
        // Toast.makeText(context, "Adapter Position : " + holder.getAdapterPosition() + "\n\nAdapter Name : " + model.getName() + "\n\n" + "Adapter STream : " + model.getStreamingLinks().get(0).getStream_link() + "\n\n", Toast.LENGTH_SHORT).show();
 
-        favrtList = Stash.getArrayList(Constants.favrtList, String.class);
+        favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
         if (favrtList == null){
             favrtList = new ArrayList<>();
         }
 
-        for (String id : favrtList){
-            if (model.get_id().equals(id)){
+        for (ChannelsModel fvrtModel : favrtList){
+            if (fvrtModel.get_id().equals(model.get_id())){
                 holder.favrt.setImageResource(R.drawable.ic_favorite);
                 holder.isfvrt = true;
             }
         }
 
         holder.favrt.setOnClickListener(v -> {
-            clicklistners.favrt(model, holder.isfvrt, holder.favrt);
+            clicklistners.favrouite(model, holder.isfvrt);
+//            holder.isfvrt = clicklistners.favrt(holder.isfvrt, holder.favrt);
+//            clicklistners.favrtModel(model, holder.isfvrt);
         });
 
         holder.itemView.setOnClickListener(v -> {
@@ -75,8 +78,6 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
 */
 //            Log.d("tager", "ModelChannelName: "+model.getName());
 //            Log.d("tager", "ModelChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
-
-
         });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -85,7 +86,8 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
                 new AlertDialog.Builder(context)
                         .setMessage("Do you want to favourite it?")
                         .setPositiveButton("Yes", (dialog, which) -> {
-                            clicklistners.favrt(model, holder.isfvrt, holder.favrt);
+                            favrtList.add(model);
+                            Stash.put(Constants.favrtList, favrtList);
                         })
                         .setNegativeButton("No", (dialog, which) -> {
                             dialog.dismiss();
@@ -105,13 +107,14 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
     public class ChannelVH extends RecyclerView.ViewHolder {
         ImageView image, favrt;
         TextView name;
-        boolean isfvrt = false;
+        boolean isfvrt;
 
         public ChannelVH(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
             favrt = itemView.findViewById(R.id.favrt);
             name = itemView.findViewById(R.id.name);
+            isfvrt = false;
         }
     }
 }

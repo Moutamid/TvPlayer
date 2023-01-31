@@ -1,43 +1,29 @@
 package com.moutamid.tvplayer.fragments;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.adapters.CountriesWiseAdapter;
-import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import  com.moutamid.tvplayer.databinding.FragmentCommonBinding;
-import com.moutamid.tvplayer.R;
-import com.moutamid.tvplayer.adapters.ChannelsAdapter;
 import com.moutamid.tvplayer.dialog.LinkDialog;
 import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.CountriesChannelModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
-import com.moutamid.tvplayer.models.TabsModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 
 public class CommonFragment extends Fragment {
@@ -65,7 +50,7 @@ public class CommonFragment extends Fragment {
     ArrayList<CountriesChannelModel> countriesChannel;
 //    ArrayList<StreamLinksModel> streamLinks;
     CountriesWiseAdapter adapter;
-    ArrayList<String> favrtList;
+    ArrayList<ChannelsModel> favrtList;
     Map<String, ArrayList<ChannelsModel>> map = new HashMap<>();
 
     ArrayList<String> newList = new ArrayList();
@@ -91,7 +76,7 @@ public class CommonFragment extends Fragment {
         countriesChannel = new ArrayList<CountriesChannelModel>();
         binding.recycler.setHasFixedSize(false);
 
-        favrtList = Stash.getArrayList(Constants.favrtList, String.class);
+        favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
         if (favrtList == null){
             favrtList = new ArrayList<>();
         }
@@ -165,7 +150,10 @@ public class CommonFragment extends Fragment {
             Stash.put("newList", newList);
 
 //            Log.d("tager", "countries data: "+countriesChannel);
-            getSorting();
+            //getSorting();
+            binding.recycler.setLayoutManager(new LinearLayoutManager(context));
+            adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
+            binding.recycler.setAdapter(adapter);
         } catch (Exception e){
             Log.d("tager", "ERROR at 147 CommonFrag: "+e.getMessage());
             e.printStackTrace();
@@ -250,7 +238,7 @@ public class CommonFragment extends Fragment {
 //            Log.d("tager", "PassedChannelName: "+model.getName());
 //            Log.d("tager", "PassedChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
 
-            if (model.getStreamingLinks().size()>1){
+            if (model.getStreamingLinks().size() > 1) {
                 LinkDialog ld = new LinkDialog(context, model);
                 ld.show();
             } else {
@@ -260,21 +248,27 @@ public class CommonFragment extends Fragment {
         }
 
         @Override
-        public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
-            /*favrtList.clear();
-            favrtList = Stash.getArrayList(Constants.favrtList, String.class);*/
+        public void favrouite(ChannelsModel model, boolean isfvrt) {
+            favrtList.clear();
+            favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
             if (!isfvrt) {
-                favrt.setImageResource(R.drawable.ic_favorite);
-                isfvrt = true;
-                favrtList.add(model.get_id());
+                Toast.makeText(context, "added", Toast.LENGTH_SHORT).show();
+                favrtList.add(model);
                 Stash.put(Constants.favrtList, favrtList);
                 adapter.notifyDataSetChanged();
+                adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
+                binding.recycler.setAdapter(adapter);
             } else {
-                favrtList.remove(favrtList.indexOf(model.get_id()));
+                for (int i = 0; i < favrtList.size(); i++) {
+                    if (favrtList.get(i).get_id().equals(model.get_id())) {
+                        Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
+                        favrtList.remove(i);
+                    }
+                }
                 Stash.put(Constants.favrtList, favrtList);
-                favrt.setImageResource(R.drawable.ic_favorite_border);
-                isfvrt = false;
                 adapter.notifyDataSetChanged();
+                adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
+                binding.recycler.setAdapter(adapter);
             }
         }
     };

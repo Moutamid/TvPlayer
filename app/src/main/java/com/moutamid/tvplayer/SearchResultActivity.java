@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
@@ -35,6 +37,8 @@ import java.util.Comparator;
 public class SearchResultActivity extends AppCompatActivity {
     ActivitySearchResultBinding binding;
     ChannelsModel searchedChannel;
+    boolean isfvrt = false;
+    ArrayList<ChannelsModel> favrtList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +49,21 @@ public class SearchResultActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+        favrtList = new ArrayList<>();
+
+        favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
+
         searchedChannel = (ChannelsModel) Stash.getObject("searchedModel", ChannelsModel.class);
 
         Glide.with(this).load(searchedChannel.getImageUrl()).into(binding.image);
         binding.name.setText(searchedChannel.getName());
+
+        for (ChannelsModel channelsModel : favrtList){
+            if (channelsModel.get_id().equals(searchedChannel.get_id())){
+                binding.favrt.setImageResource(R.drawable.ic_favorite);
+                isfvrt = true;
+            }
+        }
 
         binding.channel.setOnClickListener(v -> {
             if (searchedChannel.getStreamingLinks().size()>1){
@@ -56,6 +71,47 @@ public class SearchResultActivity extends AppCompatActivity {
             } else {
                 videoPlayerDialog();
             }
+        });
+
+        binding.favrt.setOnClickListener(v -> {
+            favrtList.clear();
+            favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
+            if (!isfvrt) {
+                favrtList.add(searchedChannel);
+                Stash.put(Constants.favrtList, favrtList);
+                isfvrt = true;
+                binding.favrt.setImageResource(R.drawable.ic_favorite);
+            } else {
+                for (int i = 0; i < favrtList.size(); i++) {
+                    if (favrtList.get(i).get_id().equals(searchedChannel.get_id())) {
+                        favrtList.remove(i);
+                        isfvrt = false;
+                        binding.favrt.setImageResource(R.drawable.ic_favorite_border);
+                    }
+                }
+                Stash.put(Constants.favrtList, favrtList);
+            }
+        });
+
+        binding.channel.setOnLongClickListener(view -> {
+            new AlertDialog.Builder(SearchResultActivity.this)
+                    .setMessage("Do you want to favourite it?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        favrtList.clear();
+                        favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
+                        if (!isfvrt) {
+                            favrtList.add(searchedChannel);
+                            Stash.put(Constants.favrtList, favrtList);
+                            isfvrt = true;
+                        } else {
+                            Toast.makeText(this, "Already Added", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("No", (dialog, which) -> {
+                        dialog.dismiss();
+                    })
+                    .show();
+            return false;
         });
 
     }

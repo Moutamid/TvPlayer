@@ -1,32 +1,20 @@
 package com.moutamid.tvplayer.fragments;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fxn.stash.Stash;
-import com.google.android.material.card.MaterialCardView;
 import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.Constants;
-import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.adapters.ChannelsAdapter;
-import com.moutamid.tvplayer.adapters.StreamLinksAdapter;
 import com.moutamid.tvplayer.databinding.FragmentFavouritesBinding;
 import com.moutamid.tvplayer.dialog.LinkDialog;
 import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
@@ -34,13 +22,7 @@ import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.StreamLinksModel;
 import com.moutamid.tvplayer.models.TabsModel;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class FavouritesFragment extends Fragment {
 
@@ -49,7 +31,7 @@ public class FavouritesFragment extends Fragment {
     ArrayList<ChannelsModel> channelsList;
     ArrayList<StreamLinksModel> streamLinks;
     ChannelsAdapter adapter;
-    ArrayList<String> favrtList;
+    ArrayList<ChannelsModel> favrtList;
     ArrayList<TabsModel> tabs = new ArrayList<>();
 
     public FavouritesFragment() {
@@ -66,7 +48,9 @@ public class FavouritesFragment extends Fragment {
         streamLinks = new ArrayList<>();
         binding.recycler.setHasFixedSize(false);
 
-        favrtList = Stash.getArrayList(Constants.favrtList, String.class);
+        favrtList = new ArrayList<>();
+
+        favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
         tabs = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
 
         if (favrtList == null){
@@ -86,62 +70,22 @@ public class FavouritesFragment extends Fragment {
     }
 
     private void fetchChannels() {
-
-        for (TabsModel s : tabs) {
-            try {
-                JSONArray channelsArray = new JSONArray(s.getObject());
-                for (int i = 0; i < channelsArray.length(); i++) {
-                    JSONObject obj = channelsArray.getJSONObject(i);
-                    ChannelsModel channelsModel = new ChannelsModel();
-                    channelsModel.set_id(obj.getString("_id"));
-                    channelsModel.setName(obj.getString("name"));
-                    channelsModel.setCategory(obj.getString("category"));
-                    channelsModel.setImage(obj.getString("image"));
-                    channelsModel.setImageUrl(obj.getString("imageUrl"));
-                    channelsModel.setHide(obj.getBoolean("hide"));
-                    channelsModel.setCountry(obj.getString("country"));
-                    channelsModel.setID(obj.getInt("ID"));
-                    channelsModel.set__v(obj.getInt("__v"));
-
-                    JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
-
-                    streamLinks.clear();
-                    for (int j = 0; j < streamingLinks.length(); j++) {
-                        JSONObject stream = streamingLinks.getJSONObject(j);
-                        StreamLinksModel model1 = new StreamLinksModel();
-                        model1.set_id(stream.getString("_id"));
-                        model1.setName(stream.getString("name"));
-                        model1.setToken(stream.getString("token"));
-                        model1.setPriority(stream.getInt("priority"));
-                        model1.setRequest_header(stream.getString("request_header"));
-                        model1.setPlayer_header(stream.getString("player_header"));
-                        streamLinks.add(model1);
-                    }
-
-                    channelsModel.setStreamingLinks(streamLinks);
-                    for (String id : favrtList) {
-                        if (channelsModel.get_id().equals(id)) {
-                            channelsList.add(channelsModel);
-                        }
-                    }
-                }
-
-                if (channelsList.size() == 1) {
-                    binding.recycler.setLayoutManager(new GridLayoutManager(context, 1));
-                } else if (channelsList.size() == 2) {
-                    binding.recycler.setLayoutManager(new GridLayoutManager(context, 2));
-                } else {
-                    binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
-                }
-
-                adapter = new ChannelsAdapter(context, channelsList, clicklistners);
-                binding.recycler.setAdapter(adapter);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+        favrtList.clear();
+        favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
+        for (ChannelsModel model : favrtList){
+            channelsList.add(model);
         }
+
+        if (channelsList.size() == 1) {
+            binding.recycler.setLayoutManager(new GridLayoutManager(context, 1));
+        } else if (channelsList.size() == 2) {
+            binding.recycler.setLayoutManager(new GridLayoutManager(context, 2));
+        } else {
+            binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
+        }
+
+        adapter = new ChannelsAdapter(context, channelsList, clicklistners);
+        binding.recycler.setAdapter(adapter);
     }
 
     public void linkDialog(ChannelsModel model){
@@ -165,22 +109,22 @@ public class FavouritesFragment extends Fragment {
         }
 
         @Override
-        public void favrt(ChannelsModel model, boolean isfvrt, ImageView favrt) {
-            /*favrtList.clear();
-            favrtList = Stash.getArrayList(Constants.favrtList, String.class);*/
+        public void favrouite(ChannelsModel model, boolean isfvrt) {
+            favrtList.clear();
+            favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
             if (!isfvrt) {
-                favrt.setImageResource(R.drawable.ic_favorite);
-                isfvrt = true;
-                favrtList.add(model.get_id());
-                Stash.put(Constants.favrtList, favrtList);
-                adapter.notifyDataSetChanged();
+                favrtList.add(model);
+                //adapter.notifyDataSetChanged();
             } else {
-                favrt.setImageResource(R.drawable.ic_favorite_border);
-                isfvrt = false;
-                favrtList.remove(favrtList.indexOf(model.get_id()));
-                Stash.put(Constants.favrtList, favrtList);
-                adapter.notifyDataSetChanged();
+                for (int i = 0; i < favrtList.size(); i++) {
+                    if (favrtList.get(i).get_id().equals(model.get_id())) {
+                        favrtList.remove(i);
+                    }
+                }
+                //adapter.notifyDataSetChanged();
             }
+            Stash.put(Constants.favrtList, favrtList);
+            fetchChannels();
         }
     };
 }
