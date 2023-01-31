@@ -1,11 +1,15 @@
 package com.moutamid.tvplayer;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
@@ -28,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
     SearchAdapter adapter;
     ArrayList<ChannelsModel> list;
     ArrayList<StreamLinksModel> streamLinks;
-    JSONObject data;
+    //JSONObject data;
 
     ArrayList<TabsModel> tabs = new ArrayList<>();
 
@@ -37,14 +41,17 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         binding.search.getEditText().requestFocus();
 
         list = new ArrayList<>();
         streamLinks = new ArrayList<>();
 
-        data = (JSONObject) Stash.getObject("data", JSONObject.class);
-        tabs = Stash.getArrayList("tabs", TabsModel.class);
+        // data = (JSONObject) Stash.getObject("data", JSONObject.class);
+        tabs = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
         for (TabsModel s : tabs) {
             try {
                 JSONArray channelsArray = new JSONArray(s.getObject());
@@ -115,8 +122,14 @@ public class SearchActivity extends AppCompatActivity {
 
 
     }
-
-    private <T> Iterable<T> iterate(final Iterator<T> i) {
-        return () -> i;
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

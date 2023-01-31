@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     tools:context=".SearchActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/orange"
+        app:titleTextColor="@color/white"
+        app:navigationIconTint="@color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Search Channels" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/search"
         android:layout_width="match_parent"
