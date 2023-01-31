@@ -90,8 +90,8 @@ public class AllChannelsFragment extends Fragment {
         getData();*/
 
 //TODO:        if (data == null){
-            /*progressDialog.show();
-            getData();*/
+            progressDialog.show();
+            getData();
 //        } else {
 //            progressDialog.show();
 //            list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
