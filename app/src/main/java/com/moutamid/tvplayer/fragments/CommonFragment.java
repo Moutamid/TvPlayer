@@ -140,8 +140,8 @@ public class CommonFragment extends Fragment {
 
                 for (CountriesChannelModel model : countriesChannel){
                     String channels = "null";
-                    for (ChannelsModel channelsModekl: model.getChannelsList()) {
-                        channels = channelsModekl.getName()+"----"+channelsModekl.getStreamingLinks();
+                    for (ChannelsModel channelsModell: model.getChannelsList()) {
+                        channels = channelsModell.getName()+"----"+channelsModell.getStreamingLinks();
                     }
                     Log.d("tager", i+" country data after: "+model.getName()+channels+"\n\n");
 
@@ -150,7 +150,7 @@ public class CommonFragment extends Fragment {
             Stash.put("newList", newList);
 
 //            Log.d("tager", "countries data: "+countriesChannel);
-            //getSorting();
+            getSorting();
             binding.recycler.setLayoutManager(new LinearLayoutManager(context));
             adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
             binding.recycler.setAdapter(adapter);
@@ -234,11 +234,7 @@ public class CommonFragment extends Fragment {
     Clicklistners clicklistners = new Clicklistners() {
         @Override
         public void click(ChannelsModel model) {
-//            Toast.makeText(context, model.getName()+"\n\n"+model.getStreamingLinks().get(0).toString(), Toast.LENGTH_SHORT).show();
-//            Log.d("tager", "PassedChannelName: "+model.getName());
-//            Log.d("tager", "PassedChannelLink: "+model.getStreamingLinks().get(0).getStream_link());
-
-            if (model.getStreamingLinks().size() > 1) {
+            if (model.getStreamingLinks().size()>1) {
                 LinkDialog ld = new LinkDialog(context, model);
                 ld.show();
             } else {
@@ -249,27 +245,8 @@ public class CommonFragment extends Fragment {
 
         @Override
         public void favrouite(ChannelsModel model, boolean isfvrt) {
-            favrtList.clear();
-            favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
-            if (!isfvrt) {
-                Toast.makeText(context, "added", Toast.LENGTH_SHORT).show();
-                favrtList.add(model);
-                Stash.put(Constants.favrtList, favrtList);
-                adapter.notifyDataSetChanged();
-                adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
-                binding.recycler.setAdapter(adapter);
-            } else {
-                for (int i = 0; i < favrtList.size(); i++) {
-                    if (favrtList.get(i).get_id().equals(model.get_id())) {
-                        Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
-                        favrtList.remove(i);
-                    }
-                }
-                Stash.put(Constants.favrtList, favrtList);
-                adapter.notifyDataSetChanged();
-                adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
-                binding.recycler.setAdapter(adapter);
-            }
+
         }
     };
+
 }

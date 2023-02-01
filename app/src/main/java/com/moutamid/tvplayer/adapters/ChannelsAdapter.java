@@ -66,7 +66,27 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         }
 
         holder.favrt.setOnClickListener(v -> {
-            clicklistners.favrouite(model, holder.isfvrt);
+           // clicklistners.favrouite(model, holder.isfvrt);
+            ArrayList<ChannelsModel> favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
+            if (!holder.isfvrt) {
+                Toast.makeText(context, "added", Toast.LENGTH_SHORT).show();
+                favrtList.add(model);
+                Stash.put(Constants.favrtList, favrtList);
+                holder.favrt.setImageResource(R.drawable.ic_favorite);
+                holder.isfvrt = true;
+                //notifyDataSetChanged();
+            } else {
+                for (int i = 0; i < favrtList.size(); i++) {
+                    if (favrtList.get(i).get_id().equals(model.get_id())) {
+                        Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
+                        favrtList.remove(i);
+                    }
+                }
+                holder.favrt.setImageResource(R.drawable.ic_favorite_border);
+                holder.isfvrt = false;
+                Stash.put(Constants.favrtList, favrtList);
+                //notifyDataSetChanged();
+            }
 //            holder.isfvrt = clicklistners.favrt(holder.isfvrt, holder.favrt);
 //            clicklistners.favrtModel(model, holder.isfvrt);
         });
@@ -83,17 +103,37 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                String msg = holder.msg;
                 new AlertDialog.Builder(context)
-                        .setMessage("Do you want to favourite it?")
+                        .setMessage(msg)
                         .setPositiveButton("Yes", (dialog, which) -> {
-                            favrtList.add(model);
-                            Stash.put(Constants.favrtList, favrtList);
+                            if (!holder.isfvrt) {
+                                Toast.makeText(context, "added", Toast.LENGTH_SHORT).show();
+                                favrtList.add(model);
+                                holder.favrt.setImageResource(R.drawable.ic_favorite);
+                                holder.isfvrt = true;
+                                holder.msg = "Do you want to remove it favourite?";
+                                Stash.put(Constants.favrtList, favrtList);
+                                //notifyDataSetChanged();
+                            } else {
+                                for (int i = 0; i < favrtList.size(); i++) {
+                                    if (favrtList.get(i).get_id().equals(model.get_id())) {
+                                        Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
+                                        favrtList.remove(i);
+                                    }
+                                }
+                                holder.favrt.setImageResource(R.drawable.ic_favorite_border);
+                                holder.isfvrt = false;
+                                holder.msg = "Do you want to favourite it?";
+                                Stash.put(Constants.favrtList, favrtList);
+                                //notifyDataSetChanged();
+                            }
                         })
                         .setNegativeButton("No", (dialog, which) -> {
                             dialog.dismiss();
                         })
                         .show();
-                return false;
+                return true;
             }
         });
 
@@ -108,6 +148,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
         ImageView image, favrt;
         TextView name;
         boolean isfvrt;
+        String msg;
 
         public ChannelVH(@NonNull View itemView) {
             super(itemView);
@@ -115,6 +156,7 @@ public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.Channe
             favrt = itemView.findViewById(R.id.favrt);
             name = itemView.findViewById(R.id.name);
             isfvrt = false;
+            msg = "Do you want to favourite it?";
         }
     }
 }

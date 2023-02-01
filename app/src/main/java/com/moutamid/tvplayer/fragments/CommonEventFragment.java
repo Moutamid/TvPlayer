@@ -246,31 +246,17 @@ public class CommonEventFragment extends Fragment {
         @Override
         public void click(ChannelsModel model) {
             if (model.getStreamingLinks().size()>1) {
-                linkDialog(model);
+                LinkDialog ld = new LinkDialog(context, model);
+                ld.show();
             } else {
-                videoPlayerDialog(model);
+                VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0), model);
+                vd.showStream();
             }
         }
 
         @Override
         public void favrouite(ChannelsModel model, boolean isfvrt) {
-            favrtList.clear();
-            favrtList = Stash.getArrayList(Constants.favrtList, ChannelsModel.class);
-            if (!isfvrt) {
-                Toast.makeText(context, "added", Toast.LENGTH_SHORT).show();
-                favrtList.add(model);
-                Stash.put(Constants.favrtList, favrtList);
-                adapter.notifyDataSetChanged();
-            } else {
-                for (int i = 0; i < favrtList.size(); i++) {
-                    if (favrtList.get(i).get_id().equals(model.get_id())) {
-                        Toast.makeText(context, "removed", Toast.LENGTH_SHORT).show();
-                        favrtList.remove(i);
-                    }
-                }
-                Stash.put(Constants.favrtList, favrtList);
-                adapter.notifyDataSetChanged();
-            }
+
         }
     };
 

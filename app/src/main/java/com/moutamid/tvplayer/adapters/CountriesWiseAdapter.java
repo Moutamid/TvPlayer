@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.Clicklistners;
+import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.R;
+import com.moutamid.tvplayer.dialog.LinkDialog;
+import com.moutamid.tvplayer.dialog.VideoPlayerDialog;
 import com.moutamid.tvplayer.models.ChannelsModel;
 import com.moutamid.tvplayer.models.CountriesChannelModel;
 
@@ -25,13 +28,14 @@ import java.util.Map;
 public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdapter.CountriesVH> {
     Context context;
     ArrayList<ChannelsModel> list1 = new ArrayList<>();
+    Clicklistners clicklistners;
     private RecyclerView.RecycledViewPool
             viewPool
             = new RecyclerView
             .RecycledViewPool();
    ArrayList<CountriesChannelModel> list;
     //ArrayList<Map<String, ArrayList<ChannelsModel>>> list;
-    Clicklistners clicklistners;
+
 
     public CountriesWiseAdapter(Context context, ArrayList<CountriesChannelModel> list, Clicklistners clicklistners) {
         this.context = context;
@@ -39,12 +43,12 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
         this.clicklistners = clicklistners;
     }
 
-  /*  public CountriesWiseAdapter(Context context, ArrayList<Map<String, ArrayList<ChannelsModel>>> list, Clicklistners clicklistners) {
-        this.context = context;
-        this.list = list;
-        this.clicklistners = clicklistners;
-    }
-*/
+    /*  public CountriesWiseAdapter(Context context, ArrayList<Map<String, ArrayList<ChannelsModel>>> list, Clicklistners clicklistners) {
+            this.context = context;
+            this.list = list;
+            this.clicklistners = clicklistners;
+        }
+    */
     @NonNull
     @Override
     public CountriesVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -81,6 +85,7 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
         holder.recyclerView.setRecycledViewPool(viewPool);
 
     }
+
     @Override
     public int getItemCount() {
         return list.size();
