@@ -77,7 +77,7 @@ dependencies {
   /*  implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
     implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'*/
 
-    // implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
 
     implementation 'com.github.hty527.iPlayer:exo:2.1.20'
