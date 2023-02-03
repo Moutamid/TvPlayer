@@ -1,6 +1,7 @@
 package com.moutamid.tvplayer.adapters;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,8 +69,8 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
 
 //        Toast.makeText(context, "Adapter Position : " + holder.getAdapterPosition() + "\n\nAdapter Name : " + model.getName() + "\n\n" + "Adapter STream : " + model.getChannelsList().get(0).getStreamingLinks().get(0).getStream_link() + "\n\n", Toast.LENGTH_SHORT).show();
 
-
-        GridLayoutManager layoutManager = new GridLayoutManager(holder.recyclerView.getContext(),3);
+        int noOfColumn = calculateNoOfColumns(context.getApplicationContext(), 150);
+        GridLayoutManager layoutManager = new GridLayoutManager(holder.recyclerView.getContext(), noOfColumn);
         layoutManager.setInitialPrefetchItemCount(model.getChannelsList().size());
         holder.recyclerView.setLayoutManager(layoutManager);
         list1.clear();
@@ -84,6 +85,13 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
         holder.recyclerView.setAdapter(channelsAdapter);
         holder.recyclerView.setRecycledViewPool(viewPool);
 
+    }
+
+    public static int calculateNoOfColumns(Context context, float columnWidthDp) { // For example columnWidthdp=180
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (screenWidthDp / columnWidthDp + 0.5); // +0.5 for correct rounding to int.
+        return noOfColumns;
     }
 
     @Override

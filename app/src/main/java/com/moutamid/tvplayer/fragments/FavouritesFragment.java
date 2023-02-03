@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,26 +76,27 @@ public class FavouritesFragment extends Fragment {
         for (ChannelsModel model : favrtList){
             channelsList.add(model);
         }
+        int noOfColumn = calculateNoOfColumns(context.getApplicationContext(), 150);
+        binding.recycler.setLayoutManager(new GridLayoutManager(requireContext(), noOfColumn));
 
-        if (channelsList.size() == 1) {
-            binding.recycler.setLayoutManager(new GridLayoutManager(context, 1));
-        } else if (channelsList.size() == 2) {
-            binding.recycler.setLayoutManager(new GridLayoutManager(context, 2));
-        } else {
-            binding.recycler.setLayoutManager(new GridLayoutManager(context, 3));
-        }
-
-        adapter = new ChannelsAdapter(context, channelsList, clicklistners);
+        adapter = new ChannelsAdapter(requireContext(), channelsList, clicklistners);
         binding.recycler.setAdapter(adapter);
     }
 
+    public static int calculateNoOfColumns(Context context, float columnWidthDp) { // For example columnWidthdp=180
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (screenWidthDp / columnWidthDp + 0.5); // +0.5 for correct rounding to int.
+        return noOfColumns;
+    }
+
     public void linkDialog(ChannelsModel model){
-        LinkDialog ld = new LinkDialog(context, model);
+        LinkDialog ld = new LinkDialog(requireContext(), model);
         ld.show();
     }
 
     private void videoPlayerDialog(ChannelsModel model) {
-        VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0), model);
+        VideoPlayerDialog vd = new VideoPlayerDialog(requireContext(), model.getStreamingLinks().get(0), model);
         vd.showStream();
     }
 

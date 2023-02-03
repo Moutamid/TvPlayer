@@ -6,6 +6,8 @@
     android:layout_margin="6sp"
     app:cardCornerRadius="8sp"
     android:focusable="true"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/orange"
     android:focusedByDefault="true"
     android:screenReaderFocusable="true"
     android:defaultFocusHighlightEnabled="true"

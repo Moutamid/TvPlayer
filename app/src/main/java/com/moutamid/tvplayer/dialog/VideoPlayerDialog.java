@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -114,6 +115,9 @@ public class VideoPlayerDialog {
         MaterialCardView androidPlayer = videoPlayers.findViewById(R.id.androidPlayer);
         MaterialCardView webPlayer = videoPlayers.findViewById(R.id.webPlayer);
         MaterialCardView bubblePlayer = videoPlayers.findViewById(R.id.bubblePlayer);
+
+        mxPlayer.setFocusable(true);
+        mxPlayer.requestFocus();
 
         mxPlayer.setOnClickListener(v -> {
             mxPlayer.setCardBackgroundColor(context.getResources().getColor(R.color.grey));
@@ -326,6 +330,9 @@ public class VideoPlayerDialog {
                 showAlert();
             }
         }
+
+        videoPlayers.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        videoPlayers.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         videoPlayers.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         videoPlayers.getWindow().setGravity(Gravity.CENTER);
