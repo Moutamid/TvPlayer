@@ -73,15 +73,16 @@ public class CountriesWiseAdapter extends RecyclerView.Adapter<CountriesWiseAdap
         GridLayoutManager layoutManager = new GridLayoutManager(holder.recyclerView.getContext(), noOfColumn);
         layoutManager.setInitialPrefetchItemCount(model.getChannelsList().size());
         holder.recyclerView.setLayoutManager(layoutManager);
-        list1.clear();
+        /*list1.clear();
         for (ChannelsModel s : model.getChannelsList()) {
             if (s.getCountry().equals(model.getName())){
                 list1.add(s);
 //                Log.d("tager", "items: "+s);
             }
-        }
+        }*/
 
-        ChannelsAdapter channelsAdapter = new ChannelsAdapter(context, list1, clicklistners);
+        ChannelsAdapter channelsAdapter = new ChannelsAdapter(context, model.getChannelsList(), clicklistners);
+//        ChannelsAdapter channelsAdapter = new ChannelsAdapter(context, list1, clicklistners);
         holder.recyclerView.setAdapter(channelsAdapter);
         holder.recyclerView.setRecycledViewPool(viewPool);
 

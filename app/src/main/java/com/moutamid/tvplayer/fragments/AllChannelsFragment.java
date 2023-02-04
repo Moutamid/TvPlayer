@@ -54,6 +54,7 @@ public class AllChannelsFragment extends Fragment {
         binding = FragmentAllChannelsBinding.inflate(inflater,container, false);
         View view = binding.getRoot();
         context = view.getContext();
+        Constants.checkApp(requireActivity());
 
         tabs = new ArrayList<>();
 

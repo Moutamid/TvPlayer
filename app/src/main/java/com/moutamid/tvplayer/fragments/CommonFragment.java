@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
+import com.google.common.base.Function;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
 import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.adapters.CountriesWiseAdapter;
@@ -38,7 +41,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class CommonFragment extends Fragment {
 
@@ -125,7 +130,7 @@ public class CommonFragment extends Fragment {
 
                 //map.put(channelsModel.getCountry(), channelsList);
 
-                newList.add(channelsModel.getCountry());
+                /*newList.add(channelsModel.getCountry());
 
                 for (CountriesChannelModel model : countriesChannel){
                     String channels = "null";
@@ -145,15 +150,47 @@ public class CommonFragment extends Fragment {
                     }
                     Log.d("tager", i+" country data after: "+model.getName()+channels+"\n\n");
 
-                }
+                }*/
             }
+            String TAG = "MOB";
+
+            ArrayList<String> countriesAll = new ArrayList<>();
+
+            ListMultimap<String, ChannelsModel> result =
+                    Multimaps.index(channelsList, new Function<ChannelsModel, String>() {
+                @Override
+                public String apply(ChannelsModel input) {
+                    Log.d(TAG, "apply: "+input.getCountry());
+                    countriesAll.add(input.getCountry());
+                    return input.getCountry();
+                }
+            });
+            Log.d(TAG, "countriesAll: "+countriesAll);
+
+            // list is some List of Strings
+            Set<String> countries = new LinkedHashSet<>(countriesAll);
+            Log.d(TAG, "countries: "+countries);
+
+            for (String countryName: countries){
+                countriesChannel.add(new CountriesChannelModel(countryName, result.get(countryName)));
+
+                Log.d(TAG, "result "+countryName+" :"+result.get(countryName));
+                String names = "";
+                for (ChannelsModel channelModelw : result.get(countryName)){
+                    names += " ,"+ channelModelw.getName();
+                }
+                Log.d(TAG, "channels: "+names);
+            }
+
+            Log.d(TAG, "onCreateView: ENDED");
+
             Stash.put("newList", newList);
 
 //            Log.d("tager", "countries data: "+countriesChannel);
             getSorting();
-            binding.recycler.setLayoutManager(new LinearLayoutManager(context));
+            /*binding.recycler.setLayoutManager(new LinearLayoutManager(context));
             adapter = new CountriesWiseAdapter(context, countriesChannel, clicklistners );
-            binding.recycler.setAdapter(adapter);
+            binding.recycler.setAdapter(adapter);*/
         } catch (Exception e){
             Log.d("tager", "ERROR at 147 CommonFrag: "+e.getMessage());
             e.printStackTrace();

@@ -21,14 +21,17 @@ import com.moutamid.tvplayer.R;
 import com.moutamid.tvplayer.models.ChannelsModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChannelsAdapter extends RecyclerView.Adapter<ChannelsAdapter.ChannelVH> {
     Context context;
-    ArrayList<ChannelsModel> list;
+    List<ChannelsModel> list;
+//    ArrayList<ChannelsModel> list;
     ArrayList<ChannelsModel> favrtList;
     Clicklistners clicklistners;
 
-    public ChannelsAdapter(Context context, ArrayList<ChannelsModel> list, Clicklistners clicklistners) {
+    public ChannelsAdapter(Context context, List<ChannelsModel> list, Clicklistners clicklistners) {
+//    public ChannelsAdapter(Context context, ArrayList<ChannelsModel> list, Clicklistners clicklistners) {
         this.context = context;
         this.list = list;
         this.clicklistners = clicklistners;

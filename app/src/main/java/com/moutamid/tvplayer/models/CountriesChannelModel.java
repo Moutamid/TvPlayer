@@ -1,13 +1,15 @@
 package com.moutamid.tvplayer.models;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CountriesChannelModel {
 
     int id;
     String name;
-    ArrayList<ChannelsModel> channelsList;
+    List<ChannelsModel> channelsList;
+//    ArrayList<ChannelsModel> channelsList;
     Map<String, ArrayList<ChannelsModel>> map;
 
     public CountriesChannelModel() {
@@ -18,7 +20,8 @@ public class CountriesChannelModel {
         this.name = name;
     }
 
-    public CountriesChannelModel(String name, ArrayList<ChannelsModel> channelsList) {
+//    public CountriesChannelModel(String name, ArrayList<ChannelsModel> channelsList) {
+    public CountriesChannelModel(String name, List<ChannelsModel> channelsList) {
         this.name = name;
         this.channelsList = channelsList;
     }
@@ -53,7 +56,8 @@ public class CountriesChannelModel {
         this.name = name;
     }
 
-    public ArrayList<ChannelsModel> getChannelsList() {
+//    public ArrayList<ChannelsModel> getChannelsList() {
+    public List<ChannelsModel> getChannelsList() {
         return channelsList;
     }
 
