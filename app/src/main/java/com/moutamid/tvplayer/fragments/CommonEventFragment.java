@@ -16,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
+import com.google.common.base.Function;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimaps;
 import com.moutamid.tvplayer.Clicklistners;
 import com.moutamid.tvplayer.Constants;
 import com.moutamid.tvplayer.adapters.CountriesWiseAdapter;
@@ -38,6 +41,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class CommonEventFragment extends Fragment {
     String title;
@@ -122,7 +127,7 @@ public class CommonEventFragment extends Fragment {
 
                 JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
                 streamLinks.clear();
-                if (streamingLinks.length() > 0 && streamingLinks!=null) {
+                if (streamingLinks.length() > 0 && streamingLinks != null) {
                     for (int j = 0; j < streamingLinks.length(); j++) {
                         Log.d("testing123", "For TRY");
                         JSONObject stream = streamingLinks.getJSONObject(j);
@@ -141,10 +146,43 @@ public class CommonEventFragment extends Fragment {
 
                 channelsList.add(channelsModel);
 
-                countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
-                Log.d("testing123", "channelList Down");
-
+//                countriesChannel.add(new CountriesChannelModel(channelsModel.getCountry(), channelsList));
+//                Log.d("testing123", "channelList Down");
             }
+
+                String TAG = "MOB";
+
+                ArrayList<String> countriesAll = new ArrayList<>();
+
+                ListMultimap<String, ChannelsModel> result =
+                        Multimaps.index(channelsList, new Function<ChannelsModel, String>() {
+                            @Override
+                            public String apply(ChannelsModel input) {
+                                Log.d(TAG, "apply: "+input.getCountry());
+                                countriesAll.add(input.getCountry());
+                                return input.getCountry();
+                            }
+                        });
+                Log.d(TAG, "countriesAll: "+countriesAll);
+
+                // list is some List of Strings
+                Set<String> countries = new LinkedHashSet<>(countriesAll);
+                Log.d(TAG, "countries: "+countries);
+
+                for (String countryName: countries){
+                    countriesChannel.add(new CountriesChannelModel(countryName, result.get(countryName)));
+
+                    Log.d(TAG, "result "+countryName+" :"+result.get(countryName));
+                    String names = "";
+                    for (ChannelsModel channelModelw : result.get(countryName)){
+                        names += " ,"+ channelModelw.getName();
+                    }
+                    Log.d(TAG, "channels: "+names);
+                }
+
+                Log.d(TAG, "onCreateView: ENDED");
+
+                //Stash.put("newList", newList);
             getSorting();
         } catch (Exception e){
             e.printStackTrace();
@@ -213,7 +251,7 @@ public class CommonEventFragment extends Fragment {
                                     countriesChannel.get(j).setId(obj.getInt("id"));
                                 }
                             }
-                            // Stash.put(Constants.channelsTab, list);
+                            Stash.put(Constants.channelsTab, countriesChannel);
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             Collections.sort(countriesChannel, Comparator.comparing(CountriesChannelModel::getId));

@@ -40,7 +40,7 @@ public class TabsAdjustAdapter extends RecyclerView.Adapter<TabsAdjustAdapter.Ta
 
         holder.text.setText(tabsModel.getName());
 
-        holder.drag.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
             Toast.makeText(context, "Long press and then swipe up or down to change position", Toast.LENGTH_LONG).show();
         });
     }

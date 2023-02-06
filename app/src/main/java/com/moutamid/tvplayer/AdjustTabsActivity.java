@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.moutamid.tvplayer.adapters.TabsAdjustAdapter;
@@ -69,12 +70,15 @@ public class AdjustTabsActivity extends AppCompatActivity {
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 Collections.swap(list, viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 tabLocals.get(viewHolder.getAdapterPosition()).setId(target.getAdapterPosition());
+                Toast.makeText(AdjustTabsActivity.this, "holder : " + viewHolder.getAdapterPosition() + "   target : " + target.getAdapterPosition(), Toast.LENGTH_SHORT).show();
                 // and notify the adapter that its dataset has changed
                 adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 Log.d("PositionTabs", "holder : " + viewHolder.getAdapterPosition() + "   target : " + target.getAdapterPosition() );
                 Stash.put(Constants.channelsTab, list);
                 Stash.put(Constants.localTab, tabLocals);
                 Stash.put(Constants.isAdjusted, true);
+                Log.d("PositionTabs","List : " + list.toString());
+                Log.d("PositionTabs","Loca : " + tabLocals.toString());
                 return true;
             }
 

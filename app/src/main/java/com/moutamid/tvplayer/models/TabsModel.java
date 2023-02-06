@@ -59,14 +59,11 @@ public class TabsModel {
         this.object = object;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return "TabsModel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", object='" + object + '\'' +
-                ", isHidden=" + isHidden +
                 '}';
     }
 }

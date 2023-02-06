@@ -9,6 +9,14 @@ public class TabLocal {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "TabLocal{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
     public int getId() {
         return id;
     }
