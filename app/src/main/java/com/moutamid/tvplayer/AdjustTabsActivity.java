@@ -58,6 +58,9 @@ public class AdjustTabsActivity extends AppCompatActivity {
             }
         }
 
+        adapter = new TabsAdjustAdapter(this, list);
+        binding.tabsRC.setAdapter(adapter);
+
         Log.d("PositionTabs","List : " + list.toString());
         Log.d("PositionTabs","Loca : " + tabLocals.toString());
 
