@@ -112,6 +112,8 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         ok.setOnClickListener(v -> {
+            ArrayList<String> finalList = Stash.getArrayList("hid", String.class);
+            Stash.put("hidden", finalList);
             hide.dismiss();
         });
 

@@ -50,12 +50,13 @@
                 android:textColor="@color/orange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancel" />
+                android:text="close" />
 
             <Button
                 android:id="@+id/ok"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:textColor="@color/orange"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="OK" />
