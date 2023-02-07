@@ -49,7 +49,7 @@ public class CommonEventFragment extends Fragment {
     Context context;
     FragmentCommonEventBinding binding;
     ArrayList<ChannelsModel> channelsList;
-    ArrayList<StreamLinksModel> streamLinks;
+    //ArrayList<StreamLinksModel> streamLinks;
     ArrayList<CountriesChannelModel> countriesChannel;
     CountriesWiseAdapter adapter;
     ArrayList<ChannelsModel> favrtList;
@@ -98,7 +98,7 @@ public class CommonEventFragment extends Fragment {
         context = view.getContext();
 
         channelsList = new ArrayList<>();
-        streamLinks = new ArrayList<>();
+        //streamLinks = new ArrayList<>();
         countriesChannel = new ArrayList<>();
 
         binding.recycler.setHasFixedSize(false);
@@ -126,8 +126,8 @@ public class CommonEventFragment extends Fragment {
                 channelsModel.set__v(obj.getInt("__v"));
 
                 JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
-                streamLinks.clear();
-                if (streamingLinks.length() > 0 && streamingLinks != null) {
+                ArrayList<StreamLinksModel> streamLinks = new ArrayList<>();
+                if (streamingLinks.length() > 0) {
                     for (int j = 0; j < streamingLinks.length(); j++) {
                         Log.d("testing123", "For TRY");
                         JSONObject stream = streamingLinks.getJSONObject(j);
@@ -140,9 +140,9 @@ public class CommonEventFragment extends Fragment {
                         model1.setPlayer_header(stream.getString("player_header"));
                         model1.setStream_link(stream.getString("url"));
                         streamLinks.add(model1);
+                        channelsModel.setStreamingLinks(streamLinks);
                     }
                 }
-                channelsModel.setStreamingLinks(streamLinks);
 
                 channelsList.add(channelsModel);
 
@@ -267,17 +267,6 @@ public class CommonEventFragment extends Fragment {
                 });
             }
         }).start();
-    }
-
-    public void linkDialog(ChannelsModel model){
-        LinkDialog ld = new LinkDialog(context, model);
-        ld.show();
-
-    }
-
-    private void videoPlayerDialog(ChannelsModel model) {
-        VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0), model);
-        vd.showStream();
     }
 
     Clicklistners clicklistners = new Clicklistners() {

@@ -250,6 +250,7 @@ public class CommonFragment extends Fragment {
                                     countriesChannel.get(j).setId(obj.getInt("id"));
                                 }
                             }
+
                             // Stash.put(Constants.channelsTab, list);
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
