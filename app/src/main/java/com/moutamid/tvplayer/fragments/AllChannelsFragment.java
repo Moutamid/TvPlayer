@@ -157,6 +157,7 @@ public class AllChannelsFragment extends Fragment {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             Collections.sort(list, Comparator.comparing(TabsModel::getId));
                         }
+                        Log.d("PositionTabs", list.toString());
                         //Collections.reverse(list);
                         setTabs();
                     } catch (JSONException e) {
@@ -168,12 +169,12 @@ public class AllChannelsFragment extends Fragment {
     }
 
     private void setTabs() {
-        ArrayList<TabsModel> chanel = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
+        //ArrayList<TabsModel> chanel = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
         ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity()
                 .getSupportFragmentManager());
         //Toast.makeText(context, ""+chanel.size(), Toast.LENGTH_SHORT).show();
         ArrayList<String> t = Stash.getArrayList("hidden", String.class);
-        for (TabsModel s : chanel) {
+        for (TabsModel s : list) {
             //Toast.makeText(context, ""+s.getId()+"\n"+s.getName(), Toast.LENGTH_SHORT).show();
             if(t.isEmpty()){
                 CommonFragment fragment = new CommonFragment(s.getObject());
@@ -269,28 +270,27 @@ public class AllChannelsFragment extends Fragment {
     }
 
     private void getLocalTabs() {
-        ArrayList<TabLocal> tabLocals = new ArrayList<>();
-        tabLocals = Stash.getArrayList(Constants.localTab, TabLocal.class);
-        Toast.makeText(context, tabLocals.toString(), Toast.LENGTH_SHORT).show();
-        Log.d("PositionTabs", tabLocals.toString());
-        Log.d("PositionTabs", "List " + list.toString());
+        ArrayList<TabLocal> tabLocals = Stash.getArrayList(Constants.localTab, TabLocal.class);
+        //Toast.makeText(context, tabLocals.toString(), Toast.LENGTH_SHORT).show();
+//        Log.d("PositionTabs", tabLocals.toString());
+//        Log.d("PositionTabs", "List " + list.toString());
         for (int i = 0; i < tabLocals.size(); i++) {
             String name = tabLocals.get(i).getName();
             int id = tabLocals.get(i).getId();
             for (int j=0; j< list.size(); j++) {
                 if (list.get(j).getName().equals(name)) {
                     list.get(j).setId(id);
-                    Log.d("PositionTabs", "loop Sort  \t " +list.get(j).getName() + "\t\t" + list.get(j).getName());
+                    //Log.d("PositionTabs", "loop Sort  \t " +list.get(j).getName() + "\t\t" + name);
                     //Toast.makeText(context, "list\n" + list.get(j).getName() + "\n" + list.get(j).getId(), Toast.LENGTH_SHORT).show();
                 }
             }
             Stash.put(Constants.channelsTab, list);
         }
-        Log.d("PositionTabs", "List Sort  \t " + list.toString());
+        //Log.d("PositionTabs", "List Sort  \t " + list.toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Collections.sort(list, Comparator.comparing(TabsModel::getId));
         }
-        Log.d("PositionTabs", "List Sort A \t " + list.toString());
+        //Log.d("PositionTabs", "List Sort A \t " + list.toString());
         //Collections.reverse(list);
         setTabs();
     }

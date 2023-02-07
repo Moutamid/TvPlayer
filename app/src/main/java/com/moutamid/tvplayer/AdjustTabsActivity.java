@@ -44,7 +44,7 @@ public class AdjustTabsActivity extends AppCompatActivity {
         binding.tabsRC.setHasFixedSize(true);
         binding.tabsRC.setNestedScrollingEnabled(false);
 
-        tabLocals = new ArrayList<>();
+        tabLocals = Stash.getArrayList(Constants.localTab, TabLocal.class);
 
         list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
 
@@ -52,33 +52,41 @@ public class AdjustTabsActivity extends AppCompatActivity {
             Collections.sort(list, Comparator.comparing(TabsModel::getId));
         }
 
-        for (int i=0; i<list.size(); i++){
-            tabLocals.add(new TabLocal(list.get(i).getId(), list.get(i).getName()));
+        if (tabLocals.isEmpty()){
+            for (int i=0; i<list.size(); i++){
+                tabLocals.add(new TabLocal(list.get(i).getId(), list.get(i).getName()));
+            }
         }
 
-        adapter = new TabsAdjustAdapter(this, list);
-        binding.tabsRC.setAdapter(adapter);
+        Log.d("PositionTabs","List : " + list.toString());
+        Log.d("PositionTabs","Loca : " + tabLocals.toString());
+
 
         ItemTouchHelper.Callback ithCallback = new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
                 return makeFlag(ItemTouchHelper.ACTION_STATE_DRAG,
-                        ItemTouchHelper.DOWN | ItemTouchHelper.UP | ItemTouchHelper.START | ItemTouchHelper.END);
+                        ItemTouchHelper.DOWN | ItemTouchHelper.UP);
             }
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                Collections.swap(list, viewHolder.getAdapterPosition(), target.getAdapterPosition());
-                tabLocals.get(viewHolder.getAdapterPosition()).setId(target.getAdapterPosition());
-                Toast.makeText(AdjustTabsActivity.this, "holder : " + viewHolder.getAdapterPosition() + "   target : " + target.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                tabLocals.get(viewHolder.getAbsoluteAdapterPosition()).setId(target.getAbsoluteAdapterPosition());
+                tabLocals.get(target.getAbsoluteAdapterPosition()).setId(viewHolder.getAbsoluteAdapterPosition());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Collections.sort(tabLocals, Comparator.comparing(TabLocal::getId));
+                }
+                Collections.swap(list, viewHolder.getAbsoluteAdapterPosition(), target.getAbsoluteAdapterPosition());
+                //tabLocals.get(target.getAbsoluteAdapterPosition()).setId(viewHolder.getAbsoluteAdapterPosition());
                 // and notify the adapter that its dataset has changed
-                adapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
-                Log.d("PositionTabs", "holder : " + viewHolder.getAdapterPosition() + "   target : " + target.getAdapterPosition() );
+                adapter.notifyItemMoved(viewHolder.getAbsoluteAdapterPosition(), target.getAbsoluteAdapterPosition());
+
+                Log.d("PositionTabs", "holder : " + viewHolder.getAbsoluteAdapterPosition() + "   target : " + target.getAdapterPosition() );
                 Stash.put(Constants.channelsTab, list);
                 Stash.put(Constants.localTab, tabLocals);
                 Stash.put(Constants.isAdjusted, true);
                 Log.d("PositionTabs","List : " + list.toString());
-                Log.d("PositionTabs","Loca : " + tabLocals.toString());
+                Log.d("PositionTabs","Local : " + tabLocals.toString());
                 return true;
             }
 
