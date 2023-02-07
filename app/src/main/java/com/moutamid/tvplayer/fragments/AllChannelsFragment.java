@@ -35,6 +35,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class AllChannelsFragment extends Fragment {
 
@@ -51,7 +52,7 @@ public class AllChannelsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentAllChannelsBinding.inflate(inflater,container, false);
+        binding = FragmentAllChannelsBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         context = view.getContext();
         Constants.checkApp(requireActivity());
@@ -91,8 +92,8 @@ public class AllChannelsFragment extends Fragment {
         getData();*/
 
 //TODO:        if (data == null){
-            progressDialog.show();
-            getData();
+        progressDialog.show();
+        getData();
 //        } else {
 //            progressDialog.show();
 //            list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
@@ -147,7 +148,7 @@ public class AllChannelsFragment extends Fragment {
                         JSONArray jsonArray = json.getJSONArray("data");
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject obj = jsonArray.getJSONObject(i);
-                            for (int j=0; j< list.size(); j++){
+                            for (int j = 0; j < list.size(); j++) {
                                 if (list.get(j).getName().equals(obj.getString("name"))) {
                                     list.get(j).setId(obj.getInt("id"));
                                 }
@@ -174,20 +175,14 @@ public class AllChannelsFragment extends Fragment {
                 .getSupportFragmentManager());
         //Toast.makeText(context, ""+chanel.size(), Toast.LENGTH_SHORT).show();
         ArrayList<String> t = Stash.getArrayList("hidden", String.class);
+
         for (TabsModel s : list) {
-            //Toast.makeText(context, ""+s.getId()+"\n"+s.getName(), Toast.LENGTH_SHORT).show();
-            if(t.isEmpty()){
+            if (Stash.getString(s.getName().trim().toLowerCase(Locale.ROOT)).isEmpty()){
                 CommonFragment fragment = new CommonFragment(s.getObject());
                 adapter.addFrag(fragment, s.getName());
-            } else {
-                for (String ss : t) {
-                    if (!ss.equals(s.getName())){
-                        CommonFragment fragment = new CommonFragment(s.getObject());
-                        adapter.addFrag(fragment, s.getName());
-                    }
-                }
             }
         }
+
         binding.viewpager.setAdapter(adapter);
         binding.tablayout.setupWithViewPager(binding.viewpager);
         progressDialog.dismiss();
@@ -252,7 +247,7 @@ public class AllChannelsFragment extends Fragment {
                         Stash.put(Constants.channelsTab, list);
                         boolean ta = Stash.getBoolean(Constants.isAdjusted, false);
                         //Toast.makeText(context, "ta : " + ta, Toast.LENGTH_SHORT).show();
-                        if (ta){
+                        if (ta) {
                             getLocalTabs();
                         } else {
                             getTabs();
@@ -277,7 +272,7 @@ public class AllChannelsFragment extends Fragment {
         for (int i = 0; i < tabLocals.size(); i++) {
             String name = tabLocals.get(i).getName();
             int id = tabLocals.get(i).getId();
-            for (int j=0; j< list.size(); j++) {
+            for (int j = 0; j < list.size(); j++) {
                 if (list.get(j).getName().equals(name)) {
                     list.get(j).setId(id);
                     //Log.d("PositionTabs", "loop Sort  \t " +list.get(j).getName() + "\t\t" + name);

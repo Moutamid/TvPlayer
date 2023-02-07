@@ -10,12 +10,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -50,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         binding.playername.setText(player);
 
+        //Stash.clear("hidden");
 
         if (lc){
             binding.lockCheck.setChecked(true);
@@ -115,7 +118,6 @@ public class SettingsActivity extends AppCompatActivity {
         list = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
 
         LinearLayout linearLayout = hide.findViewById(R.id.layout);
-        ArrayList<TabsModel> tabsModels = new ArrayList<>(list);
         //Toast.makeText(this, ""+list.size(), Toast.LENGTH_SHORT).show();
         // Create Checkbox Dynamically
         for (TabsModel s : list) {
@@ -127,28 +129,27 @@ public class SettingsActivity extends AppCompatActivity {
             }
 
             ArrayList<String> list1 = Stash.getArrayList("hidden", String.class);
-            if (list1.isEmpty() || list1 == null){
-                list1 = new ArrayList<>();
-            }
-
+            Log.d("HiddenList", list1.toString());
             for (String r : list1){
-                if (r.equals(s.getName())){
+                if (r.equalsIgnoreCase(s.getName())){
                     checkBox.setChecked(true);
                 }
             }
 
             checkBox.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
             checkBox.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            ArrayList<String> finalList = list1;
+
             checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                ArrayList<String> finalList = Stash.getArrayList("hidden", String.class);
                 if (isChecked) {
-                    finalList.add(s.getName());
-                    // Toast.makeText(this, ""+list1.size(), Toast.LENGTH_SHORT).show();
-                    // Stash.clear("hidden");
+                    Stash.put(buttonView.getText().toString().trim().toLowerCase(Locale.ROOT), buttonView.getText().toString().trim().toLowerCase(Locale.ROOT));
+                    finalList.add(buttonView.getText().toString().trim());
+                    Log.d("HiddenList", finalList.toString());
                     Stash.put("hidden", finalList);
                 } else {
-                    finalList.remove(s.getName());
-                    // Toast.makeText(this, ""+list1.size(), Toast.LENGTH_SHORT).show();
+                    Stash.clear(buttonView.getText().toString().trim().toLowerCase(Locale.ROOT));
+                    finalList.remove(buttonView.getText().toString().trim());
+                    Log.d("HiddenList", finalList.toString());
                     Stash.put("hidden", finalList);
                 }
             });
@@ -160,6 +161,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         hide.show();
+        hide.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         hide.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         hide.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         hide.getWindow().setGravity(Gravity.CENTER);
@@ -195,13 +197,12 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
-
         Button cancel = players.findViewById(R.id.cancel);
 
         cancel.setOnClickListener(v -> players.dismiss());
 
         players.show();
+        players.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         players.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         players.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         players.getWindow().setGravity(Gravity.CENTER);
@@ -234,6 +235,8 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         password.show();
+        password.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        password.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         password.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         password.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         password.getWindow().setGravity(Gravity.CENTER);
