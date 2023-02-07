@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,7 +93,7 @@ public class EventsActivity extends AppCompatActivity {
                     list.get(j).setId(tabLocals.get(i).getId());
                 }
             }
-            Stash.put(Constants.channelsTab, list);
+          // Stash.put(Constants.eventsTab, list);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Collections.sort(list, Comparator.comparing(TabsModel::getId));
@@ -304,7 +305,8 @@ public class EventsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                onBackPressed();
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

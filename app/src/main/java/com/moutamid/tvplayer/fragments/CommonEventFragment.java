@@ -251,7 +251,7 @@ public class CommonEventFragment extends Fragment {
                                     countriesChannel.get(j).setId(obj.getInt("id"));
                                 }
                             }
-                            Stash.put(Constants.channelsTab, countriesChannel);
+                            //Stash.put(Constants.channelsTab, countriesChannel);
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             Collections.sort(countriesChannel, Comparator.comparing(CountriesChannelModel::getId));
