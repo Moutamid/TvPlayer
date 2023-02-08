@@ -55,6 +55,7 @@ public class AdjustTabsActivity extends AppCompatActivity {
         if (tabLocals.isEmpty()){
             for (int i=0; i<list.size(); i++){
                 tabLocals.add(new TabLocal(list.get(i).getId(), list.get(i).getName()));
+                Stash.put(Constants.localTab, tabLocals);
             }
         }
 
@@ -99,7 +100,7 @@ public class AdjustTabsActivity extends AppCompatActivity {
             }
         };
         ItemTouchHelper ith = new ItemTouchHelper(ithCallback);
-        ith.attachToRecyclerView(binding.tabsRC);
+        //ith.attachToRecyclerView(binding.tabsRC);
     }
 
     @Override

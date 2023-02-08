@@ -23,7 +23,7 @@
         android:gravity="center"
         android:background="#e5e5e5"
         android:lineHeight="25sp"
-        android:text="Long click on a category to start dragging and the drop top the desired position" />
+        android:text="Long press the item to move to the top position" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tabsRC"
