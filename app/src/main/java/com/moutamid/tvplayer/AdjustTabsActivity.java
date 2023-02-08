@@ -59,6 +59,9 @@ public class AdjustTabsActivity extends AppCompatActivity {
             }
         }
 
+        binding.tabsRC.requestFocus();
+        binding.tabsRC.requestLayout();
+
         adapter = new TabsAdjustAdapter(this, list);
         binding.tabsRC.setAdapter(adapter);
 

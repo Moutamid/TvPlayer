@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="6dp"
     app:cardCornerRadius="6dp"
+    android:focusable="true"
     android:focusedByDefault="true"
     android:screenReaderFocusable="true"
     android:defaultFocusHighlightEnabled="true"
