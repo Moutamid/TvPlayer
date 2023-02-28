@@ -8,7 +8,7 @@ pluginManagement {
             url "https://dl.bintray.com/supersonic/android-adapters"
         }
         maven {
-            url "https://android-sdk.is.com/"
+            url 'https://android-sdk.is.com/'
         }
         jcenter()
     }
@@ -23,7 +23,7 @@ dependencyResolutionManagement {
             url "https://dl.bintray.com/supersonic/android-adapters"
         }
         maven {
-            url "https://android-sdk.is.com/"
+            url 'https://android-sdk.is.com/'
         }
         jcenter()
     }

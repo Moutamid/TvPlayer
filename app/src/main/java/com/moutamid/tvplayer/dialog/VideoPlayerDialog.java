@@ -525,10 +525,12 @@ public class VideoPlayerDialog {
                         Log.d("testing123", body.text().toString());
                         Log.d("testing123", token[0]);
                     } else {
-                        Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
+                        Log.d("testing123", "Malfunction Error");
+                        //Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
+                    Log.d("testing123", "Malfunction Error");
+                    //Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
                 }
             } catch (IOException e) {
                 e.printStackTrace();

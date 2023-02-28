@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         IronSource.loadInterstitial();
 
-        IntegrationHelper.validateIntegration(this);
+       // IntegrationHelper.validateIntegration(this);
 
         if (s.isEmpty()){
             registerDevice();
