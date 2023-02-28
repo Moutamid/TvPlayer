@@ -496,15 +496,16 @@ public class VideoPlayerDialog {
             }
 
             String url = Stash.getString(tokenNumber, "");
-            Log.d("testing123", "url  " + url);
+            Log.d("testing123", "url  1" + url);
 
             try {
                 if (url!=null) {
-                    if (url.contains("http://") || url.contains("https://")){
+                    if (url.contains("http://") || url.contains("https://")) {
+                        Log.d("testing123", "url  2" + url);
                         Document doc = Jsoup.connect(url).get();
                         Elements body = doc.getElementsByTag("body");
                         token[0] = stream.getStream_link() + body.text();
-                        Log.d("testing123", "url  " + url);
+
                         MetaRequest key = new MetaRequest(GET, url, null,
                                 response -> {
                                     //JSONObject headers = response.getJSONObject("headers");
@@ -525,11 +526,11 @@ public class VideoPlayerDialog {
                         Log.d("testing123", body.text().toString());
                         Log.d("testing123", token[0]);
                     } else {
-                        Log.d("testing123", "Malfunction Error");
+                        Log.d("testing123", "Malfunction Error 1");
                         //Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.d("testing123", "Malfunction Error");
+                    Log.d("testing123", "Malfunction Error 2");
                     //Toast.makeText(context, "Malfunction Error", Toast.LENGTH_SHORT).show();
                 }
             } catch (IOException e) {
@@ -543,7 +544,7 @@ public class VideoPlayerDialog {
             super.onPostExecute(s);
             new Handler().postDelayed(() -> {
                 progressDialog.dismiss();
-                String url = Stash.getString("videoURL");
+                String url = s;
                 //String url = s;
                 String packageName = Stash.getString("packageName");
                 int internal = Stash.getInt("androidInternal",  0);
