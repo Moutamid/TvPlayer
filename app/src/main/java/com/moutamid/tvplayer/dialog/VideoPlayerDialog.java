@@ -559,7 +559,20 @@ public class VideoPlayerDialog {
                 Stash.put("LastPlayed", channelsModelArrayList);
                 Log.d("testing123", "Size  "+channelsModelArrayList.size());
 
-                new AlertDialog.Builder(context)
+                if (internal == 1){
+                    Intent intent = new Intent(context, VideoPlayerActivity.class);
+                    intent.putExtra("name", channelsModel.getName());
+                    intent.putExtra("url", url);
+                    context.startActivity(intent);
+                } else {
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setPackage(packageName);
+                    i.setDataAndType(Uri.parse(url), "video/");
+                    i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    context.startActivity(i);
+                }
+
+                /*new AlertDialog.Builder(context)
                         .setMessage(
                                 "name: " +channelsModel.getName()
                                 +"\nurl: "+url
@@ -579,7 +592,7 @@ public class VideoPlayerDialog {
                             }
                         })
                         .setNegativeButton("cancel", (dialog, which) -> dialog.dismiss())
-                        .show();
+                        .show();*/
             }, 2000);
         }
     }
