@@ -544,11 +544,12 @@ public class VideoPlayerDialog {
             super.onPostExecute(s);
             new Handler().postDelayed(() -> {
                 progressDialog.dismiss();
-                String url = s;
-                //String url = s;
+                String url = token[0];
+
                 String packageName = Stash.getString("packageName");
                 int internal = Stash.getInt("androidInternal",  0);
                 Log.d("testing123", "VideoURLPlayer  URL "+url);
+                Log.d("testing123", "VideoURLPlayer  S "+s);
                 Log.d("testing123", "VideoURLPlayer token "+token[0]);
                 Log.d("testing123", ""+internal);
                 Log.d("testing123", ""+packageName);
