@@ -97,9 +97,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              */
             @Override
             public void onInterstitialAdReady() {
-                //Toast.makeText(MainActivity.this, "Ready", Toast.LENGTH_SHORT).show();
-                /*IronSource.isInterstitialPlacementCapped("Home_Screen");
-                IronSource.showInterstitial("Home_Screen");*/
+                IronSource.isInterstitialPlacementCapped("Home_Screen");
+                IronSource.showInterstitial("Home_Screen");
             }
             /**
              * invoked when there is no Interstitial Ad available after calling load function.
