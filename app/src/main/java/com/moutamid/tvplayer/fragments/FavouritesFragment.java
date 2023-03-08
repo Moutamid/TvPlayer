@@ -105,6 +105,8 @@ public class FavouritesFragment extends Fragment {
         public void click(ChannelsModel model) {
             if (model.getStreamingLinks().size()>1){
                 linkDialog(model);
+            } else if (model.getStreamingLinks().size() == 0) {
+                Toast.makeText(context, "No Streaming link found", Toast.LENGTH_SHORT).show();
             } else {
                 videoPlayerDialog(model);
             }

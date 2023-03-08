@@ -121,6 +121,7 @@ public class CommonFragment extends Fragment {
                         channelsModel.setStreamingLinks(streamLinks);
                     }
                 }else {
+                    channelsModel.setStreamingLinks(streamLinks);
                     Log.d("tager", "streaming links error");
                 }
 
@@ -275,6 +276,8 @@ public class CommonFragment extends Fragment {
             if (model.getStreamingLinks().size()>1) {
                 LinkDialog ld = new LinkDialog(context, model);
                 ld.show();
+            } else if (model.getStreamingLinks().size() == 0) {
+                Toast.makeText(context, "No Streaming link found", Toast.LENGTH_SHORT).show();
             } else {
                 VideoPlayerDialog vd = new VideoPlayerDialog(context, model.getStreamingLinks().get(0), model);
                 vd.showStream();
