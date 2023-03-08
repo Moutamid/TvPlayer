@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         IronSource.setMetaData("InMobi_AgeRestricted","true");
 
+        Log.d("IronSource", "Ads Initialized");
+
 //        IronSource.Agent.setMetaData("UnityAds_coppa","true");
 //
 //        IronSource.Agent.setAdaptersDebug(true);
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              */
             @Override
             public void onInterstitialAdReady() {
+                Log.d("IronSource", "Ads is Ready to show");
                 IronSource.isInterstitialPlacementCapped("Home_Screen");
                 IronSource.showInterstitial("Home_Screen");
             }
@@ -105,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              */
             @Override
             public void onInterstitialAdLoadFailed(IronSourceError error) {
+                Log.d("IronSource", "Error : " + error.getErrorMessage());
             }
             /**
              * Invoked when the Interstitial Ad Unit is opened
