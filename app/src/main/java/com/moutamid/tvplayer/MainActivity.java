@@ -13,6 +13,8 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -269,7 +271,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.nav_privacy:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://multistreamz.com/privacy-policy-2")));
+                break;
+            case R.id.nav_website:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://multistreamz.com/")));
+                break;
+            case R.id.nav_telegram:
+                if (isPackageExisted("org.telegram.messenger")){
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/+4D6mmaFEiBUxZDE8"));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "Please Install Telegram first", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+            case R.id.nav_feedback:
+                Intent in = new Intent(Intent.ACTION_SENDTO);
+                in.setData(Uri.parse("mailto:info@multistreamz.com")); // only email apps should handle this
+                // intent.putExtra(Intent.EXTRA_EMAIL, "info@multistreamz.com");
+                in.putExtra(Intent.EXTRA_SUBJECT, "FEEDBACK");
+                startActivity(in);
+                break;
+            case R.id.nav_share:
+                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
                 break;
 
             default:
@@ -277,6 +301,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         binding.drawLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private boolean isPackageExisted(String targetPackage){
+        PackageManager pm = getApplicationContext().getPackageManager();
+        try {
+            PackageInfo info = pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
         return true;
     }
 
