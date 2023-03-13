@@ -287,13 +287,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_feedback:
                 Intent in = new Intent(Intent.ACTION_SENDTO);
-                in.setData(Uri.parse("mailto:info@multistreamz.com")); // only email apps should handle this
-                // intent.putExtra(Intent.EXTRA_EMAIL, "info@multistreamz.com");
+                in.setData(Uri.parse("mailto:info@multistreamz.com"));
                 in.putExtra(Intent.EXTRA_SUBJECT, "FEEDBACK");
-                startActivity(in);
+                startActivity(Intent.createChooser(in, ""));
                 break;
             case R.id.nav_share:
-                Toast.makeText(this, "Share", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                String shareBody = "Hi, I am using this amazing Multi Streamz app. This app Stream all your favourite channels. To download this app click the below link \n" +
+                        "https://multistreamz.com/wp-content/uploads/2023/03/MultiStreamz-release-1.apk";
+                intent.setType("text/plain");
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Multi Streamz");
+                intent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(intent, "Share With"));
                 break;
 
             default:
