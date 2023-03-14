@@ -41,6 +41,7 @@
         <package android:name="com.instantbits.cast.webvideo" />
         <package android:name="com.bubblesoft.android.bubbleupnp" />
         <package android:name="de.stefanpledl.localcast" />
+        <package android:name="org.telegram.messenger" />
     </queries>
 
     <application
