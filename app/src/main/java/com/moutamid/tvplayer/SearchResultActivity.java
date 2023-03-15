@@ -68,7 +68,9 @@ public class SearchResultActivity extends AppCompatActivity {
         binding.channel.setOnClickListener(v -> {
             if (searchedChannel.getStreamingLinks().size()>1){
                 linkDialog();
-            } else {
+            } else if (searchedChannel.getStreamingLinks().size() == 0) {
+                Toast.makeText(SearchResultActivity.this, "No Streaming link found", Toast.LENGTH_SHORT).show();
+            }  else {
                 videoPlayerDialog();
             }
         });
@@ -119,7 +121,6 @@ public class SearchResultActivity extends AppCompatActivity {
     public void linkDialog(){
         LinkDialog ld = new LinkDialog(this, searchedChannel);
         ld.show();
-
     }
 
     private void videoPlayerDialog() {
