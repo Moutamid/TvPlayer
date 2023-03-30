@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -31,7 +32,6 @@ public class SearchActivity extends AppCompatActivity {
     ActivitySearchBinding binding;
     SearchAdapter adapter;
     ArrayList<ChannelsModel> list;
-    ArrayList<StreamLinksModel> streamLinks;
     //JSONObject data;
 
     ArrayList<TabsModel> tabs = new ArrayList<>();
@@ -48,7 +48,6 @@ public class SearchActivity extends AppCompatActivity {
         binding.search.getEditText().requestFocus();
 
         list = new ArrayList<>();
-        streamLinks = new ArrayList<>();
 
         // data = (JSONObject) Stash.getObject("data", JSONObject.class);
         tabs = Stash.getArrayList(Constants.channelsTab, TabsModel.class);
@@ -69,18 +68,26 @@ public class SearchActivity extends AppCompatActivity {
                     channelsModel.setID(obj.getInt("ID"));
                     channelsModel.set__v(obj.getInt("__v"));
 
-                    JSONArray streamingLinks = obj.getJSONArray("streamingLinks");
-                    streamLinks.clear();
-                    for (int j = 0; j < streamingLinks.length(); j++) {
-                        JSONObject stream = streamingLinks.getJSONObject(j);
-                        StreamLinksModel model1 = new StreamLinksModel();
-                        model1.set_id(stream.getString("_id"));
-                        model1.setName(stream.getString("name"));
-                        model1.setToken(stream.getString("token"));
-                        model1.setPriority(stream.getInt("priority"));
-                        model1.setRequest_header(stream.getString("request_header"));
-                        model1.setPlayer_header(stream.getString("player_header"));
-                        streamLinks.add(model1);
+                    JSONArray streamingLinksArrays = obj.getJSONArray("streamingLinks");
+                    ArrayList<StreamLinksModel> streamLinks = new ArrayList<>();
+                    if (streamingLinksArrays.length() > 0) {//&& streamingLinks!=null
+                        for (int j = 0; j < streamingLinksArrays.length(); j++) {
+                            JSONObject stream = streamingLinksArrays.getJSONObject(j);
+                            StreamLinksModel model1 = new StreamLinksModel();
+                            model1.set_id(stream.getString("_id"));
+                            model1.setName(stream.getString("name"));
+                            model1.setToken(stream.getString("token"));
+                            model1.setPriority(stream.getInt("priority"));
+                            model1.setRequest_header(stream.getString("request_header"));
+                            model1.setPlayer_header(stream.getString("player_header"));
+                            model1.setStream_link(stream.getString("url"));
+//                        Log.d("tager", "array link: "+stream.getString("url"));
+                            streamLinks.add(model1);
+                            channelsModel.setStreamingLinks(streamLinks);
+                        }
+                    }else {
+                        channelsModel.setStreamingLinks(streamLinks);
+                        Log.d("tager", "streaming links error");
                     }
 
                     channelsModel.setStreamingLinks(streamLinks);
