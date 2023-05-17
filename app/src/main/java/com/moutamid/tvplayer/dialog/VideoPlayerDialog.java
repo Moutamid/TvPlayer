@@ -259,7 +259,7 @@ public class VideoPlayerDialog {
             if (ids == R.id.alwaysAsk) {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
             } else if (ids == R.id.androidPlayer) {
-                if (checkIsInstall(ids)){
+                if (checkIsInstall(ids)) {
                     Stash.put("androidInternal", 1);
                     progressDialog.show();
                     createLink();
@@ -284,7 +284,7 @@ public class VideoPlayerDialog {
             if (ids == R.id.alwaysAsk) {
                 Toast.makeText(context, "Please Select Any Player", Toast.LENGTH_SHORT).show();
             } else if (ids == R.id.androidPlayer) {
-                if (checkIsInstall(ids)){
+                if (checkIsInstall(ids)) {
                     progressDialog.show();
                     Stash.put("androidInternal", 1);
                     Stash.put("buttonID", ids);
@@ -311,7 +311,7 @@ public class VideoPlayerDialog {
         if (id == R.id.alwaysAsk) {
             videoPlayers.show();
         } else if (id == R.id.androidPlayer) {
-            if (checkIsInstall(id)){
+            if (checkIsInstall(id)) {
                 Stash.put("androidInternal", 1);
                 progressDialog.show();
                 createLink();
@@ -331,8 +331,8 @@ public class VideoPlayerDialog {
             }
         }
 
-        videoPlayers.getWindow().clearFlags( WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-       // videoPlayers.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        videoPlayers.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+        // videoPlayers.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         videoPlayers.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         videoPlayers.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         videoPlayers.getWindow().setGravity(Gravity.CENTER);
@@ -402,10 +402,10 @@ public class VideoPlayerDialog {
         getToken();
     }
 
-    private boolean isPackageExisted(String targetPackage){
+    private boolean isPackageExisted(String targetPackage) {
         PackageManager pm = context.getPackageManager();
         try {
-            PackageInfo info = pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+            PackageInfo info = pm.getPackageInfo(targetPackage, PackageManager.GET_META_DATA);
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
@@ -474,22 +474,23 @@ public class VideoPlayerDialog {
 
         requestQueue.add(jsonArrayRequest);*/
 
-       // new GetLink().execute("");
+        // new GetLink().execute("");
     }
 
 
     private class GetLink extends AsyncTask<String, String, String> {
         String[] token = new String[5];
+
         @Override
         protected String doInBackground(String... strings) {
 
             String tokenNumber = stream.getToken();
             Log.d("testing123", tokenNumber);
 
-            Log.d("testing123", "streamLink: "+stream.getStream_link());
+            Log.d("testing123", "streamLink: " + stream.getStream_link());
 
             // IF TOKEN NUMBER IS 0 THEN WE PLAY THE VIDEO DIRECTLY WITHOUT ANY TOKEN AND META REQUEST
-            if (Integer.parseInt(tokenNumber) == 0){
+            if (Integer.parseInt(tokenNumber) == 0) {
                 token[0] = stream.getStream_link();
                 Stash.put("videoURL", token[0]);
                 return token[0];
@@ -499,7 +500,7 @@ public class VideoPlayerDialog {
             Log.d("testing123", "url  1" + url);
 
             try {
-                if (url!=null) {
+                if (url != null) {
                     if (url.contains("http://") || url.contains("https://")) {
                         Log.d("testing123", "url  2" + url);
                         Document doc = Jsoup.connect(url).get();
@@ -547,29 +548,43 @@ public class VideoPlayerDialog {
                 String url = token[0];
 
                 String packageName = Stash.getString("packageName");
-                int internal = Stash.getInt("androidInternal",  0);
-                Log.d("testing123", "VideoURLPlayer  URL "+url);
-                Log.d("testing123", "VideoURLPlayer  S "+s);
-                Log.d("testing123", "VideoURLPlayer token "+token[0]);
-                Log.d("testing123", ""+internal);
-                Log.d("testing123", ""+packageName);
+                int internal = Stash.getInt("androidInternal", 0);
+                Log.d("testing123", "VideoURLPlayer  URL " + url);
+                Log.d("testing123", "VideoURLPlayer  S " + s);
+                Log.d("testing123", "VideoURLPlayer token " + token[0]);
+                Log.d("testing123", "" + internal);
+                Log.d("testing123", "" + packageName);
 
                 channelsModelArrayList = Stash.getArrayList("LastPlayed", ChannelsModel.class);
-                if (channelsModel==null) { channelsModelArrayList = new ArrayList<>(); }
+                if (channelsModel == null) {
+                    channelsModelArrayList = new ArrayList<>();
+                }
                 channelsModelArrayList.add(channelsModel);
                 Stash.put("LastPlayed", channelsModelArrayList);
-                Log.d("testing123", "Size  "+channelsModelArrayList.size());
+                Log.d("testing123", "Size  " + channelsModelArrayList.size());
 
-                if (internal == 1){
+                if (internal == 1) {
                     Intent intent = new Intent(context, VideoPlayerActivity.class);
                     intent.putExtra("name", channelsModel.getName());
                     intent.putExtra("url", url);
                     context.startActivity(intent);
                 } else {
+                    Log.d("TAGGU", "onPostExecute: " + Stash.getString("buttonTTT"));
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setPackage(packageName);
                     i.setDataAndType(Uri.parse(url), "video/");
                     i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                    String name = Stash.getString("buttonTTT");
+
+                    if (name.equals("MX Player")) {
+//TODO:                        i.putExtra("secure_uri", true);
+                    } else if (name.equals("Web Video Cast Player")) {
+//                        i.putExtra("secure_uri", true);
+                    } else if (name.equals("VLC Player")) {
+//                        i.putExtra("title", "Custom Title");
+                    }
+
                     context.startActivity(i);
                 }
 

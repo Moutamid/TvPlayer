@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -84,9 +85,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         IronSource.init(this, "18494ecc5", IronSource.AD_UNIT.INTERSTITIAL);
 
-        IronSource.setMetaData("Vungle_coppa","true");
+        IronSource.setMetaData("Vungle_coppa", "true");
 
-        IronSource.setMetaData("InMobi_AgeRestricted","true");
+        IronSource.setMetaData("InMobi_AgeRestricted", "true");
 
         Log.d("IronSource", "Ads Initialized");
 
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 IronSource.isInterstitialPlacementCapped("Home_Screen");
                 IronSource.showInterstitial("Home_Screen");
             }
+
             /**
              * invoked when there is no Interstitial Ad available after calling load function.
              */
@@ -112,18 +114,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onInterstitialAdLoadFailed(IronSourceError error) {
                 Log.d("IronSource", "Error : " + error.getErrorMessage());
             }
+
             /**
              * Invoked when the Interstitial Ad Unit is opened
              */
             @Override
             public void onInterstitialAdOpened() {
             }
+
             /*
              * Invoked when the ad is closed and the user is about to return to the application.
              */
             @Override
             public void onInterstitialAdClosed() {
             }
+
             /**
              * Invoked when Interstitial ad failed to show.
              * @param error - An object which represents the reason of showInterstitial failure.
@@ -131,12 +136,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onInterstitialAdShowFailed(IronSourceError error) {
             }
+
             /*
              * Invoked when the end user clicked on the interstitial ad, for supported networks only.
              */
             @Override
             public void onInterstitialAdClicked() {
             }
+
             /** Invoked right before the Interstitial screen is about to open.
              *  NOTE - This event is available only for some of the networks.
              *  You should NOT treat this event as an interstitial impression, but rather use InterstitialAdOpenedEvent
@@ -149,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         IronSource.loadInterstitial();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)){
+            if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
@@ -157,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         // IntegrationHelper.validateIntegration(this);
 
-        if (s.isEmpty()){
+        if (s.isEmpty()) {
             registerDevice();
         }
 
@@ -188,15 +195,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.post,
                     (Response.Listener<String>) response -> {
-                Log.i("VOLLEY", response);
-                Stash.put("android_id", android_id);
-                // Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
-            }, (Response.ErrorListener) error -> Log.e("VOLLEY", error.toString())) {
+                        Log.i("VOLLEY", response);
+                        Stash.put("android_id", android_id);
+                        // Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+                    }, (Response.ErrorListener) error -> Log.e("VOLLEY", error.toString())) {
 
                 @Nullable
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String,String> params = new HashMap<String, String>();
+                    Map<String, String> params = new HashMap<String, String>();
                     params.put("device_id", android_id);
                     return params;
                 }
@@ -225,14 +232,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menuSetting.setOnMenuItemClickListener(item -> {
             boolean isLock = Stash.getBoolean("lockState", false);
 
-            if (isLock){
+            if (isLock) {
                 PasswordDialog passwordDialog = new PasswordDialog(MainActivity.this);
                 passwordDialog.show();
             } else {
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
 
-            return  true;
+            return true;
         });
 
         return super.onCreateOptionsMenu(menu);
@@ -263,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_settings:
                 boolean isLock = Stash.getBoolean("lockState", false);
-                if (isLock){
+                if (isLock) {
                     PasswordDialog passwordDialog = new PasswordDialog(MainActivity.this);
                     passwordDialog.show();
                 } else {
@@ -277,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://multistreamz.com/")));
                 break;
             case R.id.nav_telegram:
-                if (isPackageExisted("org.telegram.messenger")){
+                if (isPackageExisted("org.telegram.messenger")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/+4D6mmaFEiBUxZDE8"));
                     startActivity(intent);
                 } else {
@@ -309,10 +316,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private boolean isPackageExisted(String targetPackage){
+    private boolean isPackageExisted(String targetPackage) {
         PackageManager pm = getApplicationContext().getPackageManager();
         try {
-            PackageInfo info = pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+            PackageInfo info = pm.getPackageInfo(targetPackage, PackageManager.GET_META_DATA);
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
@@ -332,11 +339,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onResume();
         IronSource.onResume(this);
     }
+
     protected void onPause() {
         super.onPause();
         IronSource.onPause(this);
     }
 
+    /*@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        int newOrientation = newConfig.orientation;
+
+        if (newOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            recreate();
+        } else if (newOrientation == Configuration.ORIENTATION_PORTRAIT) {
+            recreate();
+        }
+    }*/
 
 
 }
