@@ -578,11 +578,13 @@ public class VideoPlayerDialog {
                     String name = Stash.getString("buttonTTT");
 
                     if (name.equals("MX Player")) {
-//TODO:                        i.putExtra("secure_uri", true);
+                        i.putExtra("secure_uri", true);
                     } else if (name.equals("Web Video Cast Player")) {
-//                        i.putExtra("secure_uri", true);
+                        i.putExtra("secure_uri", true);
                     } else if (name.equals("VLC Player")) {
-//                        i.putExtra("title", "Custom Title");
+                        i.putExtra("title", "Custom Title");
+                    } else if (name.equals("Wuffy Player")) {
+                        i.putExtra("name", "Custom Title");
                     }
 
                     context.startActivity(i);
