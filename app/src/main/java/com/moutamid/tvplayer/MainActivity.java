@@ -91,9 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.d("IronSource", "Ads Initialized");
 
-//        IronSource.Agent.setMetaData("UnityAds_coppa","true");
-//
-//        IronSource.Agent.setAdaptersDebug(true);
+        IronSource.setMetaData("UnityAds_coppa","true");
 
         IronSource.setAdaptersDebug(true);
         IronSource.setInterstitialListener(new InterstitialListener() {
