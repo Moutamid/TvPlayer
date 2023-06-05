@@ -104,11 +104,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         IronSource.shouldTrackNetworkState(this, true);
 
         boolean available = IronSource.isRewardedVideoAvailable();
-        showRewardVideo();
+      //  showRewardVideo();
 
         IronSource.setAdaptersDebug(true);
         showInterstial();
-        showBanner();
+       // showBanner();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
