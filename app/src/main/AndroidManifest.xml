@@ -11,6 +11,12 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <uses-feature android:name="android.software.leanback" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+
     <queries>
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService" />
@@ -55,7 +61,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TvPlayer"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:banner="@mipmap/ic_launcher_logo">
         <activity
             android:name=".EventsActivity"
             android:exported="false" />
@@ -99,7 +106,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -128,24 +135,30 @@
             android:name="com.ironsource.sdk.controller.OpenUrlActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:theme="@android:style/Theme.Translucent" /> <!-- <activity -->
-        <!-- android:name="com.unity3d.ads.adunit.AdUnitActivity" -->
-        <!-- android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" -->
-        <!-- android:hardwareAccelerated="true" -->
-        <!-- android:exported="true" -->
-        <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> -->
-        <!-- <activity -->
-        <!-- android:name="com.unity3d.ads.adunit.AdUnitSoftwareActivity" -->
-        <!-- android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" -->
-        <!-- android:hardwareAccelerated="false" -->
-        <!-- android:exported="true" -->
-        <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> -->
+            android:theme="@android:style/Theme.Translucent" />
+<!--         <activity -->
+        <!--         android:name="com.unity3d.ads.adunit.AdUnitActivity" -->
+        <!--         android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" -->
+        <!--         android:hardwareAccelerated="true" -->
+        <!--         android:exported="true" -->
+        <!--         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> -->
+        <!--         <activity -->
+        <!--         android:name="com.unity3d.ads.adunit.AdUnitSoftwareActivity" -->
+        <!--         android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" -->
+        <!--         android:hardwareAccelerated="false" -->
+        <!--         android:exported="true" -->
+        <!--         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" /> -->
         <activity
             android:name="com.inmobi.ads.rendering.InMobiAdActivity"
             android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize|screenLayout|locale|fontScale|uiMode"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.NoTitleBar"
             tools:ignore="UnusedAttribute" />
+
+        <meta-data
+            android:name="android.support.leanback.appbanner"
+            android:resource="@mipmap/ic_launcher_logo" />
+
     </application>
 
 </manifest>
