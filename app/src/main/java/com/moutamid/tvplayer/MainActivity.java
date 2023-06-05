@@ -47,11 +47,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.fxn.stash.Stash;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.ironsource.mediationsdk.ISBannerSize;
 import com.ironsource.mediationsdk.IronSource;
+import com.ironsource.mediationsdk.IronSourceBannerLayout;
+import com.ironsource.mediationsdk.adunit.adapter.utility.AdInfo;
 import com.ironsource.mediationsdk.integration.IntegrationHelper;
 import com.ironsource.mediationsdk.logger.IronSourceError;
 import com.ironsource.mediationsdk.model.InterstitialPlacement;
+import com.ironsource.mediationsdk.model.Placement;
 import com.ironsource.mediationsdk.sdk.InterstitialListener;
+import com.ironsource.mediationsdk.sdk.LevelPlayBannerListener;
+import com.ironsource.mediationsdk.sdk.LevelPlayRewardedVideoListener;
+import com.ironsource.mediationsdk.sdk.RewardedVideoListener;
 import com.moutamid.tvplayer.databinding.ActivityMainBinding;
 import com.moutamid.tvplayer.dialog.PasswordDialog;
 import com.moutamid.tvplayer.fragments.AllChannelsFragment;
@@ -84,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         requestQueue = VolleySingleton.getmInstance(this).getRequestQueue();
 
         IronSource.init(this, "18494ecc5", IronSource.AD_UNIT.INTERSTITIAL);
+        IronSource.init(this, "18494ecc5", IronSource.AD_UNIT.BANNER);
+        IronSource.init(this, "18494ecc5", IronSource.AD_UNIT.REWARDED_VIDEO);
 
         IronSource.setMetaData("Vungle_coppa", "true");
 
@@ -92,8 +101,78 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("IronSource", "Ads Initialized");
 
         IronSource.setMetaData("UnityAds_coppa","true");
+        IronSource.shouldTrackNetworkState(this, true);
+
+        boolean available = IronSource.isRewardedVideoAvailable();
+        showRewardVideo();
 
         IronSource.setAdaptersDebug(true);
+        showInterstial();
+        showBanner();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+            }
+        }
+        // IntegrationHelper.validateIntegration(this);
+
+        if (s.isEmpty()) {
+            registerDevice();
+        }
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,
+                binding.drawLayout, binding.toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.navView.setNavigationItemSelectedListener(this);
+        binding.drawLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        binding.navView.setItemIconTintList(null);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
+        binding.navView.setCheckedItem(R.id.nav_channels);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
+        }
+
+    }
+
+    private void showBanner() {
+        IronSourceBannerLayout banner = IronSource.createBanner(this, ISBannerSize.BANNER);
+        banner.setLevelPlayBannerListener(new LevelPlayBannerListener() {
+            // Invoked each time a banner was loaded. Either on refresh, or manual load.
+            //  AdInfo parameter includes information about the loaded ad
+            @Override
+            public void onAdLoaded(AdInfo adInfo) {
+                IronSource.loadBanner(banner);
+            }
+            // Invoked when the banner loading process has failed.
+            //  This callback will be sent both for manual load and refreshed banner failures.
+            @Override
+            public void onAdLoadFailed(IronSourceError error) {}
+            // Invoked when end user clicks on the banner ad
+            @Override
+            public void onAdClicked(AdInfo adInfo) {}
+            // Notifies the presentation of a full screen content following user click
+            @Override
+            public void onAdScreenPresented(AdInfo adInfo) {}
+            // Notifies the presented screen has been dismissed
+            @Override
+            public void onAdScreenDismissed(AdInfo adInfo) {}
+            //Invoked when the user left the app
+            @Override
+            public void onAdLeftApplication(AdInfo adInfo) {}
+
+        });
+
+
+    }
+
+    private void showInterstial() {
         IronSource.setInterstitialListener(new InterstitialListener() {
             /**
              * Invoked when Interstitial Ad is ready to be shown after load function was called.
@@ -152,36 +231,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         IronSource.loadInterstitial();
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+    private void showRewardVideo() {
+        IronSource.setRewardedVideoListener(new RewardedVideoListener() {
+            @Override
+            public void onRewardedVideoAdOpened() {
+                IronSource.isRewardedVideoPlacementCapped("Rewarded");
+                IronSource.showRewardedVideo("Rewarded");
             }
-        }
-        // IntegrationHelper.validateIntegration(this);
 
-        if (s.isEmpty()) {
-            registerDevice();
-        }
+            @Override
+            public void onRewardedVideoAdClosed() {
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this,
-                binding.drawLayout, binding.toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        binding.navView.setNavigationItemSelectedListener(this);
-        binding.drawLayout.addDrawerListener(toggle);
-        toggle.syncState();
+            }
 
-        binding.navView.setItemIconTintList(null);
+            @Override
+            public void onRewardedVideoAvailabilityChanged(boolean b) {
+                if (b) {
+                    IronSource.isRewardedVideoPlacementCapped("Rewarded");
+                    IronSource.showRewardedVideo("Rewarded");
+                }
+            }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AllChannelsFragment()).commit();
-        binding.navView.setCheckedItem(R.id.nav_channels);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            binding.navView.getCheckedItem().setIconTintList(ColorStateList.valueOf(getResources().getColor(R.color.orange)));
-        }
+            @Override
+            public void onRewardedVideoAdStarted() {
 
+            }
+
+            @Override
+            public void onRewardedVideoAdEnded() {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdRewarded(Placement placement) {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdShowFailed(IronSourceError ironSourceError) {
+
+            }
+
+            @Override
+            public void onRewardedVideoAdClicked(Placement placement) {
+
+            }
+        });
+
+        IronSource.loadRewardedVideo();
     }
 
     private void registerDevice() {

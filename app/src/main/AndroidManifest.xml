@@ -62,7 +62,7 @@
         android:theme="@style/Theme.TvPlayer"
         android:usesCleartextTraffic="true"
         tools:targetApi="31"
-        android:banner="@mipmap/ic_launcher_logo">
+        android:banner="@drawable/banner">
         <activity
             android:name=".EventsActivity"
             android:exported="false" />
@@ -157,7 +157,7 @@
 
         <meta-data
             android:name="android.support.leanback.appbanner"
-            android:resource="@mipmap/ic_launcher_logo" />
+            android:resource="@drawable/banner" />
 
     </application>
 
