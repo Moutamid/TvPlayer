@@ -104,11 +104,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         IronSource.shouldTrackNetworkState(this, true);
 
         boolean available = IronSource.isRewardedVideoAvailable();
-      //  showRewardVideo();
-
+        showRewardVideo();
         IronSource.setAdaptersDebug(true);
         showInterstial();
-       // showBanner();
+        showBanner();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
@@ -143,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showBanner() {
         IronSourceBannerLayout banner = IronSource.createBanner(this, ISBannerSize.BANNER);
+        //ISBannerSize.setAdaptive(true);
         banner.setLevelPlayBannerListener(new LevelPlayBannerListener() {
             // Invoked each time a banner was loaded. Either on refresh, or manual load.
             //  AdInfo parameter includes information about the loaded ad
@@ -168,8 +168,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onAdLeftApplication(AdInfo adInfo) {}
 
         });
-
-
     }
 
     private void showInterstial() {
