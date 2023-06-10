@@ -55,6 +55,7 @@ import com.ironsource.mediationsdk.integration.IntegrationHelper;
 import com.ironsource.mediationsdk.logger.IronSourceError;
 import com.ironsource.mediationsdk.model.InterstitialPlacement;
 import com.ironsource.mediationsdk.model.Placement;
+import com.ironsource.mediationsdk.sdk.BannerListener;
 import com.ironsource.mediationsdk.sdk.InterstitialListener;
 import com.ironsource.mediationsdk.sdk.LevelPlayBannerListener;
 import com.ironsource.mediationsdk.sdk.LevelPlayRewardedVideoListener;
@@ -143,31 +144,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showBanner() {
         IronSourceBannerLayout banner = IronSource.createBanner(this, ISBannerSize.BANNER);
         //ISBannerSize.setAdaptive(true);
-        banner.setLevelPlayBannerListener(new LevelPlayBannerListener() {
-            // Invoked each time a banner was loaded. Either on refresh, or manual load.
-            //  AdInfo parameter includes information about the loaded ad
+        banner.setBannerListener(new BannerListener() {
             @Override
-            public void onAdLoaded(AdInfo adInfo) {
-                IronSource.loadBanner(banner);
+            public void onBannerAdLoaded() {
+                IronSource.isBannerPlacementCapped("Banner");
             }
-            // Invoked when the banner loading process has failed.
-            //  This callback will be sent both for manual load and refreshed banner failures.
-            @Override
-            public void onAdLoadFailed(IronSourceError error) {}
-            // Invoked when end user clicks on the banner ad
-            @Override
-            public void onAdClicked(AdInfo adInfo) {}
-            // Notifies the presentation of a full screen content following user click
-            @Override
-            public void onAdScreenPresented(AdInfo adInfo) {}
-            // Notifies the presented screen has been dismissed
-            @Override
-            public void onAdScreenDismissed(AdInfo adInfo) {}
-            //Invoked when the user left the app
-            @Override
-            public void onAdLeftApplication(AdInfo adInfo) {}
 
+            @Override
+            public void onBannerAdLoadFailed(IronSourceError ironSourceError) {
+
+            }
+
+            @Override
+            public void onBannerAdClicked() {
+
+            }
+
+            @Override
+            public void onBannerAdScreenPresented() {
+
+            }
+
+            @Override
+            public void onBannerAdScreenDismissed() {
+
+            }
+
+            @Override
+            public void onBannerAdLeftApplication() {
+
+            }
         });
+
+        IronSource.loadBanner(banner, "Banner");
+
     }
 
     private void showInterstial() {
