@@ -2,6 +2,7 @@ package com.moutamid.tvplayer.dialog;
 
 import static com.android.volley.Request.Method.GET;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -16,6 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.StrictMode;
 import android.util.Base64;
 import android.util.Log;
@@ -450,6 +452,11 @@ public class VideoPlayerDialog {
             String htmlData = stringBuffer.toString();
 
             Log.d("TAG", "data: " + htmlData);
+
+            Looper looper = Looper.getMainLooper();
+            if (looper == null){
+                Looper.prepare();
+            }
 
             try {
                 JSONObject json = new JSONObject(htmlData);
