@@ -66,6 +66,7 @@ import com.moutamid.tvplayer.fragments.AllChannelsFragment;
 import com.moutamid.tvplayer.fragments.EventsFragment;
 import com.moutamid.tvplayer.fragments.FavouritesFragment;
 import com.moutamid.tvplayer.fragments.LastPlayedFragment;
+import com.unity3d.services.banners.BannerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,6 +80,7 @@ import retrofit2.http.POST;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     ActivityMainBinding binding;
     private RequestQueue requestQueue;
+    private BannerView bannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,11 +145,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showBanner() {
         IronSourceBannerLayout banner = IronSource.createBanner(this, ISBannerSize.BANNER);
-        //ISBannerSize.setAdaptive(true);
+        binding.bannerContainer.addView(banner);
         banner.setBannerListener(new BannerListener() {
             @Override
             public void onBannerAdLoaded() {
                 IronSource.isBannerPlacementCapped("Banner");
+                IronSource.loadBanner(banner, "Banner");
             }
 
             @Override
