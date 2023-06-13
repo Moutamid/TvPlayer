@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showBanner() {
         IronSourceBannerLayout banner = IronSource.createBanner(this, ISBannerSize.BANNER);
-        binding.bannerContainer.addView(banner);
+       // binding.bannerContainer.addView(banner);
         banner.setBannerListener(new BannerListener() {
             @Override
             public void onBannerAdLoaded() {
