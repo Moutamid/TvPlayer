@@ -274,6 +274,7 @@ public class CommonEventFragment extends Fragment {
     Clicklistners clicklistners = new Clicklistners() {
         @Override
         public void click(ChannelsModel model) {
+            Stash.put(Constants.VIDEO_TITLE, model.getName());
             if (model.getStreamingLinks().size()>1) {
                 LinkDialog ld = new LinkDialog(context, model);
                 ld.show();

@@ -149,13 +149,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         banner.setBannerListener(new BannerListener() {
             @Override
             public void onBannerAdLoaded() {
+                Log.d("IronSource", "Banner Loaded");
                 IronSource.isBannerPlacementCapped("Banner");
                 IronSource.loadBanner(banner, "Banner");
             }
 
             @Override
             public void onBannerAdLoadFailed(IronSourceError ironSourceError) {
-
+                Log.d("IronSource", "Banner Error : " + ironSourceError.getErrorMessage());
             }
 
             @Override
@@ -248,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         IronSource.setRewardedVideoListener(new RewardedVideoListener() {
             @Override
             public void onRewardedVideoAdOpened() {
+                Log.d("IronSource", "Rewarded : " + "Loaded");
                 IronSource.isRewardedVideoPlacementCapped("Rewarded");
                 IronSource.showRewardedVideo("Rewarded");
             }
@@ -282,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onRewardedVideoAdShowFailed(IronSourceError ironSourceError) {
-
+                Log.d("IronSource", "Rewarded Error : " + ironSourceError.getErrorMessage());
             }
 
             @Override

@@ -72,6 +72,7 @@ public class LastPlayedFragment extends Fragment {
     Clicklistners clicklistners = new Clicklistners() {
         @Override
         public void click(ChannelsModel model) {
+            Stash.put(Constants.VIDEO_TITLE, model.getName());
             if (model.getStreamingLinks().size()>1){
                 linkDialog(model);
             } else if (model.getStreamingLinks().size() == 0) {

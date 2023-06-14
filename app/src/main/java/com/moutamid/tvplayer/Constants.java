@@ -32,7 +32,7 @@ public class Constants {
     public static final String categoriesEvent = "http://api.multistreamz.com/v1/event/categories";
     public static final String countriesEvent = "http://api.multistreamz.com/v1/event/countries";
     public static final String token = "http://api.multistreamz.com/v1/token/";
-
+    public static final String VIDEO_TITLE = "VIDEO_TITLE";
     public static void checkApp(Activity activity) {
         String appName = "tvapp";// ADD THIS NAME TO THE REPOSITORY IN BELOW LINK
 

@@ -589,9 +589,9 @@ public class VideoPlayerDialog {
                     } else if (name.equals("Web Video Cast Player")) {
                         i.putExtra("secure_uri", true);
                     } else if (name.equals("VLC Player")) {
-                        i.putExtra("title", "Custom Title");
+                        i.putExtra("title", Stash.getString(Constants.VIDEO_TITLE));
                     } else if (name.equals("Wuffy Player")) {
-                        i.putExtra("name", "Custom Title");
+                        i.putExtra("name", Stash.getString(Constants.VIDEO_TITLE));
                     }
 
                     context.startActivity(i);
