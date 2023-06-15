@@ -12,6 +12,7 @@
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+
     <uses-feature android:name="android.software.leanback" android:required="true" />
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -136,6 +137,11 @@
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="true"
             android:theme="@android:style/Theme.Translucent" />
+
+        <provider
+            android:authorities="${applicationId}.IronsourceLifecycleProvider"
+            android:name="com.ironsource.lifecycle.IronsourceLifecycleProvider" />
+
 <!--         <activity -->
         <!--         android:name="com.unity3d.ads.adunit.AdUnitActivity" -->
         <!--         android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" -->

@@ -50,16 +50,21 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.ironsource.mediationsdk.ISBannerSize;
 import com.ironsource.mediationsdk.IronSource;
 import com.ironsource.mediationsdk.IronSourceBannerLayout;
+import com.ironsource.mediationsdk.WaterfallConfiguration;
 import com.ironsource.mediationsdk.adunit.adapter.utility.AdInfo;
 import com.ironsource.mediationsdk.integration.IntegrationHelper;
 import com.ironsource.mediationsdk.logger.IronSourceError;
 import com.ironsource.mediationsdk.model.InterstitialPlacement;
 import com.ironsource.mediationsdk.model.Placement;
 import com.ironsource.mediationsdk.sdk.BannerListener;
+import com.ironsource.mediationsdk.sdk.InitializationListener;
 import com.ironsource.mediationsdk.sdk.InterstitialListener;
 import com.ironsource.mediationsdk.sdk.LevelPlayBannerListener;
+import com.ironsource.mediationsdk.sdk.LevelPlayInterstitialListener;
 import com.ironsource.mediationsdk.sdk.LevelPlayRewardedVideoListener;
+import com.ironsource.mediationsdk.sdk.LevelPlayRewardedVideoManualListener;
 import com.ironsource.mediationsdk.sdk.RewardedVideoListener;
+import com.ironsource.mediationsdk.sdk.RewardedVideoManualListener;
 import com.moutamid.tvplayer.databinding.ActivityMainBinding;
 import com.moutamid.tvplayer.dialog.PasswordDialog;
 import com.moutamid.tvplayer.fragments.AllChannelsFragment;
@@ -81,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActivityMainBinding binding;
     private RequestQueue requestQueue;
     private BannerView bannerView;
+    private IronSource mMediationAgent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,19 +104,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         IronSource.init(this, "18494ecc5", IronSource.AD_UNIT.REWARDED_VIDEO);
 
         IronSource.setMetaData("Vungle_coppa", "true");
+       // IronSource.setMetaData("InMobi_AgeRestricted", "true");
+        IronSource.setMetaData("UnityAds_coppa", "true");
+        IronSource.setMetaData("is_test_suite", "enable");
 
-        IronSource.setMetaData("InMobi_AgeRestricted", "true");
+        IronSource.init(this, "18494ecc5", () -> {
+            // ironSource SDK is initialized
+            Log.d("IronSource", "Ads Initialized");
+        });
 
-        Log.d("IronSource", "Ads Initialized");
+//        WaterfallConfiguration.WaterfallConfigurationBuilder builder = WaterfallConfiguration.builder();
+//        WaterfallConfiguration waterfallConfiguration = builder
+//                .setFloor(1)
+//                .setCeiling(2)
+//                .build();
+//        IronSource.setWaterfallConfiguration(waterfallConfiguration, IronSource.AD_UNIT.BANNER);
 
-        IronSource.setMetaData("UnityAds_coppa","true");
+        IntegrationHelper.validateIntegration(this);
+
         IronSource.shouldTrackNetworkState(this, true);
-
-        boolean available = IronSource.isRewardedVideoAvailable();
-        showRewardVideo();
         IronSource.setAdaptersDebug(true);
-        showInterstial();
-        showBanner();
+
+//        showReAd();
+//        showInteAd();
+        showBannerAd();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
@@ -143,20 +160,57 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    private void showBannerAd() {
+
+        ISBannerSize size = new ISBannerSize(320, 50);
+        size.setAdaptive(true);
+
+        IronSourceBannerLayout banner = IronSource.createBanner(MainActivity.this, size);
+
+        IronSource.loadBanner(banner, "Banner_AD");
+        banner.setLevelPlayBannerListener(new LevelPlayBannerListener() {
+            // Invoked each time a banner was loaded. Either on refresh, or manual load.
+            //  AdInfo parameter includes information about the loaded ad
+            @Override
+            public void onAdLoaded(AdInfo adInfo) {
+
+            }
+            // Invoked when the banner loading process has failed.
+            //  This callback will be sent both for manual load and refreshed banner failures.
+            @Override
+            public void onAdLoadFailed(IronSourceError error) {}
+            // Invoked when end user clicks on the banner ad
+            @Override
+            public void onAdClicked(AdInfo adInfo) {}
+            // Notifies the presentation of a full screen content following user click
+            @Override
+            public void onAdScreenPresented(AdInfo adInfo) {}
+            // Notifies the presented screen has been dismissed
+            @Override
+            public void onAdScreenDismissed(AdInfo adInfo) {}
+            //Invoked when the user left the app
+            @Override
+            public void onAdLeftApplication(AdInfo adInfo) {}
+
+        });
+
+
+    }
+
     private void showBanner() {
         IronSourceBannerLayout banner = IronSource.createBanner(this, ISBannerSize.BANNER);
-       // binding.bannerContainer.addView(banner);
+        // binding.bannerContainer.addView(banner);
         banner.setBannerListener(new BannerListener() {
             @Override
             public void onBannerAdLoaded() {
                 Log.d("IronSource", "Banner Loaded");
-                IronSource.isBannerPlacementCapped("Banner");
-                IronSource.loadBanner(banner, "Banner");
+//                IronSource.isBannerPlacementCapped("Banner_AD");
+//                IronSource.loadBanner(banner, "Banner_AD");
             }
 
             @Override
             public void onBannerAdLoadFailed(IronSourceError ironSourceError) {
-                Log.d("IronSource", "Banner Error : " + ironSourceError.getErrorMessage());
+                Log.d("IronSource", "Banner Error / Code : " + ironSourceError.getErrorMessage() + "   " + ironSourceError.getErrorCode());
             }
 
             @Override
@@ -180,8 +234,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        IronSource.loadBanner(banner, "Banner");
+        IronSource.loadBanner(banner, "Banner_AD");
 
+    }
+
+    private void showInteAd(){
+        IronSource.loadInterstitial();
+        IronSource.setLevelPlayInterstitialListener(new LevelPlayInterstitialListener() {
+            // Invoked when the interstitial ad was loaded successfully.
+            // AdInfo parameter includes information about the loaded ad
+            @Override
+            public void onAdReady(AdInfo adInfo) {
+                IronSource.isInterstitialPlacementCapped("Interstitial_AD");
+                IronSource.showInterstitial("Interstitial_AD");
+            }
+            // Indicates that the ad failed to be loaded
+            @Override
+            public void onAdLoadFailed(IronSourceError error) {}
+            // Invoked when the Interstitial Ad Unit has opened, and user left the application screen.
+            // This is the impression indication.
+            @Override
+            public void onAdOpened(AdInfo adInfo) {}
+            // Invoked when the interstitial ad closed and the user went back to the application screen.
+            @Override
+            public void onAdClosed(AdInfo adInfo) {}
+            // Invoked when the ad failed to show
+            @Override
+            public void onAdShowFailed(IronSourceError error, AdInfo adInfo) {}
+            // Invoked when end user clicked on the interstitial ad
+            @Override
+            public void onAdClicked(AdInfo adInfo) {}
+            // Invoked before the interstitial ad was opened, and before the InterstitialOnAdOpenedEvent is reported.
+            // This callback is not supported by all networks, and we recommend using it only if
+            // it's supported by all networks you included in your build.
+            @Override
+            public void onAdShowSucceeded(AdInfo adInfo){}
+        });
     }
 
     private void showInterstial() {
@@ -192,8 +280,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onInterstitialAdReady() {
                 Log.d("IronSource", "Ads is Ready to show");
-                IronSource.isInterstitialPlacementCapped("Home_Screen");
-                IronSource.showInterstitial("Home_Screen");
+                IronSource.isInterstitialPlacementCapped("Interstitial_AD");
+                IronSource.showInterstitial("Interstitial_AD");
             }
 
             /**
@@ -201,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              */
             @Override
             public void onInterstitialAdLoadFailed(IronSourceError error) {
-                Log.d("IronSource", "Error : " + error.getErrorMessage());
+                Log.d("IronSource", "Error / Code : " + error.getErrorMessage() + " " + error.getErrorCode());
             }
 
             /**
@@ -245,13 +333,80 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         IronSource.loadInterstitial();
     }
 
+    private void showReAd() {
+        IronSource.setLevelPlayRewardedVideoListener(new LevelPlayRewardedVideoListener() {
+            // Indicates that there's an available ad.
+            // The adInfo object includes information about the ad that was loaded successfully
+            // Use this callback instead of onRewardedVideoAvailabilityChanged(true)
+            @Override
+            public void onAdAvailable(AdInfo adInfo) {
+                IronSource.isRewardedVideoPlacementCapped("REWARD_AD");
+                IronSource.showRewardedVideo("REWARD_AD");
+            }
+            // Indicates that no ads are available to be displayed
+            // Use this callback instead of onRewardedVideoAvailabilityChanged(false)
+            @Override
+            public void onAdUnavailable() {}
+            // The Rewarded Video ad view has opened. Your activity will loose focus
+            @Override
+            public void onAdOpened(AdInfo adInfo) {}
+            // The Rewarded Video ad view is about to be closed. Your activity will regain its focus
+            @Override
+            public void onAdClosed(AdInfo adInfo) {}
+            // The user completed to watch the video, and should be rewarded.
+            // The placement parameter will include the reward data.
+            // When using server-to-server callbacks, you may ignore this event and wait for the ironSource server callback
+            @Override
+            public void onAdRewarded(Placement placement, AdInfo adInfo) {}
+            // The rewarded video ad was failed to show
+            @Override
+            public void onAdShowFailed(IronSourceError error, AdInfo adInfo) {}
+            // Invoked when the video ad was clicked.
+            // This callback is not supported by all networks, and we recommend using it
+            // only if it's supported by all networks you included in your build
+            @Override
+            public void onAdClicked(Placement placement, AdInfo adInfo) {}
+        });
+    }
+
     private void showRewardVideo() {
+//        IronSource.setLevelPlayRewardedVideoManualListener(new LevelPlayRewardedVideoManualListener() {
+//            // Indicates that the Rewarded video ad was loaded successfully.
+//            // AdInfo parameter includes information about the loaded ad
+//            @Override
+//            public void onAdReady(AdInfo adInfo) {}
+//            // Invoked when the rewarded video failed to load
+//            @Override
+//            public void onAdLoadFailed(IronSourceError error){}
+//            // The Rewarded Video ad view has opened. Your activity will loose focus
+//            @Override
+//            public void onAdOpened(AdInfo adInfo){}
+//            // The Rewarded Video ad view is about to be closed. Your activity will regain its focus
+//            @Override
+//            public void onAdClosed(AdInfo adInfo){}
+//            // The user completed to watch the video, and should be rewarded.
+//            // The placement parameter will include the reward data.
+//            // When using server-to-server callbacks, you may ignore this event and wait for the ironSource server callback
+//            @Override
+//            public void onAdRewarded(Placement placement, AdInfo adInfo){}
+//            // The rewarded video ad was failed to show
+//            @Override
+//            public void onAdShowFailed(IronSourceError error, AdInfo adInfo){}
+//            // Invoked when the video ad was clicked.
+//            // This callback is not supported by all networks, and we recommend using it
+//            // only if it's supported by all networks you included in your build
+//            @Override
+//            public void onAdClicked(Placement placement, AdInfo adInfo){}
+//
+//        });
+//
+//        IronSource.loadRewardedVideo();
         IronSource.setRewardedVideoListener(new RewardedVideoListener() {
             @Override
             public void onRewardedVideoAdOpened() {
                 Log.d("IronSource", "Rewarded : " + "Loaded");
-                IronSource.isRewardedVideoPlacementCapped("Rewarded");
-                IronSource.showRewardedVideo("Rewarded");
+                IronSource.isRewardedVideoPlacementCapped("REWARD_AD");
+                IronSource.showRewardedVideo("REWARD_AD");
             }
 
             @Override
@@ -262,8 +417,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onRewardedVideoAvailabilityChanged(boolean b) {
                 if (b) {
-                    IronSource.isRewardedVideoPlacementCapped("Rewarded");
-                    IronSource.showRewardedVideo("Rewarded");
+                    IronSource.isRewardedVideoPlacementCapped("REWARD_AD");
+                    IronSource.showRewardedVideo("REWARD_AD");
                 }
             }
 
