@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         IronSource.shouldTrackNetworkState(this, true);
         IronSource.setAdaptersDebug(true);
 
-//        showReAd();
-//        showInteAd();
+        showReAd();
+        showInteAd();
         showBannerAd();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -178,7 +178,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Invoked when the banner loading process has failed.
             //  This callback will be sent both for manual load and refreshed banner failures.
             @Override
-            public void onAdLoadFailed(IronSourceError error) {}
+            public void onAdLoadFailed(IronSourceError error) {
+                Toast.makeText(MainActivity.this, "Banner Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+            }
             // Invoked when end user clicks on the banner ad
             @Override
             public void onAdClicked(AdInfo adInfo) {}
@@ -250,7 +252,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             // Indicates that the ad failed to be loaded
             @Override
-            public void onAdLoadFailed(IronSourceError error) {}
+            public void onAdLoadFailed(IronSourceError error) {
+                Toast.makeText(MainActivity.this, "Interstitial Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+            }
             // Invoked when the Interstitial Ad Unit has opened, and user left the application screen.
             // This is the impression indication.
             @Override
@@ -360,7 +364,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onAdRewarded(Placement placement, AdInfo adInfo) {}
             // The rewarded video ad was failed to show
             @Override
-            public void onAdShowFailed(IronSourceError error, AdInfo adInfo) {}
+            public void onAdShowFailed(IronSourceError error, AdInfo adInfo) {
+                Toast.makeText(MainActivity.this, "Reward Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+            }
             // Invoked when the video ad was clicked.
             // This callback is not supported by all networks, and we recommend using it
             // only if it's supported by all networks you included in your build
