@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //  This callback will be sent both for manual load and refreshed banner failures.
             @Override
             public void onAdLoadFailed(IronSourceError error) {
-                Toast.makeText(MainActivity.this, "Banner Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(MainActivity.this, "Banner Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
             // Invoked when end user clicks on the banner ad
             @Override
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Indicates that the ad failed to be loaded
             @Override
             public void onAdLoadFailed(IronSourceError error) {
-                Toast.makeText(MainActivity.this, "Interstitial Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(MainActivity.this, "Interstitial Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
             // Invoked when the Interstitial Ad Unit has opened, and user left the application screen.
             // This is the impression indication.
@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              */
             @Override
             public void onInterstitialAdLoadFailed(IronSourceError error) {
-                Log.d("IronSource", "Error / Code : " + error.getErrorMessage() + " " + error.getErrorCode());
+                //Log.d("IronSource", "Error / Code : " + error.getErrorMessage() + " " + error.getErrorCode());
             }
 
             /**
@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // The rewarded video ad was failed to show
             @Override
             public void onAdShowFailed(IronSourceError error, AdInfo adInfo) {
-                Toast.makeText(MainActivity.this, "Reward Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(MainActivity.this, "Reward Ad Error : " + error.getErrorMessage(), Toast.LENGTH_SHORT).show();
             }
             // Invoked when the video ad was clicked.
             // This callback is not supported by all networks, and we recommend using it
@@ -445,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onRewardedVideoAdShowFailed(IronSourceError ironSourceError) {
-                Log.d("IronSource", "Rewarded Error : " + ironSourceError.getErrorMessage());
+              //  Log.d("IronSource", "Rewarded Error : " + ironSourceError.getErrorMessage());
             }
 
             @Override
